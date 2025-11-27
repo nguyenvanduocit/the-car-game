@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlockGame - Multiplayer Puzzle Game</title>
+
+  <!-- Preload tiles asynchronously after page load -->
+  <script>
+    // Preload all tiles asynchronously after page load
+    window.addEventListener('DOMContentLoaded', function () {
+      const totalTiles = 400; // Total number of tiles to preload
+
+      // Use requestIdleCallback for non-blocking preloading
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function () {
+          preloadAllTiles(totalTiles);
+        });
+      } else {
+        // Fallback for browsers without requestIdleCallback
+        setTimeout(function () {
+          preloadAllTiles(totalTiles);
+        }, 1000);
+      }
+    });
+
+    function preloadAllTiles(total) {
+      // Preload in batches to avoid overwhelming the browser
+      const batchSize = 20;
+      let currentIndex = 0;
+
+      function loadBatch() {
+        const endIndex = Math.min(currentIndex + batchSize, total);
+
+        for (let i = currentIndex; i < endIndex; i++) {
+          const img = new Image();
+          img.src = `/tiles/tile-${i}.webp`;
+          // No need to append to DOM, just loading into cache
+        }
+
+        currentIndex = endIndex;
+
+        // Schedule next batch if there are more tiles
+        if (currentIndex < total) {
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(loadBatch);
+          } else {
+            setTimeout(loadBatch, 100);
+          }
+        } else {
+          console.log('[PRELOAD] All tile textures preloaded successfully');
+        }
+      }
+
+      loadBatch();
+    }
+  </script>
+
+  <!-- Service Worker Registration for Advanced Caching -->
+  <script>
+    // Register service worker for tile caching
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js')
+          .then(function (registration) {
+            console.log('[SW] Service Worker registered successfully:', registration.scope);
+
+            // Check for updates periodically
+            setInterval(function () {
+              registration.update();
+            }, 60000); // Check every minute
+          })
+          .catch(function (error) {
+            console.warn('[SW] Service Worker registration failed:', error);
+          });
+      });
+    } else {
+      console.warn('[SW] Service Workers not supported in this browser');
+    }
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: #000;
+    }
+
+    #renderCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      outline: none;
+      touch-action: none;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="renderCanvas"></canvas>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>

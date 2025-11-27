@@ -1,0 +1,35 @@
+{
+  "name": "blockgame",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "up:dev": "pm2 delete blockgame-server-dev blockgame-ui-dev || true; lsof -ti:7001 | xargs kill -9 2>/dev/null || true; lsof -ti:7000 | xargs kill -9 2>/dev/null || true; pm2 start ecosystem.config.js --only blockgame-server-dev,blockgame-ui-dev",
+    "up:prod": "bun run build && pm2 delete blockgame-server-prod blockgame-ui-prod || true; lsof -ti:7001 | xargs kill -9 2>/dev/null || true; lsof -ti:7000 | xargs kill -9 2>/dev/null || true; pm2 start ecosystem.config.js --only blockgame-server-prod,blockgame-ui-prod",
+    "up:dev:ui": "pm2 delete blockgame-ui-dev || true; lsof -ti:7000 | xargs kill -9 2>/dev/null || true; pm2 start ecosystem.config.js --only blockgame-ui-dev",
+    "up:dev:server": "pm2 delete blockgame-server-dev || true; lsof -ti:7001 | xargs kill -9 2>/dev/null || true; pm2 start ecosystem.config.js --only blockgame-server-dev",
+    "up:prod:ui": "bun run build:ui && pm2 delete blockgame-ui-prod || true; lsof -ti:7000 | xargs kill -9 2>/dev/null || true; pm2 start ecosystem.config.js --only blockgame-ui-prod",
+    "up:prod:server": "bun run build:server && pm2 delete blockgame-server-prod || true; lsof -ti:7001 | xargs kill -9 2>/dev/null || true; pm2 start ecosystem.config.js --only blockgame-server-prod",
+    "down": "pm2 delete all || true",
+    "restart": "pm2 restart all",
+    "logs": "pm2 logs",
+    "monit": "pm2 monit",
+    "bots": "cd packages/bots && bun run start",
+    "build": "bun run build:server && bun run build:ui",
+    "build:server": "cd packages/server && bun run build",
+    "build:ui": "cd packages/ui && bun run build",
+    "test": "bun test packages/server/tests/**/*.test.ts",
+    "typecheck": "bun run typecheck:server && bun run typecheck:ui",
+    "typecheck:server": "cd packages/server && bun run typecheck",
+    "typecheck:ui": "cd packages/ui && bun run typecheck",
+    "clean": "rm -rf packages/*/dist packages/*/node_modules node_modules",
+    "deploy": "./deploy.sh"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "sharp": "^0.34.5",
+    "tsx": "^4.20.6"
+  }
+}

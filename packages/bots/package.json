@@ -1,0 +1,17 @@
+{
+  "name": "@blockgame/bots",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "bun src/index.ts",
+    "typecheck": "bunx tsc --noEmit"
+  },
+  "dependencies": {
+    "@blockgame/shared": "workspace:*",
+    "colyseus.js": "^0.16.22"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: BlockGame Questions Schema
+  version: 2.0.0
+  description: Schema for 400 questions (one per tile, id = frameSlotIndex)
+
+components:
+  schemas:
+    Question:
+      type: object
+      required:
+        - id
+        - question
+        - choices
+        - correctIndex
+      properties:
+        id:
+          type: integer
+          minimum: 0
+          maximum: 399
+          description: Question ID (must match tile frameSlotIndex, 0-399)
+          example: 0
+        question:
+          type: string
+          minLength: 1
+          description: The question text
+          example: "What is 2 + 2?"
+        choices:
+          type: array
+          minItems: 4
+          maxItems: 4
+          items:
+            type: string
+            minLength: 1
+          description: Four answer choices
+          example: ["3", "4", "5", "6"]
+        correctIndex:
+          type: integer
+          minimum: 0
+          maximum: 3
+          description: Index of correct answer (0-3)
+          example: 1
+
+    QuestionsFile:
+      type: object
+      required:
+        - version
+        - questions
+      properties:
+        version:
+          type: string
+          description: Schema version
+          example: "2.0.0"
+        questions:
+          type: array
+          minItems: 400
+          maxItems: 400
+          items:
+            $ref: '#/components/schemas/Question'
+          description: Exactly 400 questions (id 0-399)
+
+# JSON Schema equivalent (for validation tools)
+# Save this part for JSON Schema validators
+x-json-schema:
+  $schema: "http://json-schema.org/draft-07/schema#"
+  type: object
+  required:
+    - version
+    - questions
+  properties:
+    version:
+      type: string
+    questions:
+      type: array
+      minItems: 400
+      maxItems: 400
+      items:
+        type: object
+        required:
+          - id
+          - question
+          - choices
+          - correctIndex
+        properties:
+          id:
+            type: integer
+            minimum: 0
+            maximum: 399
+          question:
+            type: string
+            minLength: 1
+          choices:
+            type: array
+            minItems: 4
+            maxItems: 4
+            items:
+              type: string
+              minLength: 1
+          correctIndex:
+            type: integer
+            minimum: 0
+            maximum: 3

@@ -1,0 +1,868 @@
+,Câu hỏi,A,B,C,D,Câu trả lời đúng
+1,Ai được xem là “cha đẻ” của máy tính hiện đại?,Alan Turing,Bill Gates,Steve Jobs,Charles Babbage,D
+2,"Trong Python, từ khóa nào dùng để định nghĩa hàm?",func,define,def,function,C
+3,Ký hiệu “#include” trong C/C++ dùng để làm gì?,Khai báo biến toàn cục,Nhập thư viện hoặc file header,Tạo vòng lặp,Khai báo lớp,B
+4,"Trong ReactJS, “state” dùng để làm gì?",Lưu dữ liệu thay đổi trong component,Lưu cấu trúc HTML,Định nghĩa hàm render,Kết nối API,A
+5,Thuật ngữ “Generative AI” mô tả khả năng nào của hệ thống AI?,Phân loại dữ liệu,Sinh ra nội dung mới ,Tối ưu mô hình,Giám sát dữ liệu,B
+6,"Tình đến tháng 10.2025, cộng đồng nhà phát triển trên OpenAI đạt con số bao nhiêu?",2 triệu,4 triệu,6 triệu,8 triệu,B
+7,"Theo thống kê từ OpenAI - tính đến tháng 10.2025, số lượng người dùng ChatGPT hàng tuần là bao nhiêu?",100 triệu,500 triệu,800 triệu,1 tỷ,C
+8,Codex & GPT-5-Codex có khả năng nổi bật nào?,Hiển thị playlist Spotify trong ChatGPT,"Tự lên kế hoạch, tìm kiếm tài liệu, thực thi lệnh và gỡ lỗi code",Tạo video quảng cáo từ hình ảnh tĩnh,Kết nối agent với các công cụ nội bộ,B
+9,Mô hình cao nhất mà OpenAI đang mang đến cho người dùng?,GPT-5,GPT-4,GPT-6,GPT-6 Pro,A
+10,"Trong sự kiện OpenAI DevDay 2025, Apps SDK được giới thiệu với mục đích chính là gì?",Cho phép xây dựng các ứng dụng tương tác tồn tại bên trong ChatGPT,"Bộ công cụ mới của OpenAI dùng để xây dựng, triển khai và tối ưu hóa các ứng dụng agentic",Sản phẩm trợ lý mã hóa chuyên dụng của OpenAI dành cho quy trình làm việc của nhà phát triển,Mô hình chuyển văn bản thành video,A
+11,ChatKit của OpenAI dùng để làm gì?,Xây dựng agent không cần code,Nhúng giao diện chat vào ứng dụng,Tạo video quảng cáo,Tối ưu pull request trên GitHub,B
+12,Đâu không phải là một ngôn ngữ lập trình?,Python,HTML,Javascript,Kotlin,B
+13,Shopify Sidekick là gì?,"Trợ lý AI thông minh, đa ngôn ngữ",Công cụ AI giúp tạo giao diện cửa hàng,Chương trình đào tạo đối tác chiến lược của Shopify,Không có đáp án đúng,A
+14,Shopify Summer 2025 có tên chủ đề chính là gì?,Horizon,Auora,Fusion,Elevate,A
+15,AI Store Builder của Shopify giúp người dùng làm gì?,Tự động quản lý kho hàng,Tạo giao diện website tùy chỉnh dựa trên mô tả thương hiệu,Tối ưu vận chuyển quốc tế,Phân tích tài chính doanh nghiệp,B
+16,Phiên bản Shopify Summer 2025 hướng tới đối tượng doanh nghiệp nào?,Startup nhỏ,Doanh nghiệp bán lẻ,Từ SMEs đến Enterprise,Chỉ doanh nghiệp lớn,C
+17,Ai được xem là “cha đẻ” của máy tính hiện đại?,Alan Turing,Bill Gates,Steve Jobs,Charles Babbage,D
+18,"Trong Python, từ khóa nào dùng để định nghĩa hàm?",func,define,def,function,C
+19,Ký hiệu “#include” trong C/C++ dùng để làm gì?,Khai báo biến toàn cục,Nhập thư viện hoặc file header,Tạo vòng lặp,Khai báo lớp,B
+20,"Trong ReactJS, “state” dùng để làm gì?",Lưu dữ liệu thay đổi trong component,Lưu cấu trúc HTML,Định nghĩa hàm render,Kết nối API,A
+21,Thuật ngữ “Generative AI” mô tả khả năng nào của hệ thống AI?,Phân loại dữ liệu,Sinh ra nội dung mới ,Tối ưu mô hình,Giám sát dữ liệu,B
+22,"Tiếp theo của dãy số: 2, 6, 12, 20, 30, ?",36,40,42,48,C
+23,"Nếu 2 hộp chứa tổng cộng 30 viên bi, hộp A có 4 viên nhiều hơn hộp B, thì mỗi hộp có bao nhiêu viên?",17 và 13,16 và 14,18 và 12,15 và 15,A
+24,Codex & GPT-5-Codex có khả năng nổi bật nào?,Hiển thị playlist Spotify trong ChatGPT,"Tự lên kế hoạch, tìm kiếm tài liệu, thực thi lệnh và gỡ lỗi code",Tạo video quảng cáo từ hình ảnh tĩnh,Kết nối agent với các công cụ nội bộ,B
+25,Mô hình cao nhất mà OpenAI đang mang đến cho người dùng?,GPT-5 Pro,GPT-5,GPT-6,GPT-6 Pro,A
+26,"Trong sự kiện OpenAI DevDay 2025, Apps SDK được giới thiệu với mục đích chính là gì?",Cho phép xây dựng các ứng dụng tương tác tồn tại bên trong ChatGPT,"Bộ công cụ mới của OpenAI dùng để xây dựng, triển khai và tối ưu hóa các ứng dụng agentic",Sản phẩm trợ lý mã hóa chuyên dụng của OpenAI dành cho quy trình làm việc của nhà phát triển,Mô hình chuyển văn bản thành video,A
+27,ChatKit của OpenAI dùng để làm gì?,Xây dựng agent không cần code,Nhúng giao diện chat vào ứng dụng,Tạo video quảng cáo,Tối ưu pull request trên GitHub,B
+28,Kiến trúc nào là nền tảng cho sự phát triển của các Mô hình Ngôn ngữ Lớn (LLM) hiện đại như GPT-4 hay Gemini?,Điện toán lượng tử,Kiến trúc Mạng nơ-ron tích chập (CNN),Kiến trúc Transformer,Kiến trúc Mạng nơ-ron hồi quy (RNN),C
+29,"Mô hình Thương mại điện tử (E-commerce) nào đang phát triển mạnh mẽ nhất, trong đó giao dịch được thực hiện trực tiếp giữa người bán và người mua thông qua các nền tảng video trực tiếp?",Social Commerce (Thương mại xã hội),Direct-to-Consumer (D2C),Live Commerce (Thương mại trực tiếp/Livestream),Cross-border E-commerce (Thương mại điện tử xuyên biên giới),C
+30,"Trong E-commerce, D2C (Direct-to-Consumer) có nghĩa là gì?",Phân phối sản phẩm thông qua các nhà bán lẻ và nhà phân phối lớn.,"Doanh nghiệp bán hàng trực tiếp đến người tiêu dùng, loại bỏ các bên trung gian như nhà bán lẻ hoặc sàn thương mại điện tử.",Người tiêu dùng trực tiếp trao đổi sản phẩm đã qua sử dụng với nhau.,Doanh nghiệp chỉ bán các sản phẩm kỹ thuật số.,B
+31,Kỳ lân (Unicorn) trong Thương mại điện tử và công nghệ được định nghĩa là một công ty khởi nghiệp tư nhân đạt giá trị vốn hóa tối thiểu là bao nhiêu?,100 tỷ USD,1 tỷ USD,10 tỷ USD,100 triệu USD,B
+32,"
+Trong AI tạo sinh (Generative AI), thuật ngữ 'In-context Learning' (Học trong ngữ cảnh) có nghĩa là gì?",Mô hình được huấn luyện lại trên một tập dữ liệu mới.,Mô hình phải tự tìm kiếm thông tin trên internet trước khi trả lời.,Mô hình chỉ được sử dụng trong một lĩnh vực cụ thể (ví dụ: y tế).,"Mô hình học các kỹ năng mới bằng cách chỉ đưa ví dụ và hướng dẫn vào lời nhắc (Prompt), mà không cần cập nhật tham số (Weights).",D
+33,Thị trường E-commerce nào sau đây đang chứng kiến sự trỗi dậy mạnh mẽ của các nhà sản xuất/thương hiệu Trung Quốc bán hàng trực tiếp ra nước ngoài (Cross-border Outbound)?,Etsy và eBay,Amazon và Alibaba,Taobao và Tmall,Shein và Temu,D
+34,"Nền tảng của đối thủ lớn nào sau đây là thách thức trực tiếp nhất đối với khả năng suy luận và đa phương thức của các mô hình GPT?
+",Meta với Llama 3,Google DeepMind với mô hình Gemini,Apple Intelligence,Elon Musk với Grok,B
+35,OpenAI đang hợp tác với cựu giám đốc thiết kế nào của Apple để phát triển một nguyên mẫu thiết bị tương tác AI dành cho người tiêu dùng?,Steve Wozniak,"Tim Cook
+","Phil Schiller
+",Jony Ive,D
+36,Sự khác biệt cốt lõi giữa mô hình Instant và mô hình Thinking mà OpenAI đang phát triển là gì?,"Instant ưu tiên tốc độ và phản hồi ấm áp, Thinking ưu tiên suy luận phức tạp và độ ổn định.
+","Instant sử dụng dữ liệu cũ hơn, Thinking sử dụng dữ liệu thời gian thực.
+","Instant là mô hình tạo hình ảnh, Thinking là mô hình tạo video.
+","Instant chỉ hoạt động trên thiết bị di động, Thinking chỉ hoạt động trên máy tính để bàn.
+",A
+37,"Trong chiến lược phát triển mô hình, GPT-5.1 được cho là sẽ có thêm tính năng nào giúp cá nhân hóa trải nghiệm trò chuyện?",Tự động dịch mọi câu trả lời sang 100 ngôn ngữ khác nhau.,Khả năng chuyển đổi giữa các phong cách và tính cách (từ chuyên nghiệp đến lập dị) trong phản hồi.,Tự động xóa lịch sử trò chuyện sau mỗi 24 giờ.,Chỉ nói chuyện bằng giọng nói của người nổi tiếng.,B
+38,Mục tiêu chính của Apps SDK mà OpenAI cung cấp cho các nhà phát triển là gì?,Giảm chi phí vận hành (inference cost) của các mô hình GPT-4o.,Chỉ tạo ra các mô hình AI chỉ hoạt động ngoại tuyến.,Cho phép người dùng cuối tùy chỉnh giọng nói của ChatGPT.,Xây dựng các ứng dụng mở rộng (extensions) có khả năng thực hiện tác vụ (Agentic) tích hợp trực tiếp vào ChatGPT.,D
+39,FireGroup đang có bao nhiêu sản phẩm ?,5+,10+,15+,20+,B
+40,FireGroup was founded in ….?,2011,2013,2016,2015,C
+41,Sản phẩm nào dưới đây được realise lần đầu vào năm 2017,Transcy,OneMobile,Ali Reviews,Zopi,C
+42,42.webp,đột phá/ toàn diện/ lâu dài,sáng tạo/ triệt để/ bền vững,độc đáo/ cụ thể/ bền bỉ,đổi mới/ triệt để/ vững chắc,B
+43,43.webp,A6 - B1 - C6 - D4 - E3 - F2 - G7,A6 - B1 - C6 - D4 - E3 - F2 - G7,A5 - B6 - C1 - D4 - E2 - F3 - G7,A5 - B6 - C3 - D2 - E1 - F4 - G7,C
+44,44.webp,mạng lưới / tiện lợi / tối ưu,hệ sinh thái / nhanh chóng / bền vững,thế giới / dễ dàng / hiệu quả,nền tảng / đơn giản / mạnh mẽ,C
+45,FireGroup có khoảng bao nhiêu active merchants trên toàn cầu?,100.000+,250.000+,450.000+,1.000.000+,C
+46,Tỷ lệ khách hàng của FireGroup đến từ thị trường US-UK chiếm khoảng bao nhiêu phần trăm?,25%,50%,75%,95%,D
+47,Sông nào dài nhất Việt Nam?,Sông Hồng,Sông Cửu Long,Sông Mã,Sông Đồng Nai,B
+48,Ứng dụng Transcy đạt vị trí nào trong hạng mục Currency trên Shopify App Store năm 2023?,#3,#5,#1,#10,C
+49,"Năm 2023, FireGroup ra mắt sản phẩm nào mới?",Feedhub,OneMobile,Promer,Zopi,B
+50,Hệ sinh thái Promer – AI-Native Platform for Ecommerce gồm bao nhiêu sản phẩm?,2,3,4,5,C
+51,51.webp,9 - 10 - 11,9 - 11 - 10,9 - 11 - 11,10 - 11 - 9,C
+52,"Nếu một sản phẩm có doanh thu tăng 20% nhưng chi phí tăng 10%, lợi nhuận sẽ tăng bao nhiêu phần trăm?",0.25,0.3,0.35,0.4,C
+53,"Nếu một store của khách hàng có 13,000 đánh giá 5 sao, mỗi đánh giá tăng 0.5% tỷ lệ chuyển đổi. Nếu 10% đánh giá không còn hợp lệ, tổng tỷ lệ tăng đánh giá 5 sao là bao nhiêu?
+","58,5%",0.6,"68,5%",0.6,A
+54,Tên gọi Promer được kết hợp từ đâu?,Prometheus,Prompt,Professional Merchants,Tất cả các ý trên,D
+55,"FireGroup được vinh danh tại hạng mục “Best in APAC - Commerce Coach Awards"" năm nào?",2022,2023,2024,2025,C
+56,BU nào đã đạt giải BU xuất sắc nhất chung cuộc trong cuộc thi Sport Fest 2025 ?,Promer,ManySales,OneExpert,Compass,A
+57,Áo đồng phục đỏ mang thương hiệu đặc trưng của FireGroup – lần đầu tiên xuất hiện chính thức trong dịp nào? ,Sinh nhật công ty 11.11.2022,Sinh nhật công ty 11.11.2023,Year End Party 2022, Year End Party 2023,A
+58,"Sản phẩm Zopi hiện nay, trước đây được ra mắt vào năm nào và từng có tên gọi khác là gì?",2017 – Ali Orders,2017 – AliHunter,2018 – Ali Orders,2018 – AliHunter,C
+59,Địa chỉ Văn phòng Đà Nẵng của FireGroup nằm trong tòa nhà nào?,Đà Nẵng Software Park,Indochina Riverside Tower,Tòa nhà Green Plaza,Tòa nhà APEC,A
+60,Đường dẫn chính xác để truy cập bản tin nội bộ FireGroup là gì?,https://culture.firegroup.io/,https://firegroup.io/,https://firegroup.io/culture/,https://culture.firegroup.io/news,D
+61,FireGroup đã nhận chứng nhận Great Place To Work (GPTW) liên tiếp trong bao nhiêu năm?,2,3,4,5,A
+62,62.webp,2,3,4,5,C
+63,Tỷ lệ Firer phản hồi tích cực toàn bộ các yếu tố trong khảo sát GPTW của FireGroup năm 2025 là bao nhiêu?,75%,77%,79%,80%,C
+64,Giải pháp nào của FireGroup hiện đã có mặt trên nền tảng TikTok Shop? ,Zopi,OneMobile,TrueProfit,Promer,C
+65,Sản phẩm nào của Promer đạt thành tích ấn tượng Built for Shopify và xuất hiện trong In the Spotlight tại Châu Mỹ và Châu Âu?,Promer AI: Store Audit & SEO,Promer: SEO AI Blog Post,Promer AI Ads Creative Creator,Promer AI: Product Description,C
+66,Hiện có bao nhiêu thương hiệu toàn cầu đang tin dùng ứng dụng Transcy của FireGroup?,Hơn 25.000 thương hiệu,Hơn 100.000 thương hiệu,Hơn 250.000 thương hiệu,Hơn 500.000 thương hiệu,C
+67,Kỳ Lân sắt chính thức xuất hiện tại FireGroup vào năm nào?,2020,2021,2022,2023,C
+68,MRR cao nhất mà OneMobile từng đạt được tính tới thời điểm hiện tại là bao nhiêu?,$36k,$42k,$48k,$54k,B
+69,Gói cao cấp nhất của OneMobile với mức phí $990/tháng có tên gọi là gì?,Starter,ScaleUp,BrandUp,Omni,D
+70,"""Ăn trông nồi, ngồi trông (...)""",điện thoại,hướng,mâm,bát,B
+71,"""Ăn quả nhớ kẻ trồng (...)""",rau,nhà,cây,người,C
+72,"Trên nền tảng FireSoul, Firer level từ leader trở lên có thể ghi nhận tối đa bao nhiêu người/ngày?",1,2,5,10,D
+73,FireGroup đã vinh dự nhận giải thưởng Fast Enterprise Award tại lễ trao giải APEA (Asia Pacific Enterprise Awards) năm nào?,2022,2023,2024,2025,B
+74,FireGroup nhận giải thưởng Vietnam Top 10 Digital Technology Companies Award 2 năm liên tiếp nào dưới đây?,2020 - 2021,2021 - 2022,2022 - 2023,2023 - 2024,C
+75,75.webp,Mũi tên/ hoa sen,Ngọn nến/ hoa sen,Ngọn lửa/ hoa sen,Ngọn lửa/ kim cương,C
+76,"Món ""Bánh mì"" nổi tiếng của Việt Nam thực chất là sự kết hợp ẩm thực từ quốc gia nào?",Thái Lan,Nhật Bản,Pháp,Ấn Độ,C
+77,"Món ""Phá Lấu"" ở miền Nam được chế biến từ bộ phận nào của động vật?",Thịt đùi,Xương ống,"Nội tạng (lòng, tai, lưỡi...)",Da,C
+78,Màu sắc chủ đạo của FireGroup là sự kết hợp giữa,Vàng và xanh dương,Đỏ và Xanh dương,Đỏ và Vàng,Xanh dương và xanh lá,B
+79,Người dùng có thể quản lý nhiều cửa hàng trên Shopify cùng lúc bằng tính năng nào của TrueProfit?,Multi-Dashboard,All-store View,Store Connector,Profit Tracker,B
+80,80.webp,Teamwork,Growth,Empathy,Trust,C
+81,Tính năng Compass AI trong TrueProfit được thiết kế để làm gì?,"Hỗ trợ người dùng theo dõi và tối ưu lợi nhuận bằng cách cung cấp hướng dẫn, phân tích và biểu đồ tùy chỉnh trực tiếp trong ứng dụng.",Tự động điều chỉnh giá sản phẩm theo hiệu suất quảng cáo của cửa hàng.,Gửi báo cáo doanh thu hàng tuần qua email cho chủ cửa hàng mà không cần truy cập ứng dụng.,Tạo chiến dịch quảng cáo mới dựa trên dữ liệu doanh thu và lợi nhuận.,A
+82,Văn phòng FireGroup hiện tại có bao nhiêu phòng họp ( bao gồm cả Phone booth),9,10,11,12,C
+83,Transcy hỗ trợ thanh toán đa tiền tệ như thế nào trên cửa hàng Shopify?,"Hỗ trợ thanh toán đa tiền tệ trên các trang: Trang sản phẩm, Trang chủ, Giỏ hàng, và Thanh toán",Chỉ hỗ trợ thanh toán đa tiền tệ trên trang thanh toán cho merchants sử dụng Shopify Payments và đã thêm các loại tiền tệ mục tiêu.,Hỗ trợ thanh toán đa tiền tệ cho khách hàng quốc tế mà không cần Shopify Payments,Tự động chuyển đổi tiền tệ trên mọi trang nhưng không ảnh hưởng đến thanh toán,B
+84,Công ty chi quỹ Team bonding cho các hoạt động thường ( ăn uống vui chơi ngoài công ty) với hạn mức là bao nhiêu? ,"100,000/ tháng","200,000/ tháng","300,000/ tháng","400,000/ tháng",A
+85,Sản phẩm nào của FireGroup chuyên về chuyển đổi ngôn ngữ & tiền tệ để hỗ trợ bán hàng quốc tế?,AliReviews,Transcy,TrueProfit,Zopi,B
+86,"Một app tăng user 1% mỗi ngày, liên tục 60 ngày.
+Hỏi sau 60 ngày, user tăng xấp xỉ bao nhiêu so với ban đầu?",62%,72%,82%,92%,C
+87,"Doanh thu sản phẩm tăng 5% mỗi ngày, liên tục 7 ngày.
+Hỏi sau 1 tuần, tổng doanh thu tăng khoảng bao nhiêu % so với ngày đầu?",30%,35%,40%,45%,C
+88,Chủ đề Townhall Quý 3.2025 là?,Stories Behind Shopify Dev.2025,OUR FIRER MAKES US GREAT,Transform the way we work,Speed Up with AI,C
+89,COMPANY TRIP 2025 được tổ chức tại đâu?,Đà Nẵng,Nha Trang,Phan Thiết,Vũng Tàu,B
+90,"Tháng 05.2025, FireGroup đã tham gia sự kiện Shopify Event for Builder tại địa điểm nào?","Hà Nội, Việt Nam","Toronto, Canada","London, UK","Jakarta, Indonesia",B
+91,Chủ đề Townhall Quý 2.2025 là?,Stories Behind Shopify Dev.2025,OUR FIRER MAKES US GREAT,Transform the way we work,Speed Up with AI,D
+92,Culture Star quý 3.2025 là Firer nào?,Trần Hữu Danh - Compass,Nguyễn Mai Thi - OneExperts,Nguyễn Lê Hoàng - Promer,Phạm Hoàng Phúc - Operations,A
+93,Sport Festival 2025 không gồm bộ môn nào?,Caro,Cầu lông,Bi lắc,Đá banh,A
+94,94.webp,64,100,170,216,A
+95,BU đạt giải nhất trong bộ môn Bi lắc tại Sport Fest 2025 là?,Promer,Compass,OneExpert,ManySales,D
+96,"Theo diễn giải core value Owership - Own your work,
+Từ điển FireGroup định nghĩa:
+Tinh thần làm chủ = ?",Cống hiến,Sẵn sàng,Dấn thân,Chủ động,C
+97,"Theo diễn giải core value Team Work, Từ điển FireGroup định nghĩa:
+Teamwork = ?",Cộng hưởng sức mạnh,Hỗ trợ lẫn nhau,Chia sẻ thông tin,Chịu trách nhiệm chung,A
+98,Câu này dưới đây là một trong những hành vi mô tả core value Empathy:  ,Chấp nhận việc bạn làm có thể không mang lại thành công và sẵn sàng đối mặt với kết quả để cải tiến nó,"Tôn trọng sự khác biệt của mỗi người trong cách suy nghĩ, tư duy, cách nói & cách thức hành động",Tự chủ và chịu trách nhiệm trong công việc và kết quả mang lại,Cả 3 đáp án đều sai,B
+99,"Không ngần ngại thử thách bản thân bằng những mục tiêu cao hơn"" là biểu hiện của Core Value nào?",Courage,Trust,Creativity,Teamwork,A
+100,"Theo định nghĩa về core value Trust tại FireGroup, công thức để xây dựng niềm tin là gì?",Trở thành đồng đội đáng tin + Trao đi niềm tin,Tin tưởng tuyệt đối + Làm việc độc lập hiệu quả,Luôn hoàn thành đúng deadline + Không để xảy ra sai sót,Hợp tác hiệu quả + Giữ lời hứa,A
+101,"""Cố gắng làm điều tốt nhất cho tập thể, đôi khi việc đó nghĩa là tạm quên đi quy trình để tập trung vào mục tiêu chung"" là biểu hiện rõ nét nhất của core value nào?",Courage,Empathy,Creativity,Ownership,D
+102,"At present, in which month are the Nobel Prizes announced each year?",September,October,November,December,B
+103,"2024 was a leap year, When is the next leap year?",2028,2030,2032,2034,A
+104,Which is the only Southeast Asian country whose national flag includes the color green?,Myanmar,Laos,Thailand,Malaysia,A
+105,Which 2-digit number divisible by 4 lies between 50 and 55?,50,52,54,56,B
+106,Which country has the deepest lake in the world?,Russia,China,India,Australia,A
+107,Which color of visible light has the longest wavelength?,Red,White,Bue,Yellow,A
+108,Which country has the highest GDP per capita in Southeast Asia?,Thái Lan,Singapore,HongKong,Vietnam,B
+109,Who founded Shopify?,Elon Musk,Tobias Lütke ,Jeff Bezos,Mark Zuckerberg,B
+110,Shopify POS stands for,Point of Sale,Product on Shopify,Payment on Site,Price of Stock,A
+111,What does e-commerce stand for?,Easy commerce,Enterprise commerce,Electronic commerce,Exchange commerce,C
+112,Drop shipping is,Storing all products in a warehouse,Marketing products online,Selling only digital products,Shipping products directly from supplier to customer,D
+113,"What comes next in the series? 2, 6, 12, 20, …",30,28,32,36,A
+114,"If all Bloops are Razzies, and all Razzies are Lazzies, are all Bloops definitely Lazzies?",Yes,No,Cannot tell,Only some,A
+115,"A train travels 60 km in 1 hour, 120 km in 2 hours, and 180 km in 3 hours. What is the average speed?",60 km/h,90 km/h,100 km/h,120 km/h,A
+116,Solve the equation: 5 + 3 × 2 = ?,16,11,10,13,B
+117,"If today is Monday, what day will it be 45 days from now?",Sunday,Monday,Wednesday,Thursday,C
+118,"In Shakespeare’s Romeo and Juliet, who kills Tybalt?",Romeo,Juliet,Mercutio,Romeo,D
+119,"Fill in the blank: “To be, or not to be, that is the ___.”",Question,Answer,Choice,Decision,A
+120,What is the capital of Australia?,Sydney,Melbourne,Canberra,Brisbane,C
+121,Which war ended in 1945?,World War I,World War II,Korean War,China War,B
+122,Which of the following is NOT a primary color in the RGB color system?,Red,Green,Blue,Yellow,D
+123,"If 7 cats can catch 7 mice in 7 minutes, how long will 1 cat take to catch 1 mouse?",1 minute,7 minutes,49 minutes,14 minutes,B
+124,"What is the missing letter: A, C, F, J, O, …",S,T,U,R ,B
+125,2/3 of a number is 10. What is the number?,12,15,18,20,B
+126,"In eCommerce, SEO stands for:",Search Engine Optimization,Secure Electronic Order,Shipping Efficiency Operations,Sales Engagement Online,A
+127,What does NLP stand for?,Neural Language Processing,Natural Language Processing,Nonlinear Programming,Neural Logic Programming,B
+128,"In AI, “tokenization” is a process used in",Image processing,Natural Language Processing,Reinforcement learning,Robotics,B
+129,"If I _____ you, I would take that job offer immediately.
+",were,was,am,had been,A
+130,"She couldn't help _____ when she heard the funny joke.
+",laughing,that she laughed,laugh,to laugh,A
+131,"I would rather _____ home than go out in this terrible weather.
+",stay,stayed,to stay,to have stayed,A
+132,"Despite _____ hard, the company couldn't meet the tight deadline.
+",they worked,working,to work,worked,B
+133,"The company has to _____ a lot of money on advertising to attract new customers.
+",spend,afford,cost,pay,A
+134,"The harder you work, _____ you will achieve.","the most successful
+",more successful,"the best success
+",the more success,D
+135,"The company's new policy has been met with widespread _____ from the employees.
+",appraisal,"contention
+",dissent,"acclaim
+",D
+136,"The bridge was built in 1995, _____ by a major earthquake in 2005.
+","to be damaged
+",damaging,damaged,"was damaged
+",C
+137,"The board members insisted that the project manager _____ a complete report of the budget overrun immediately.
+","submits
+",submit,submitted,"is submitting
+",B
+138,"The documents, _____ to the security breach, were immediately confiscated by the authorities.
+","relating
+","related
+","which related
+","they related
+",A
+139,"In AI, a “parameter” is:",A tunable element of the model,Input data,Test dataset,Evaluation metric,A
+140,Tìm đáp án đúng ,14,15,16,17,D
+141,Bug sẽ đi đến điểm nào,A,B,C,S,B
+142,"Tại giải The ICT Friendship hàng năm, FG Football Club đã tiến sâu nhất đến vòng đấu nào?",Tứ kết,Bán kết,Chung kết,Vòng bảng,A
+143,"Điền từ còn thiếu để hoàn thành Vision của FireGroup: ""To shape a world where e-commerce is.....""","easy, effective, and sustainable","fast, global, and smart","easy, effective, and reliable","easy, effective, and make impacts",A
+144,FireGroup chính thức chuyển văn phòng từ Lạc Long Quân sang Flemington Tower vào năm nào?,2017,2018,2019,2020,B
+145,Đâu là sự kiện diễn ra vào thời điểm 2019 tại FireGroup,Ra mắt OneMobile,Chuyển văn phòng sang Flemington Tower,Thành lập văn phòng Đà Nẵng,Không có đáp án đúng,D
+146,TrueProfit sát nhập hệ sinh thái các giải pháp tại FireGroup vào năm bao nhiêu?,2018,2019,2020,2021,D
+147,Sản phẩm được vinh danh Product of the Year tại YEP2024?,Zopi,OneMobile,TrueProfit,Ali Reviews,A
+148,Culture Ambassador năm 2024 được vinh danh tại YEP 2024 là ai?,Nguyễn Thị Kiều Nga - Head of P&,Nguyễn Hoàng Minh - Business Director OE,Dương Bá Phúc - Technical Manager OE,Nguyễn Văn Được - Technical Leader CP,A
+149,Số lượng Firer Fulltime đang làm việc tại FireGroup tính đến hiện tại là bao nhiều? Chọn số gần đúng nhất,150+,200+,250+,300+,B
+150,Đâu là địa chỉ mới sau sát nhập của tòa nhà Flemington,"182 Lê Đại Hành, Phường 11","182 Lê Đại Hành, Phường Phú Thọ","182 Lê Đại Hành, Phường Tân Bình","182 Lê Đại Hành, Phường Sài Gòn",B
+151,Đâu không phải tên của phòng họp tại FireGroup,A+,Global,Creative,Empathy,C
+152,Bánh chưng trong mâm cỗ Tết tượng trưng cho gì?,Nước,Đất,Lửa,Gió,B
+153,"Trong giải Sports Festival 2025, BU nào dành được hạng nhất tại bộ môn cầu lông?",Ops & Compass,Promer,ManySales,OneExperts,A
+154,"Trong giải Sports Festival 2025, BU nào dành được hạng nhất tại bộ môn bóng đá?",Ops & Compass,Promer,ManySales,OneExperts,B
+155,"Trong giải Sports Festival 2025, Firer nào dành được danh hiệu Vua Phá Lưới?",Dương Bá Phúc - OneExperts,Ngô Nhật Minh - ManySales,Dương Hoàng Tuấn - Promer,Lê Ngọc Hiếu - FireGroup Tech,B
+156,"Thay vì quan tâm đến trạng thái ""done task"", chúng ta chịu trách nhiệm đến cùng với chất lượng sản phẩm - đề cập đến core value nào?  ",Ownership,Trust,Teamwork,Courage,A
+157,"Một giải pháp SaaS thu phí 25 USD/tháng. Có 2.000 người đăng ký. Nếu tỷ lệ rời bỏ mỗi tháng là 5%, doanh thu duy trì sau 3 tháng là bao nhiêu? (làm tròn gần đúng)","43,000 USD","53,500 USD","50,000 USD","47,500 USD",A
+158,"Promer có MRR (doanh thu định kỳ hàng tháng) là 30.000 USD, tăng trưởng 10% mỗi tháng. Sau 2 tháng, MRR là:
+",33.000 USD,36.300 USD,39.930 USD,43.300 USD,B
+159,"If x and y are integers such that 𝑥^2=𝑦+6 and y^2=x-6, what is the value of x+y?",-7,-1,0,7,C
+160,"Xác định dữ kiện đủ cho câu hỏi: Liệu n có phải là số chẵn không?
+Dữ kiện (1) n^2 là số chẵn.
+Dữ kiện (2) n+1 là số lẻ.",Chỉ (1) đủ,Chỉ (2) đủ,Cả hai kết hợp mới đủ,Mỗi dữ kiện riêng đều đủ,D
+161,"Một cửa hàng bán áo với giá 400.000đ mỗi cái. Nếu giảm giá 20%, sau đó tăng lại 25%, giá cuối cùng so với ban đầu như thế nào?",Tăng 5%,Giảm 5%,Giữ nguyên,Tăng 10%,A
+162,"Tổng của 5 số liên tiếp là 200. Số lớn nhất trong chúng là bao nhiêu?
+",38,39,40,41,D
+163,"Một công ty cho rằng tăng giá sản phẩm sẽ giúp tăng lợi nhuận. Tuy nhiên, sau khi tăng giá, doanh thu lại giảm.
+Điều nào sau đây giải thích hợp lý nhất?",Khách hàng chuyển sang sản phẩm rẻ hơn.,Chi phí sản xuất tăng,Quảng cáo giảm,Lợi nhuận mỗi sản phẩm tăng,A
+164,"Một công ty bán 200 sản phẩm với giá 50 USD mỗi sản phẩm. Nếu họ giảm giá 10% và bán thêm 25 sản phẩm, tổng doanh thu thay đổi như thế nào?",Giảm 5%,Giữ nguyên,Tăng 5%,Tăng 10%,C
+165,"Nếu a và b là số nguyên dương, và a chia hết cho b, thì phát biểu nào đúng?",a<b,a=b,a=kb với k là số nguyên dương,b=ka,C
+166,"Nếu x là số lẻ, thì giá trị của x^2 - 1 là",Số chẵn chia hết cho 4,Số lẻ,Số nguyên tố,Không xác định,A
+167,Một hình chữ nhật có chiều dài gấp đôi chiều rộng. Chu vi là 48 cm. Diện tích là bao nhiêu?,144 cm²,96 cm²,128 cm²,192 cm²,B
+168,"Giá trị trung bình của 5 số là 10. Nếu thêm số 25 vào nhóm, giá trị trung bình mới là bao nhiêu?
+",12.5,13.5,15,11,A
+169,"Tích của hai số là 60, hiệu của chúng là 4. Hai số đó là:",6 và 10,5 và 12,4 và 15,8 và 7.5,A
+170,Tổng của 4 số chẵn liên tiếp là 68. Số lớn nhất là bao nhiêu?,16,18,20,22,D
+171,"Một đồng xu được tung 3 lần. Xác suất ra đúng 2 mặt ngửa là:
+",1/2,3/8,1/3,1/4,B
+172,"Một công ty tăng giá 10%, sau đó giảm lại 10%. Giá cuối cùng so với ban đầu:",Giảm 1%,Giảm 0.5%,Giữ nguyên,Tăng 1%,A
+173,"Một nghiên cứu cho thấy người ăn nhiều rau có tỷ lệ bệnh tim thấp hơn.
+Kết luận: “Ăn nhiều rau làm giảm nguy cơ bệnh tim.”
+Điều nào làm yếu kết luận trên?",Người ăn nhiều rau thường tập thể dục đều đặn.,Rau chứa ít chất béo.,Người ăn nhiều thịt dễ bị béo phì.,Rau có nhiều vitamin.,A
+174,"Một công ty tuyên bố: “Sản phẩm của chúng tôi được 90% khách hàng hài lòng.”
+Điều nào làm yếu tuyên bố này?",Khảo sát chỉ thực hiện với khách hàng thân thiết.,Câu hỏi khảo sát rõ ràng.,Có hơn 1000 người tham gia khảo sát.,Kết quả được công bố minh bạch.,A
+175,Bậc của một đa thức là bậc của hạng tử có bậc.....trong dạng thu gọn của đa thức đó.,cao nhất,thấp nhất,tỉ lệ thuận,vô hạn,A
+176,"Theo toán học, câu ""Sinh con đầu lòng chẳng gái thì trai"" là một biến cố......",Chắc chắn,Xác suất,Ngẫu nhiên,Bất khả thi,A
+177,Số tự nhiên có 3 chữ số chia hết cho 7 là số nào?,100,101,105,110,C
+178,Góc giữa kim giờ và kim phút lúc 3:15 là bao nhiêu độ?,7.5,15,30,45,A
+179,"Một hộp có 3 bóng đỏ và 2 bóng xanh. Rút ngẫu nhiên 1 bóng, xác suất rút được bóng đỏ là:",2/5,3/5,1/2,3/2,B
+180,Một bánh xe quay 120 vòng/phút. Trong 10 giây quay được bao nhiêu vòng?,10,20,30,40,B
+181,"[.....] trong toán học là một phát biểu khẳng định một sự kiện nào đó, mà khẳng định đó chỉ nhận một trong hai giá trị ""đúng"" hoặc ""sai""?",Tiền đề,Mệnh đề,Hằng đẳng thức,Cả 3 đáp án đều sai,B
+182,"Quy tắc: A = 1, B = 2, ..., Z = 26. Tổng giá trị các chữ cái của từ = số tương ứng.
+Hỏi: Tổng giá trị của từ ZOPI là bao nhiêu?",64,66,68,70,B
+183,"Một đồng xu đã được tung lên 12 lần, với 9 lần xuất hiện mặt ngửa, trong lần tiếp theo, bạn dự đoán tỉ lệ xuất hiện mặt ngửa sẽ:",Lớn hơn 50%,Nhỏ hơn 50%,50-50,Không xác định,C
+184,"
+Trong Logic, phát biểu nào sau đây là Điều kiện cần để một hình Tứ giác là Hình vuông?",Hình đó có hai đường chéo vuông góc với nhau.,Hình đó là Hình chữ nhật.,Hình đó là Hình thoi.,Hình đó có hai đường chéo bằng nhau.,B
+185,Nếu TẤT CẢ các chim cánh cụt đều màu đen và trắng VÀ TẤT CẢ các chim cánh cụt đều thích nghi với lạnh. Vậy điều nào sau đây là kết luận hợp logic nhất?,Bất cứ loài nào thích nghi với lạnh đều là chim cánh cụt.,Bất cứ loài nào màu đen và trắng đều là chim cánh cụt.,Một loài vật màu đen và trắng VÀ thích nghi với lạnh có thể không phải chim cánh cụt.,Bất kỳ loài nào KHÔNG màu đen và trắng HOẶC KHÔNG thích nghi với lạnh thì KHÔNG phải là chim cánh cụt.,D
+186,"Hình nào thay thế dấu hỏi (?): 4, 9, 16, 25, ?",50,30,36,49,C
+187,"Nếu A > B VÀ B < C. Vậy, kết luận nào sau đây LUÔN LUÔN đúng?",C > A,A > C,A + B > C,Không có kết luận nào LUÔN LUÔN đúng.,D
+188,"Nếu bạn đang đối diện về phía Bắc (North) và quay sang phải (Turn Right), bạn sẽ đối diện về hướng nào?",Tây (West),Đông (East),Nam (South),Đông Bắc (Northeast),B
+189,"Số nào tiếp theo trong dãy số: 0, 1, 1, 2, 3, 5, 8, ...?",11,13,12,14,B
+190,"Một người đàn ông sống ở tầng 10 của một tòa nhà chung cư. Hàng ngày, anh ta chỉ đi thang máy từ tầng 1 lên tầng 7, sau đó đi bộ lên tầng 10. Tại sao?",Anh ấy chỉ có thể với tới nút thang máy số 7.,Anh ta thích đi bộ để tập thể dục.,"Tầng 8, 9, 10 là của công ty anh ta, cần dùng thẻ.",Thang máy chỉ hoạt động đến tầng 7.,A
+191,"Trong một dãy số, số đầu tiên là 3, các số tiếp theo được tính bằng cách nhân số liền trước với 2 rồi cộng thêm 1. Hỏi số thứ tư trong dãy là bao nhiêu
+",16,63,15,31,D
+192,Tập hợp các số nguyên tố nhỏ hơn 10 là gì?,"2, 3, 5, 7","1, 2, 3, 5, 7
+","1, 3, 5, 7, 9
+","2, 4, 6, 8",A
+193,"Tìm số còn thiếu trong dãy: 8, 11, 15, 20, 26, ?
+",32,35,33,34,C
+194,"Tìm số còn thiếu: (4 * 5 = 9), (6 * 3 = 9), (7 * 4 = ?)
+",10,3,28,11,D
+195,"Nếu bạn quay 270 độ theo chiều kim đồng hồ từ hướng Bắc, bạn sẽ đối diện với hướng nào?",Đông,Tây,Nam,Bắc,B
+196,Tìm tập hợp nghiệm của phương trình x^2−9=0.,x = 0,x=3,x=9 và x=-9,x=3 và x=-3,D
+197,"Tính diện tích toàn phần của một hình lập phương có cạnh là 3 cm.
+",36 mét vuông,9 mét vuông,27 mét vuông,54 mét vuông,C
+198,"Cho ba người, A, B, và C. A không phải là người cao nhất. C cao hơn B. Ai là người cao nhất?
+",C,A,B,Không thể xác định,C
+199,"Một đoàn người cưỡi ngựa đi ngang qua, người ta thấy có tất cả 6 cái đầu và 18 cái chân. Hỏi đoàn đó có tất cả bao nhiều người và bao nhiêu con ngựa?",3 người 3 ngựa,4 người 4 ngựa,3 người 4 ngựa,4 người 3 ngựa,A
+200,Banh nỉ là tên gọi khác của môn thể thao nào?,Cầu lông,Bóng bàn,Quần vợt,Bóng chày,C
+201,"Chuseok là dịp lễ quan trọng để người Hàn Quốc quây quần bên gia đình, cúng tổ tiên để tỏ lòng biết ơn và ăn mừng mùa màng bội thu. Dịp này diễn ra vào thời gian nào theo âm lịch",31/12,1/1,15/8,3/3,C
+202,Thụy Sỹ là quốc gia đa ngôn ngữ với 4 ngôn ngữ chính thức theo Hiến pháp Liên bang. Tiếng nào được sử dụng nhiều nhất (theo tỷ lệ % dân số)?,Tiếng Ý,Tiếng Pháp,Tiếng Romansh,Tiếng Đức,D
+203,"Vị tổng bí thư nào được coi là ""người đặt nền móng cho sự nghiệp Đổi Mới"" ở nước ta năm 1986?",Đỗ Mười,Lê Duẩn,Trường Chinh,Lê Khả Phiêu,C
+204,Tuyến đường sắt nào trên Trái Đất có đoạn đường ray thẳng dài nhất thế giới?,California Zephyr (Mỹ),Indian Pacific (Úc),Tran-Siberian (Nga),The Canadian (Canada),B
+205,"Chiến thắng hạng mục ""Trình diễn Pop xuất sắc nhất của bộ đôi/nhóm nhạc"" tại Grammy 2025 thuộc về bài hát nào? ","Die With a Smile - Lady Gaga, Bruno Mars",Levitating – Dua Lipa & DaBaby,Uptown Funk – Mark Ronson & Bruno Mars,Rain On Me – Lady Gaga & Ariana Grande,A
+206,Nghệ sĩ K-Pop đầu tiên được đề cử tại lễ trao giải Grammy là ai?,Jennie - BlackPink,Rose - BlackPink,Lisa - BlackPink,Jisoo - BlackPink,B
+207,"Bài hát nào không nằm trong hạng mục đề cử ""Bài hát của năm"" tại lễ trao giải Grammy 2025?",Not Like Us,Fortnight,A Bar Song,Epresso,D
+208,Taylor Swift lập kỷ lục bao nhiêu lần nhận được đề cử ở hạng mục Album của năm tại lễ trao giải Grammy,3,5,7,9,C
+209,"Ở người, ống tiêu hoá cùng với....., tuỵ và các tuyến nước bọt tạo thành hệ tiêu hoá",dạ dày,gan,thận,tim,B
+210,Bộ phim nào của Việt Nam ra mắt vào tháng 09.2025 lấy cảm hứng từ câu chuyện có thật về 2 chuyến bay gặp không tặc năm 1977 và 1978?,Máy bay mất tích,Tử chiến trên không,Cánh sát trên không,Tử chiến,B
+211,"Nai sừng tấm Maple - một trong ba linh vật chính thức của FIFA World Cup 2026, được xem là biểu trưng của quốc nào ở Bắc Mỹ?",Hoa Kỳ,Mexico,Canada,Brazil,C
+212,"Bộ phim ""Mưa Đỏ"" dựa trên tiểu thuyết cùng tên của nhà văn Chu Lai, khắc hoạ cuộc chiến đấu kiến cường 81 ngày đếm tại chiến trường nào năm 1972?",Nghệ An,Quảng Trị,Điện Biên Phủ,Củ Chi,B
+213,Quốc gia nào sẽ đăng cai tổ chức các hoạt động của Diễn đàn hợp tác kinh tế châu Á - Thái Bình Dương năm 2026?,Việt Nam,Trung Quốc,Hàn Quốc,Nhật Bản,B
+214,"Cột mốc ngã ba Đông Dương nằm ở tỉnh, thành phố nào của nước ta hiện nay",Nghệ An,Quảng Ngãi,Đà Nẵng,Quảng Trị,B
+215,Quốc gia nào sẽ đăng cai SEA Games năm 2027?,Malaysia,Myanmar,Philipines,Vietnam,A
+216,Quốc gia nào sẽ đăng cai SEA Games năm 2025?,Malaysia,Myanmar,Philipines,Thailand,D
+217,Đây là tính năng gì trong ứng dụng VNeID,Thông tin cư trú,"Kiến nghị, phản ánh về ANTT",Cấp đổi thẻ căn cước,Thiện nguyện,B
+218,Đây là tính năng gì trong ứng dụng VNeID,Thông tin cư trú,"Kiến nghị, phản ánh về ANTT",Cấp đổi thẻ căn cước,Thiện nguyện,A
+219,"Tháng 05.2025, tại Hội nghị Cấp cao ASEAN lần thứ 46, các nước ASEAN đã nhất trí kết nạp quốc gia nào trở thành thành viên thứ 11 của ASEAN",Cuba,Đông Timor,Myanmar,Lào,B
+220,Điểm cực đông của Đông Nam Á lục địa nằm trên lãnh thổ quốc gia nào hiện nay?,Indonesia,Philipines,Thái Lan,Cả 3 đáp án đều sai,D
+221,Cầu thủ đã giành giải Quả Bóng Vàng nam Châu Âu năm 2025?,Ousmane Dembélé,Lionel Messi,Kylian Mbappé,Erling Haaland,A
+222,"Từ ""critical"" có nguồn gốc từ ngôn ngữ nào?
+",Tiếng Hy Lạp cổ,Tiếng Latin,Tiếng Đức cổ,Tiếng Đan Mạch,A
+223,Nước nào trên thế giới không có giao thừa?,Hàn Quốc,Ấn Độ,Nhật Bản,Không có đáp án chính xác,D
+224,"Bỏ ngoài nước trong, ăn ngoài bỏ trong là gì?",Bắp ngô,Củ khoai,Củ từ,Cà rốt,A
+225,Bộ phim nào đã giành giải Phim hay nhất (Best Picture) tại Lễ trao giải Oscar lần thứ 96 (đầu năm 2024)?,Oppenheimer,Anatomy of a Fall,Killers of the Flower Moon,Poor Things,A
+226,Album nào đã đoạt giải 'Album của năm' tại Lễ trao giải Grammy lần thứ 66 (đầu năm 2024)?,Midnights của Taylor Swift,"
+World Music Radio của Jon Batiste",GUTS của Olivia Rodrigo,SOS của SZA,A
+227,"Bộ phim điện ảnh nào của Việt Nam, ra mắt năm 2024, đã đạt doanh thu kỷ lục phòng vé cao nhất mọi thời đại của điện ảnh Việt (tính đến giữa năm 2024)?","Đào, Phở và Piano",Mai,Nhà Bà Nữ,Lật Mặt 7: Một Điều Ước,B
+228,"Bộ phận nào trong máy tính chịu trách nhiệm thực hiện hầu hết các phép tính toán và xử lý dữ liệu, được ví như 'bộ não' của máy tính?",CPU,RAM,Ổ cứng ,Card mạng,A
+229,"COD (Cash on Delivery) là phương thức thanh toán phổ biến trong E-commerce, có nghĩa là gì?",Thanh toán bằng thẻ tín dụng.,Thanh toán trả góp trong nhiều tháng.,Thanh toán thông qua ví điện tử.,Thanh toán bằng tiền mặt hoặc chuyển khoản khi hàng được giao đến tay người mua.,D
+230,"
+Trong E-commerce, thuật ngữ 'LTV' (Lifetime Value) của khách hàng được tính bằng công thức cơ bản nào?",(Giá trị đơn hàng trung bình) × (Số lần mua hàng trung bình) × (Thời gian duy trì quan hệ),Tổng doanh thu / Tổng số khách hàng,Chi phí mua lại khách hàng (CAC) $\times$ Tỷ lệ chuyển đổi,Tổng lợi nhuận / Chi phí hoạt động,A
+231,"Trong E-commerce, chỉ số 'CAC' được định nghĩa là gì?",Tổng chi phí tiếp thị và bán hàng để thu hút một khách hàng mới.,Tỷ lệ khách hàng quay lại mua hàng.,Doanh thu trung bình của một đơn hàng.,Tổng lợi nhuận thu được từ một khách hàng.,A
+232,"Dự án điện ảnh hợp tác giữa Việt Nam và Hàn Quốc, lấy cảm hứng từ con người và văn hóa Việt, kể về hành trình chăm sóc mẹ già mắc Alzheimer ra mắt năm 2025 có tên là gì?",Mang Mẹ Đi Bỏ,Thám Tử Kiên: Kỳ Án Không Đầu,Quỷ Nhập Tràng,Nhà Gia Tiên,A
+233,"Trong văn học dân gian Việt Nam, tục ngữ 'Ăn quả nhớ kẻ trồng cây' thể hiện rõ nét đạo lý truyền thống nào?",Lá lành đùm lá rách,Một nắng hai sương,Uống nước nhớ nguồn,Tôn sư trọng đạo,C
+234,"Bộ phận nào của cây tre trong văn hóa Việt Nam được xem là biểu tượng của sự kiên cường, dẻo dai,",Cây tre/Thân tre,Măng tre,Gốc tre,Lá tre,A
+235,"Thành phố nào của Việt Nam, từng là một thương cảng quốc tế sầm uất, nổi tiếng với những ngôi nhà cổ kính, mái ngói rêu phong và kiến trúc pha trộn giữa Việt Nam, Nhật Bản và Trung Quốc?",Chợ Lớn (TP.HCM),Khu phố cổ Hà Nội,Đà Lạt,Phố cổ Hội An,D
+236,Album nào của Michael Jackson được coi là album bán chạy nhất mọi thời đại?,Thriller,Off the Wall,Dangerous,Bad,A
+237,Hệ điều hành phổ biến nhất cho máy tính cá nhân hiện nay là gì?,Windows,macOS,Linux,Chrome OS,A
+238,"Thành Cổ Loa, nổi tiếng với kiến trúc xoắn ốc và nỏ Liên Châu, là kinh đô của nhà nước nào?
+",Văn Lang,Âu Lạc,Đại Việt,Đại Cồ Việt,B
+239,"Sau khi đánh bại quân Nam Hán trên sông Bạch Đằng năm 938, Ngô Quyền đã chấm dứt thời kỳ nào của lịch sử Việt Nam?",Thời kỳ hơn 1000 năm Bắc thuộc,Loạn 12 sứ quân,Thời kỳ Bắc thuộc lần thứ nhất,Thời kỳ chống Pháp,A
+240,"Ai là người có công dẹp loạn 12 sứ quân và lập ra nhà Đinh, đặt tên nước là Đại Cồ Việt?
+",Đinh Bộ Lĩnh (Đinh Tiên Hoàng),Nguyễn Huệ,Lê Hoàn,Lý Công Uẩn,A
+241,Tác phẩm nào của Lý Thường Kiệt được coi là bản Tuyên ngôn độc lập đầu tiên của Việt Nam?,Chiếu dời đô,Bình Ngô Đại Cáo,Hịch Tướng Sĩ,Nam Quốc Sơn Hà,D
+242,Triều đại phong kiến cuối cùng của Việt Nam là triều đại nào?,Triều Hậu Lê,Triều Nguyễn,Triều Tây Sơn,Triều Mạc,B
+243,"Năm 1858, thực dân Pháp bắt đầu cuộc xâm lược Việt Nam bằng việc tấn công địa điểm nào?",Sài Gòn,Đà Nẵng,Huế,Hà Nội,B
+244,"Sự kiện nào đánh dấu miền Nam hoàn toàn giải phóng, đất nước thống nhất, kết thúc cuộc kháng chiến chống Mỹ cứu nước?",Tổng tiến công và nổi dậy Tết Mậu Thân (1968),Hội nghị Geneva (1954),Chiến dịch Hồ Chí Minh (30/4/1975),Hiệp định Paris (1973),C
+245,Thủ đô Hà Nội ngày nay đã từng được biết đến với tên gọi nào trong thời kỳ nhà Trần?,Tây Đô,Hoa Lư,Thăng Long,Đại La,C
+246,"Sau khi Pháp rút quân theo Hiệp định Genève (1954), ai là người đứng đầu chính quyền Việt Nam Cộng hòa ở miền Nam?",Bảo Đại,Nguyễn Văn Thiệu,Trần Văn Hương,Ngô Đình Diệm,D
+247,Sự kiện nào đánh dấu sự bùng nổ của cuộc Toàn quốc kháng chiến chống thực dân Pháp (1946)?,Hiệp định Sơ bộ (6/3/1946),Pháp tấn công Đà Nẵng (1858),Chủ tịch Hồ Chí Minh đọc Lời kêu gọi Toàn quốc kháng chiến (19/12/1946),Chiến dịch Việt Bắc Thu Đông (1947),C
+248,Chủ tịch nước Cộng hòa xã hội chủ nghĩa Việt Nam hiện tại là ai?,Lương Cường,Phạm Minh Chính,Tô Lâm,Trần Thanh Mẫn,A
+249,Thủ tướng Việt Nam hiện tại là ai?,Lương Cường,Phạm Minh Chính,Tô Lâm,Trần Thanh Mẫn,B
+250,Cái gì bạn có thể giữ sau khi cho người khác,Lời hứa,Tiền,Đồ chơi,Đồ ăn,A
+251,"Có bao nhiêu chữ C trong câu sau đây: ""Cơm, canh cháo gì tớ cũng chưa ăn!""",1,2,3,4,A
+252,"Trong 4 thuật ngữ sau, loại nào có đặc tính ít giống với 3 loại còn lại?",Python,TensorFlow,Java,R,B
+253,"Trong 4 loại sau đây, loại nào có đặc tính ít giống với 3 loại còn lại?",HTML,JavaScript,CSS,C,D
+254,Một người thợ mộc cưa một khúc gỗ dài 10 mét thành các đoạn dài 1 mét. Mỗi lần cưa mất 2 phút. Hỏi người đó mất bao lâu để hoàn thành công việc?,18 phút,20 phút,22 phút,24 phút,A
+255,Nước nào có dân số chỉ 500 người?,Vatican,Monaco,Nauru,Angola,A
+256,Nước nào có xe buýt chạy trên đường sắt?,Mỹ,Nhật Bản,Đức,Anh,B
+257,Quốc gia Đông Nam Á nào có hơn 700 ngôn ngữ?,Thái Lan,Indonesia,Myanmar,Campuchia,B
+258,Nước nào có ga tàu điện ngầm sâu nhất thế giới?,Mỹ,Nhật Bản,Đức,Trung Quốc,D
+259,Nước nào ở Đông Nam Á có đường sắt cao tốc đầu tiên?,Singapore,Indonesia,Myanmar,Campuchia,B
+260,Ai được coi là cha đẻ của lý thuyết Tiến hóa?,Charles Darwin,Sigmund Freud,Albert Einstein,Isaac Newton,A
+261,Loài động vật nào có khả năng bay cao nhất?,Dơi,Chim Én,Bướm,Đại bàng,D
+262,Đâu là hành tinh gần nhất với Mặt Trời?,Sao Kim,Sao Mộc,Sao Hỏa,Sao Thủy,D
+263,Loài động vật nào có tuổi thọ cao nhất?,Sư tử biển,Rùa,Cá voi,Sóc,C
+264,"Trong tự nhiên, loài động vật nào có trí não phát triển nhất?",Khỉ,Cá heo,Cá voi,Voi,B
+265,Động vật nào sinh sống ở cả trên cạn và dưới nước?,Cá Sấu,Cá heo,Cá ngựa,Sóc biển,A
+266,Con sông nào là con sông dài nhất thế giới?,Sông Nile,Sông Amazon,Sông Mississippi,Sông Congo,A
+267,Ai là người đã phát hiện ra nguyên tố oxy?,Joseph Priestley,Isaac Newton,Galileo Galilei,Michael Faraday,A
+268,"Loại cây đặc trưng cho ngày Tết, không có hoa, cũng không có trái?",Cây mai,Cây đào,Cây tre,Cây nêu,D
+269,"Tý, sửu, dần, mão, thìn, tỵ, ngựa, mùi, thân, dậu, tuất, hợi. Câu trên sai ở đâu?",Hợi,Ngựa,Dần,Thân,B
+270,Đêm giao thừa có tên gọi khác là gì?,Đêm Trừ Tịch,Đêm chuyển giao,Đêm đón Tết,Đêm cúng Tết,A
+271,"Theo truyền thuyết, ai là người đã sáng tạo ra bánh chưng, bánh dày?",An Dương Vương,Lạc Long Quân,Lang Liêu,Tiết Kiêu,C
+272,"”Tóp mỡ, dưa hành, câu đối đỏ, cây Nêu, tràng pháo, bánh chưng xanh”. Câu đối trên sai ở điểm nào?",Tràng pháo,Tóp mỡ,Dưa hành,Câu Nêu,B
+273,Cần cù bù...,Siêng năng,Chăm chỉ,Nỗ lực,Thông minh,D
+274,"Tôi là em của núi, chẳng bao giờ chịu già. Thêm sắc vào thành vật che đầu phái nữ? Hỏi đó là chữ gì?",Đồi,Non,Sông,Cây,B
+275,"Môn thể thao nào được chơi bởi các đội như Chelsea, AC Milan, Paris Saint-Germain?",Bóng chày,Bóng bầu dục,Bóng rổ,Bóng đá,D
+276,Xương nhỏ nhất trong cơ thể người nằm ở đâu?,Bàn tay,Đầu gối,Tai,Hàm,C
+277,Ai là vị thần tối cao trong thần thoại Hy Lạp?,Hades,Zeus,Poseidon,Hermes,B
+278,Ngọn núi nào được coi là nơi cư ngụ của các vị thần Hy Lạp?,Olympus,Parnassus,Athos,Ida,A
+279,Tên khởi đầu (original name) của Google là gì?,BackRub,PageRank,NetCrawler,LinkFinder,A
+280,"""Cpink"" trong ngôn ngữ GenZ là gì ?",Chồng,Blackpink,Blackpink Trung Quốc,Hồng đen trong khu vực của bạn,A
+281,https://drive.google.com/file/d/1LAhWOcVrrm12riG62p_6E8FFrFkxPXRo/view?usp=drive_link,Kenny & Freddy Chicken,Kentucky Fried Chicken,Kansas Fried Chicken,King Fried Chicken,B
+282,https://drive.google.com/file/d/1rP8qJHYsI3_cXqCL5keqXzdilQFhCxtz/view?usp=drive_link,16,24,28,30,D
+283,Hệ điều hành mã nguồn mở nổi tiếng được bắt đầu bởi Linus Torvalds là gì,FreeBSD,Unix,Minix,Linux,D
+284,Mạng xã hội nào được ra mắt đầu tiên trong danh sách dưới đây?,MySpace,Friendster,Facebook,Orkut,B
+285,Ngôn ngữ lập trình được thiết kế bởi James Gosling tại Sun Microsystems là gì?,C#,Python,Java,Ruby,C
+286,Phần mềm diệt virus đầu tiên thương mại (hay được biết đến rộng) là gì?,McAfee VirusScan,AVG,Norton AntiVirus,Avast,C
+287,Tên giao thức cho truyền siêu văn bản dùng trên web là gì?,FTP,SMTP,HTTP,TCP,C
+288,"Nền tảng thương mại điện tử lớn khởi nguồn tại Trung Quốc, được thành lập bởi Jack Ma, là?",Tencent,Alibaba,Baidu,JD.com,B
+289,"Thiết bị di động đầu tiên được gọi là ""smartphone"" theo nhiều sử gia công nghệ là sản phẩm của hãng nào?",Nokia,Palm,IBM (Simon Personal Communicator),Motorola,C
+290,"Thuật toán nổi tiếng dùng để xếp hạng trang web, được phát triển bởi Larry Page và Sergey Brin, có tên là?",RankNet,HITS,LinkScore,PageRank,D
+291,Ngôn ngữ lập trình Python được phát triển bởi ai?,Guido van Rossum,James Gosling,Bjarne Stroustrup,Dennis Ritchie,A
+292,Tên gọi ban đầu của Facebook là gì?,Facemash,TheFacebook,FriendBook,SocialNet,B
+293,Hệ thống quản lý cơ sở dữ liệu nổi tiếng MySQL thuộc sở hữu của công ty nào trước khi Oracle mua lại?,IBM,Sun Microsystems,Microsoft,Google,B
+294,Ngôn ngữ lập trình được sử dụng chủ yếu để phát triển iOS là gì?,Objective-C,Kotlin,Swift,Java,C
+295,"AI nổi tiếng do OpenAI phát triển, có khả năng xử lý ngôn ngữ tự nhiên là gì?",DeepMind,Watson,ChatGPT,Alexa,C
+296,"Giải mã cụm từ: hspxui
+Khoá: A=b",Growth,Talent,Vision,Empathy,A 
+297,"Giải mã cụm từ: qspnfs
+Khoá: A=b",Transcy,Mobile,Feedhub,Promer,D
+298,"Chìa khoá A=1
+Giải mã dãy số: 16.8.1.19.20 - 20.18.9.5.5.18.14",Can Đảm,Học Hỏi,Phát Triển,Tìm Tòi,C 
+299,"Chìa khoá A=1
+Giải mã dãy số: 6.9.5.18.7.18.15.21.16",FireGroup,Challenge,Empowered,Innovator,A
+300,Thành phố nào có diện tích lớn nhất Việt Nam?,TP.HCM,Hà Nội,Bình Dương,Cần Thơ,B
+301,Hòn đảo lớn nhất được mệnh danh là đảo Ngọc của Việt Nam,Hoàng Sa,Bình Ba,Nam Du,Phú Quốc,D
+302,Thành phố tại Việt Nam được UNESCO công nhận là Di sản văn hoá thế giới?,Hà Nội,Quảng Nam,Hội An,Đà Nẵng,C
+303,Sông nào chia Đà Nẵng thành 2 bờ đông tây?,Sông Hàn,Sông Hồng,Sông Giang,Sông Mã,A
+304,Tỉnh nào có diện tích lớn nhất Việt Nam?,Nghệ An,Quảng Trị,Huế,Cà Mau,A
+305,Vịnh Xuân Đài nổi tiếng thuộc tỉnh nào?,Phú Yên,Lạng Sơn,Điện Biên,BRVT,A
+306,Động vật nào sau đây không thuộc loại cá,Cá ngừ,Cá mập,Cá chim,Cá voi,D
+307,"Từ ""điều"" trong câu ""Nhiễu điều phủ lấy giá gương"" chỉ màu gì?",nâu,đỏ,xanh,xám,B
+308,6371km là độ dài....Trái đất,đường kính,bán kính,từ mặt trăng đến,từ mặt trời đến,B
+309,Tên thật của ca sĩ Sơn Tùng MTP,Tạ Thanh Tùng,Nguyễn Thanh Tùng,Nguyễn Sơn Tùng,Tạ Sơn Tùng,B
+310,Đâu không phải anh trai góp mặt trong chương trình Anh Trai Vượt Ngàn Chông Gai,Jun Phạm,Rhymastic,Tiến Đạt,Hieuthuhai,D
+311,"Ca sĩ nào được mệnh danh là 'Nữ hoàng nhạc Pop Việt Nam'?
+",Hồ Ngọc Hà,Thu Minh,Mỹ Tâm,Văn Mai Hương,C
+312,Ca sĩ nào được biết đến với biệt danh 'Ông hoàng nhạc Việt'?,Đàm Vĩnh Hưng,Bằng Kiều,Quang Lê,Tuấn Hưng,A
+313,Ca khúc 'Lạc Trôi' là một trong những sản phẩm thành công nhất của ca sĩ/nhạc sĩ nào?,Noo Phước Thịnh,Jack97,Soobin Hoàng Sơn,Sơn Tùng MTP,D
+314,"Nhóm nhạc nữ nổi tiếng vào thập niên 2000 với các thành viên như Lương Bích Hữu, Phạm Quỳnh Anh là nhóm nào?",HAT,Mây Trắng,Ba Con Mèo,Mắt Ngọc,A
+315,Ca sĩ nào nổi tiếng với ca khúc 'Đường Đến Ngày Vinh Quang'?,Gạt Tàn Đầy,Microwave,Da LAB,Bức Tường,D
+316,Ca sĩ nào được coi là biểu tượng của nhạc Rock Việt Nam với ban nhạc Bức Tường?,Phạm Anh Khoa,Thành Trung,Trần Lập,Nguyễn Hoàng,C
+317,"Đây là bài hát nào:
+""Sáng như đêm trăng rằm hội Lim, biết em đâu mà tìm
+Trót thương em đâu thể ngồi im, cầm khăn í a làm tin""",Bắc Bling,Lạc Trôi,Hà Nội,Ngọt,A
+318,Nguyên tố nào sau đây là kim loại kiềm?,Can Đảm,Na,Al,Mg,B
+319,Công thức hóa học của axit sulfuric là gì?,H₂SO₄,H₂SO₃,HCl,HNO₃,A
+320,Kim loại nào phản ứng mạnh với nước ở nhiệt độ thường?,Natri,Đồng,Sắt,Chì,A
+321,Chất nào sau đây là khí độc?,CO,CO₂,N₂,O₂,A
+322,Nguyên tố nào là thành phần chính trong than đá?,H,C,O,N,B
+323,"Chất nào là hợp chất khí không màu, không mùi, không độc?",NH₃,NO,CO,N₂,D
+324,FeCl2 + Cl2 -> X. Chất X là gì?,Fe(OH)3,HCl,FeCl3,Fe,C
+325,"Để phân biệt CO2và SO2 (khí không màu), người ta có thể dùng dung dịch nào sau đây?",HCL đặc,H20,KMnO4 loãng,Ca(OH)2 loãng,C
+326,"Kim loại nào sau đây có nhiệt độ nóng chảy thấp nhất?
+",Natri,Thuỷ ngân,Sắt,Kẽm,A
+327,327.webp,A,B,C,D,D
+328,328.webp,A,B,C,D,B
+329,329.webp,A,B,C,D,C
+330,330.webp,A,B,C,D,A
+331,331.webp,A,B,C,D,D
+332,332.webp,A,B,C,D,A
+333,333.webp,A,B,C,D,C
+334,334.webp,A,B,C,D,C
+335,335.webp,A,B,C,D,A
+336,336.webp,A,B,C,D,C
+337,337.webp,A,B,C,D,D
+338,338.webp,A,B,C,D,B
+339,339.webp,A,B,C,D,B
+340,340.webp,A,B,C,D,B
+341,341.webp,A,B,C,D,D
+342,342.webp,A,B,C,D,A
+343,343.webp,A,B,C,D,C
+344,344.webp,A,B,C,D,C
+345,345.webp,A,B,C,D,B
+346,346.webp,A,B,C,D,D
+347,347.webp,A,B,C,D,B
+348,348.webp,A,B,C,D,C
+349,349.webp,A,B,C,D,A
+350,350.webp,A,B,C,D,B
+351,351.webp,A,B,C,D,C
+352,352.webp,A,B,C,D,C
+353,353.webp,A,B,C,D,B
+354,354.webp,A,B,C,D,A
+355,355.webp,A,B,C,D,C
+356,356.webp,A,B,C,D,D
+357,357.webp,A,B,C,D,A
+358,358.webp,A,B,C,D,B
+359,359.webp,A,B,C,D,C
+360,360.webp,A,B,C,D,C
+361,361.webp,A,B,C,D,A
+362,362.webp,A,B,C,D,D
+363,363.webp,A,B,C,D,C
+364,364.webp,A,B,C,D,A
+365,365.webp,A,B,C,D,B
+366,366.webp,A,B,C,D,D
+367,367.webp,A,B,C,D,A
+368,368.webp,A,B,C,D,A
+369,369.webp,A,B,C,D,D
+370,370.webp,A,B,C,D,B
+371,371.webp,A,B,C,D,C
+372,372.webp,A,B,C,D,D
+373,373.webp,A,B,C,D,A
+374,374.webp,A,B,C,D,C
+375,375.webp,A,B,C,D,D
+376,376.webp,A,B,C,D,B
+377,377.webp,A,B,C,D,C
+378,378.webp,A,B,C,D,A
+379,379.webp,A,B,C,D,D
+380,380.webp,A,B,C,D,D
+381,381.webp,A,B,C,D,A
+382,382.webp,A,B,C,D,C
+383,383.webp,A,B,C,D,B
+384,384.webp,A,B,C,D,A
+385,385.webp,A,B,C,D,C
+386,386.webp,A,B,C,D,B
+387,Thuật ngữ nào mô tả một loại tiền tệ kỹ thuật số phi tập trung?,Digital Gold,E-Money,Cryptocurrency (Tiền mã hóa),Fiat Money,C
+388,"AI tạo sinh ra hình ảnh, văn bản dựa trên lời nhắc (prompt) được gọi là gì?",Adaptive AI,Narrow AI,Generative AI,Reactive AI,C
+389,"""Phishing"" (Lừa đảo trực tuyến) trong an ninh mạng là hành vi gì?",Đặt mật khẩu mạnh,Giả mạo để đánh cắp thông tin cá nhân,Xóa bộ nhớ cache,Cài đặt tường lửa,B
+390,"Trong phát triển web, ""Front-end"" chủ yếu chịu trách nhiệm cho phần nào của ứng dụng?",Cơ sở dữ liệu,Logic nghiệp vụ (Business Logic),Giao diện và trải nghiệm người dùng (UI/UX),Bảo mật máy chủ,C
+391,"""Metaverse"" của Mark Zuckerberg được xây dựng dựa trên công nghệ nào là chính?",Máy tính lượng tử,Sinh học tổng hợp,Thực tế ảo (VR) và Thực tế tăng cường (AR),In 3D,C
+392,Giao thức mạng nào chịu trách nhiệm dịch tên miền thành địa chỉ IP?,HTTP,FTP,DNS (Domain Name System),TCP/IP,C
+393,Đơn vị tiền tệ nào được tạo ra đầu tiên và phổ biến nhất trong thế giới tiền mã hóa?,Ethereum,Dogecoin,Bitcoin,Ripple,C
+394,"""Trăm hay không bằng tay...""",To,Quen,Dài,Đẹp,B
+395,"""Ăn trộm quen tay, ngủ ngày quen...?""",Giường,Ngủ,Mắt,Gối,C
+396,"""Nhất tự vi sư, bán tự vi...?",tính,Trùng,Khuẩn,Sư,D
+397,Cái gì của bạn nhưng người khác dùng nhiều hơn bạn?,Tiền lương,Tên của bạn,Điện thoại,Giày dép,B
+398,"Có 3 quả táo, bạn lấy 2, bạn có mấy quả?",1,2,3,5,B
+399,"123,456 − 78,901 = ?","44,545","44,555","44,565","44,575",B
+400,400.webp,30,40,50,60,A
+401,Cầu vồng do hiện tượng gì tạo nên?,Khúc xạ ánh sáng,Phóng xạ,Sự đối lưu của không khí,Sóng âm trong không khí,A
+402,Hãy chọn ra hai từ trái nghĩa nhau nhất?,Sự tự do,Sự phù phiếm,Sự trong trắng,Sự phi lý,B
+403,Từ nào khác với các từ còn lại?,Xương đùi,Hàm dưới,Xương mác,Xương bánh chè,B
+404,Từ nào có nghĩa gần nhất với từ THEO DÕI,Ra lệnh,Quan sát,Can thiệp,Xâm nhập,B
+405,Trước 12 giờ trưa là bao nhiêu phút nếu trước đó 9 phút số phút này gấp hai lần số phút sau10 giờ sáng?,7 phút,17 phút,27 phút,37 phút,D
+406,"Số nào sẽ là số tiếp theo của chuỗi số sau: 0, 1, 2, 4, 6, 9, 12, 16, ?",20,30,40,60,A
+407,Số nào khác tính chất với các số còn lại?,9678,4572,3527,7768,C
+408,"Ai là tác giả ""Hịch tướng sĩ"", kêu gọi toàn quân đoàn kết chống giặc Nguyên-Mông?",Trần Hưng Đạo,Cao Bá Quát,Đoàn Thị Điểm,Phan Bội Châu,A
+409,"Vị vua triều Nguyễn chống Pháp, bị đày ra châu Phi, là ai?",Hàm Nghi,Trần Hưng Đạo,Nguyễn Huệ,Đào Duy Từ,A
+410,Ngày mùng mấy tháng ba hằng năm diễn ra lễ hội Đền Hùng?,10,15,25,30,A
+411,Ai là vị vua Tây Sơn từng cưới công chúa Lê Ngọc Hân?,Quang Trung,Nguyễn Ánh,Nguyễn Du,Hàm Nghi,A
+412,Nhà thơ Nguyễn Đình Chiểu sinh ra và lớn lên tại địa phương nào?,Nam Định,Hà Nội,Bến Tre,Cà Mau,C
+413,"Khi nhiệt độ tăng lên, muỗi sẽ:",Ở nguyên địa điểm đó,Di chuyển lên khu vực cao hơn,Di chuyển xuống khu vực thấp hơn,Cả 3 đáp án đều sai,B
+414,"Trong số các hoạt động sau, các hoạt động nào giúp giảm nhẹ biến đổi khí hậu và tiết kiệm chi phí:",Tắt máy khi dừng đèn đỏ,Tắt các thiết bị điện khi ra khỏi phòng,Đi xe buýt,"Cả a, b và c",D
+415,Địa danh núi Bà Đen thuộc tỉnh nào?,Tây Ninh,Hà Nam,Bắc Ninh,Hà Nội,A
+416,Việt Nam là thành viên thứ bao nhiêu của Liên hợp quốc?,139,149,159,169,B
+417,Đất nước nào là nơi tập trung các di tích văn hoá của người Inca?,Peru,Malaysia,Brazil,Mexico,A
+418,Văn học của quốc gia nào được xem là cái nôi của nền văn học?,Pháp,Ý,Hy Lạp,Ấn Độ,C
+419,Đường mòn Hồ Chí Minh có số hiệu là?,159,359,559,759,C
+420,Ánh sáng từ Mặt trời tới trái đất mất bao nhiêu phút?,8 giây,8 phút,18 phút,80 phút,B
+421,Bác Hồ tìm ra con đường cứu nước vào năm nào?,1911,1920,1921,1930,B
+422,Ai là người tìm ra châu Mỹ?,Christopher Columbus,Ferdinand Magellan,Vasco da Gama,Marco Polo,A
+423,Điệu nhảy tango xuất xứ từ đất nước nào?,Mexico,Argentina,Brazi,Chile,B
+424,Hội liên hiệp châu Âu: EU là viết tắt của?,European Union,,,,A
+425,Nguyên tố hoá học nào phong phú nhất trong vỏ trái đất,Heli,Oxi,Nito,Phospho,B
+426,Ngày HS-SV Việt Nam là ngày bao nhiêu?,09/01,01/09,20/11,15/03,A
+427,Tên tuổi của nhạc sỹ thiên tài Sô-panh gắn liền với loại nhạc cụ nào?,Piano,Violon,Organ,Guitar,A
+428,"Tác giả của tác phẩm ""Bình Ngô đại cáo""?",Nguyễn Trãi,Lê Quý Đôn,Phan Bội Châu,Nguyễn Du,A
+429,Hội liên hiệp châu Âu: EU là viết tắt của?,European Union,European United,Euro Union,European Unity,A
+430,Nguyên tố hoá học nào phong phú nhất trong vỏ trái đất?,Ô-xy,Sắt,Silic,Nitơ,A
+431,File có đuôi là .cdr được mở bằng chương trình phần mềm nào?,Adobe Illustrator,Corel Draw,AutoCAD,GIMP,B
+432,Ban nhạc ABBA gồm mấy thành viên của đất nước nào?,"3 thành viên, Anh","4 thành viên, Na Uy","4 thành viên, Thụy Điển","5 thành viên, Đan Mạch",C
+433,Nhà thờ Đức Bà Paris (Pháp) là sản phẩm tiêu biểu cho nghệ thuật kiến trúc gì?,Phục Hưng,La Mã,Baroque,Gothic,D
+434,"What's the word opposites to ""Peace""?",Quiet,War,Harmony,Silence,B
+435,Hệ số thập phân là phát minh của nước nào?,Trung Quốc,Hy Lạp,Ấn Độ,Ả Rập,C
+436,Tích 10 số tự nhiên đầu tiên bằng bao nhiêu?,"3,628,800",1,10,0,D
+437,Giác quan nào của con người bị tổn thương nặng nhất khi bị sét đánh?,Thị giác,Vị giác,Khứu giác,Thính giác,D
+438,Động vật nào lớn nhất trái đất hiện nay?,Voi Châu Phi,Cá voi xanh,Cá nhà táng,Hươu cao cổ,B
+439,Con sông nào chảy qua 10 nước và qua 3 thủ đô ở Châu Âu?,Sông Rhine,Sông Volga,Sông Danube,Sông Seine,C
+440,Loại đá nào được hình thành từ xác động vật?,Đá bazan,Đá granite,Đá vôi,Đá thạch anh,C
+441,Mạng Internet bắt đầu có từ năm nào?,1985,1975,Năm 1979,1991,C
+442,Ai là tác giả của 9 bản giao hưởng là chính ngọn núi của nền âm nhạc?,Mozart,Bach,Chopin,Beethoven,D
+443,Phim Cách mạng Việt Nam đầu tiên là phim gì?,Cánh đồng hoang,Vĩ tuyến 17 ngày và đêm,Chung một dòng sông,Bao giờ cho đến tháng Mười,C
+444,Bác Hồ đã đưa ra lời kêu gọi toàn quốc kháng chiến vào năm nào?,1946,1945,1954,1930,A
+445,Bộ phim ca nhạc có tên EVITA do diễn viên nào đóng vai nữ chính?,Meryl Streep,Barbra Streisand,Madonna,Julia Roberts,C
+446,Thành phần hoá học chủ yếu của tro bếp là nguyên tố nào?,Phốt pho,Natri,Nitơ,Kali,D
+447,An Nam Nhất Thống Chí là tên gọi khác của tác phẩm nào?,Đại Việt Sử Ký Toàn Thư,Lịch triều hiến chương loại chí,Hoàng Lê Nhất Thống Chí,Việt Nam sử lược,C
+448,"Ngọn gió nào được nhà thơ Nguyễn Đình Thi viết trong bài thơ ""Đất nước""?",Gió Lào,Gió bấc,Heo may,Gió xuân,C
+449,Nguyễn Du miêu tả Kim Trọng và Thuý Kiều cùng có một tư chất gì?,Xinh đẹp,Thông minh,Đa tài,Hiếu thảo,B
+450,Nơi ra đời của Thế Vận Hội Olimpic?,Ý,Pháp,Hy Lạp,La Mã,C
+451,Thể loại tranh nào được gọi là quốc họa của Trung Quốc?,Tranh sơn dầu,Tranh khắc gỗ,Tranh Thuỷ mặc,Tranh lụa,C
+452,Cấu tạo cơ thể con người và bề mặt trái đất có gì giống nhau?,1/2 là nước,3/4 là nước,Cùng có khoáng chất,Có cùng nhiệt độ,B
+453,"Tranh ""Đánh ghen"" là tranh thuộc thể loại tranh nào?",Hàng Trống,Kim Hoàng,Đông Hồ,Làng Sình,C
+454,What are the different between «male» and «female»?,Number of letters,Spelling,Sound,"F, E (letters)",D
+455,Nhà văn Hemingway đoạt giải Nobel với tác phẩm nào?,Chuông nguyện hồn ai,Giã từ vũ khí,Ông già và biển cả,Mặt trời vẫn mọc,C
+456,Việt Nam bắt đầu bước vào thời kỳ đổi mới từ năm nào?,1975,1990,1980,1986,D
+457,"Trong bài thơ ""Bên kia sông Đuống"" của Hoàng Cầm, nụ cười của những cô hàng xén được ví như điều gì?",Hoa đào nở,Ánh trăng rằm,Nắng hạ,Mùa thu toả nắng,D
+458,"Cây gì cho chúng ta sô cô la, cây này được trồng nhiều nhất ở đâu?","Cây cà phê, tại Colombia","Cây ca cao, tại Brazil","Cây vani, tại Mexico","Cây mía, tại Cuba",B
+459,"Trong các tỉnh: Hải Dương, Thái Bình, Nam Định, Quảng Ninh chỉ có tỉnh ... là không có bờ biển chạy qua.",Thái Bình,Nam Định,Quảng Ninh,Hải Dương,D
+460,Phố Hàng Vải - Hà Nội ngày nay đang kinh doanh mặt hành gì là chủ yếu?,Vải may mặc,Tre (trúc),Đồ gốm,Tơ lụa,B
+461,"Sau khi thụ phấn, noãn biến đổi thành gì?",Quả,Lá mầm,Bầu nhụy,Hạt,D
+462,"Một người đứng trên mũi thuyền, cách mặt nước 1,5m; nước dâng lên 50cm. Hỏi, lúc này, người đó đứng cách mặt nước bao nhiêu cm?",200cm,100cm,50cm,150cm,D
+463,Mặt Trời của thi ca Nga đã lặn mất rồi! là lời báo chí Nga đưa tin về sự qua đời của ai?,Lermontov,Tolstoy,Puskin,Chekhov,C
+464,"Quốc hiệu đầu tiên của nước ta, tồn tại đến năm 258 trước công nguyên là gì?",Âu Lạc,Đại Việt,Đại Cồ Việt,Văn Lang,D
+465,"Trong chiến dịch Điện Biên Phủ, người anh hùng nào đã lấy thân mình để cứu pháo?",Phan Đình Giót,Bế Văn Đàn,La Văn Cầu,Tô Vĩnh Diện,D
+466,Hiện tượng biến đổi ở một hoặc vài cặp nhiễm sắc thể là loại đột biến gì?,Đột biến gen,Đột biến đa bội,Đột biến Dị bội,Đột biến cấu trúc,C
+467,Vùng đất đai chịu ảnh hưởng của hệ thống sông ngòi chảy qua gọi là gì?,Lòng sông,Vùng ven sông,Thượng nguồn,Lưu vực,D
+468,Bộ phận nào trên cơ thể thằn lằn có khả năng mọc lại?,Chân,Mắt,Da,Đuôi,D
+469,Nhấn phím Caps Lock trên bàn phím máy tính trước rồi soạn thảo văn bản thì chữ sẽ hiển thị như thế nào?,Chữ in thường,Chữ hoa đầu câu,Tất cả đều là chữ in hoa,Chữ in đậm,C
+470,Bác Hồ đã đưa ra lời kêu gọi toàn quốc kháng chiến vào năm nào?,1946,1945,1954,1930,A
+471,Sắt thể hiện hoá trị mấy khi tham gia phản ứng với Acid Nitric đặc?,2,1,4,3,D
+472,Vĩ tuyến 17 chạy ngang qua địa phận tỉnh nào của nước ta?,Thừa Thiên Huế,Quảng Bình,Đà Nẵng,Quảng Trị,D
+473,Quan hệ giữa các con sói trong bầy sói là dạng quan hệ gì?,Cạnh tranh,Sinh vật ăn thịt,Kí sinh,Hỗ trợ (cùng loài),D
+474,"Khi bị ong đốt, người ta thường dùng vôi để bôi vào vết thương. Tại đó xảy ra loại phản ứng hóa học nào?",Phản ứng oxi hóa khử,Phản ứng trao đổi,Phản ứng phân hủy,Trung hòa giữa axit và bazo,D
+475,"Ra đời năm 1952 và được sử dụng phổ biến trong chiến dịch Điện Biên phủ, dụng cụ nấu ăn này được mang tên người chế tạo ra nó. Đó là công cụ nào?",Bếp dầu,Bếp củi,Lò than,Bếp Hoàng Cầm,D
+476,Hệ Mặt trời của chúng ta nằm trong thiên hà nào?,Thiên hà Tiên Nữ,Đám mây Magellan,Thiên hà Tam Giác,Dải Ngân hà,D
+477,Đường thẳng đồng qui chia mặt phẳng ra làm mấy phần?,4 phần,6 phần,8 phần,7 phần,D
+478,“Trái tim lầm lỡ để trên đầu/ Nỏ thần vô ý trao tay giặc” là những lời nhà thơ Tố Hữu viết về ai?,An Dương Vương,Trọng Thủy,Nhân vật Mị Châu,Triệu Thị Trinh,C
+479,Độ cong của thuỷ tinh thể có thể thay đổi được là nhờ sự co giãn của cơ nào ở mắt?,Cơ tròn,Cơ dọc,Cơ thẳng,Cơ vòng,D
+480,"Cơ quan nào trong cơ thể người nằm ở dưới cơ hoành, hơi nghiêng về bên trái trong ổ bụng?",Gan,Lách,Thận,Dạ dày,D
+481,"Trên các bản đồ thế giới cổ xưa, người ta thường ghi tên vị thần nào?",Thần Dớt,Thần Poseidon,Thần Atlat,Thần Apollo,C
+482,"Trong tên viết tắt của Tổ chức các nước Xuất khẩu Dầu mỏ OPEC, chữ O là viết tắt của từ gì?",Oil,Output,Organization,Origin,C
+483,Con muỗi hút máu ngư­ời và loài vật để làm gì?,Để lấy năng lượng,Để chống rét,Để bảo vệ tổ,Để nuôi trứng,D
+484,Đợt rét muộn cuối cùng vào tháng ba ở miền Bắc gọi là gì?,Rét lộc,Rét hoa,Rét Nàng Bân,Rét cuối mùa,C
+485,Đẻ đất đẻ nước là pho sử thi của dân tộc nào?,Thái,Dao,Kinh,Mường,D
+486,Tổng thống nước nào ở Đông Nam Á hiện nay là phụ nữ?,Indonesia,Thái Lan,Myanmar,Philipin,D
+487,Người thầy nào khi mất đi đã được học trò tôn xưng là Tuyết giang phu tử?,Chu Văn An,Nguyễn Bỉnh Khiêm,Lê Quý Đôn,Phan Huy Chú,B
+488,"Đại dương nào giáp các châu Á, Mỹ, và Đại Dương?",Đại Tây Dương,Ấn Độ Dương,Bắc Băng Dương,Thái Bình Dương,D
+489,"Vì bộ xương hình ống rỗng, chứa đầy không khí nên chúng biết trước sự thay đổi thời tiết ở các vùng biển. Đó là loài chim nào?",Chim cánh cụt,Chim bồ nông,Chim én,Hải âu,D
+490,Trong một tam giác có tổng hai góc bằng góc còn lại thì đó là tam giác gì?,Tam giác đều,Tam giác cân,Tam giác tù,Tam giác vuông,D
+491,Tác phẩm Tụng giá hoàn kinh sư ra đời sau khi cuộc kháng chiến nào của dân tộc ta thắng lợi?,Chống Tống,Chống Minh,Chống xâm lược Nguyên Mông lần thứ hai,Chống Pháp,C
+492,Ai là người được tặng Huân chương Sao Vàng đầu tiên ở nước ta?,Võ Nguyên Giáp,Lê Duẩn,Chủ tịch Tôn Đức Thắng,Phạm Văn Đồng,C
+493,"Từ các số 2, 3, 7, 8 có thể thành lập được bao nhiêu số chính phương có ba chữ số?",4 số,1 số,2 số,Không có số nào,D
+494,Đảo này là tên ghép của cụm từ “Tri Châu” và “Linh Tuần” tạo thành?,Đảo Cát Bà,Đảo Cô Tô,Đảo Hòn Tre,Đảo Tuần Châu,D
+495,Đội bóng nào vô địch V-League năm 2005?,Hoàng Anh Gia Lai,Thể Công,Hải Phòng,Gạch Đồng Tâm Long An,D
+496,Nhà văn Hemingway đoạt giải Nobel với tác phẩm nào?,Chuông nguyện hồn ai,Giã từ vũ khí,Ông già và biển cả,Mặt trời vẫn mọc,C
+497,Nhà thờ nào lớn nhất miền Bắc nước ta?,Nhà thờ Lớn Hà Nội,Nhà thờ đá Sa Pa,Nhà thờ Phát Diệm (Ninh Bình),Nhà thờ Bùi Chu,C
+498,Loại hình sân khấu cải lương có nguồn gốc ở miền nào?,Miền Bắc,Miền Trung,Tây Nguyên,Nam Bộ (Tây Nam Bộ),D
+499,Ngôi đền Angkor Wat nổi tiếng thuộc quốc gia nào ở Đông Nam Á?,Thái Lan,Indonesia,Campuchia,Malaysia,C
+500,Bộ phận nào của thực vật chịu trách nhiệm chính trong quá trình quang hợp?,Rễ,Thân,Hoa,Lá,D
+501,"Trong bóng đá, cầu thủ nào giữ kỷ lục ghi nhiều bàn thắng nhất tại World Cup?",Pelé,Miroslav Klose,Ronaldo (Brazil),Lionel Messi,D
+502,"Lãnh địa nào được mệnh danh là ""Xứ sở Mặt Trời Mọc""?",Hàn Quốc,Trung Quốc,Thái Lan,Nhật Bản,D
+503,Đơn vị đo tần số (Frequency) trong hệ đo lường quốc tế (SI) là gì?,Ohm,Volt,Hertz,Watt,C
+504,Ai là vị vua cuối cùng của triều đại phong kiến Việt Nam?,Khải Định,Đồng Khánh,Bảo Đại,Duy Tân,C
+505,Thành phần hóa học chính cấu tạo nên kim cương là gì?,Silicon,Sắt,Đồng,Carbon,D
+506,"Trong tác phẩm Truyện Kiều của Nguyễn Du, Thúy Kiều bán mình cho ai?",Mã Giám Sinh,Sở Khanh,Mã Giám Sinh,Hồ Tôn Hiến,C
+507,Bảy kỳ quan thế giới cổ đại còn tồn tại duy nhất công trình nào?,Vườn treo Babylon,Tượng thần Zeus,Kim tự tháp Giza,Hải đăng Alexandria,C
+508,Loại mây nào thường gây ra mưa rào và dông lớn?,Mây tầng,Mây ti,Mây tích,Mây vũ tích (Cumulonimbus),D
+509,Đại dương nào có diện tích và độ sâu nhỏ nhất trên thế giới?,Đại Tây Dương,Ấn Độ Dương,Bắc Băng Dương,Thái Bình Dương,C
+510,Võ Nguyên Giáp được phong hàm Đại tướng vào năm nào?,1946,1948,1950,1954,B
+511,"Loại hình nghệ thuật nào được gọi là ""Quốc hồn Quốc túy"" của Hàn Quốc?",K-Pop,Điện ảnh,Kịch,Taekwondo,D
+512,"Tỉnh thành nào ở Việt Nam có tên gọi bắt nguồn từ chữ ""Long"" (Rồng)?",Huế,Đà Nẵng,Hà Nội,Hải Phòng,C
+513,Sơn Tinh Thủy Tinh là truyền thuyết liên quan đến tỉnh nào?,Hà Nội,Phú Thọ,Phú Thọ,Vĩnh Phúc,C
+514,"Hành tinh nào trong hệ Mặt Trời được mệnh danh là ""Hành tinh Đỏ""?",Sao Kim,Sao Mộc,Sao Thổ,Sao Hỏa,D
+515,Đơn vị tiền tệ chính thức của Liên minh Châu Âu là gì?,Bảng Anh,Yên,Đô la Mỹ,Euro,D
+516,Hồ Gươm ở Hà Nội còn có tên gọi khác là gì?,Hồ Tây,Hồ Trúc Bạch,Hồ Hoàn Kiếm,Hồ Bảy Mẫu,C
+517,Ngôn ngữ nào là ngôn ngữ chính thức tại Brazil?,Tây Ban Nha,Ý,Bồ Đào Nha,Pháp,C
+518,Bộ luật Hồng Đức là bộ luật nổi tiếng dưới triều đại nào của Việt Nam?,Lý,Trần,Lê sơ,Nguyễn,C
+519,Hiện tượng nhật thực xảy ra khi vật thể nào che khuất ánh sáng Mặt Trời?,Trái Đất,Sao Kim,Mặt Trăng,Sao Hỏa,C
+520,Giải thưởng âm nhạc danh giá nhất của Mỹ được gọi là gì?,Emmy,Oscar,Tony,Grammy,D
+521,"Nhà thơ nào có biệt danh là ""Bà chúa thơ Nôm""?",Hồ Xuân Hương,Đoàn Thị Điểm,Sương Nguyệt Anh,Hồ Xuân Hương,A
+522,Loại hình vận chuyển hàng hóa nào chiếm tỉ trọng lớn nhất về khối lượng trên thế giới?,Đường hàng không,Đường bộ,Đường biển,Đường sắt,C
+523,Tỉnh thành nào của Việt Nam nổi tiếng với lễ hội Cà phê Buôn Ma Thuột?,Lâm Đồng,Gia Lai,Đắk Lắk,Kon Tum,C
+524,Loài động vật có vú nào biết bay?,Dơi,Chim cánh cụt,Chim ruồi,Dơi,A
+525,Sự kiện lịch sử nào được coi là dấu mốc chấm dứt Chiến tranh Lạnh?,Xây dựng bức tường Berlin,Khủng hoảng tên lửa Cuba,Bức tường Berlin sụp đổ,Chiến tranh Việt Nam kết thúc,C
+526,"Trong lĩnh vực nhiếp ảnh, từ viết tắt ISO dùng để chỉ gì?",Độ phân giải,Khẩu độ,Tốc độ màn trập,Độ nhạy sáng,D
+527,"Sông nào được coi là ""sông mẹ"" của nền văn minh Ai Cập cổ đại?",Sông Tigris,Sông Ơ-phrát,Sông Nile,Sông Amazon,C
+528,Vị tướng nào nổi tiếng với chiến thuật đánh bại quân Thanh vào năm 1789?,Ngô Quyền,Trần Hưng Đạo,Quang Trung (Nguyễn Huệ),Lý Thường Kiệt,C
+529,Bộ phim hoạt hình nào của Disney giới thiệu nàng công chúa da màu đầu tiên?,Pocahontas,Mulan,Công chúa và chàng ếch (The Princess and the Frog),Moana,C
+530,Khí hậu ôn đới hải dương chủ yếu được tìm thấy ở khu vực nào?,Vùng cực,Vùng xích đạo,Vùng ven biển Tây Âu,Vùng nội địa Châu Á,C
+531,Thành phố nào được coi là trung tâm tài chính lớn nhất thế giới?,London,Tokyo,Thượng Hải,New York,D
+532,Nhà soạn nhạc nổi tiếng người Áo Wolfgang Amadeus Mozart mất ở tuổi bao nhiêu?,45,56,32,35,D
+533,"Bác Hồ đã viết tác phẩm ""Nhật ký trong tù"" bằng chữ gì?",Tiếng Việt,Tiếng Pháp,Chữ Hán,Chữ Quốc ngữ,C
+534,Nguyên tố hóa học nào có kí hiệu là Au?,Bạc,Đồng,Sắt,Vàng,D
+535,"Cấu trúc địa lý nào được gọi là ""Vành đai lửa Thái Bình Dương""?",Chuỗi núi lửa hoạt động,Vùng có độ ẩm cao,Khu vực hoang mạc,Vùng có nhiều động đất và núi lửa,D
+536,"Trong tam đoạn luận của Aristotle, đâu là thành phần thứ ba (kết luận)?",Tiền đề lớn,Tiền đề nhỏ,Giả thuyết,Kết luận,D
+537,Quần đảo Trường Sa và Hoàng Sa thuộc chủ quyền của quốc gia nào?,Trung Quốc,Philippines,Malaysia,Việt Nam,D
+538,Bộ phim đoạt giải Oscar năm 2020 là phim nào?,1917,Joker,Ký sinh trùng,Ký sinh trùng (Parasite),D
+539,Môn thể thao nào lần đầu tiên được đưa vào Thế vận hội Mùa hè 2020 (tổ chức năm 2021)?,Bơi nghệ thuật,Cưỡi ngựa,Karate,Bóng ném,C
+540,Công trình kiến trúc nào được coi là biểu tượng của thời đại La Mã cổ đại?,Parthenon,Kim tự tháp,Tháp Eiffel,Đấu trường La Mã (Colosseum),D
+541,Loài cây lương thực nào được trồng phổ biến nhất trên thế giới?,Lúa mì,Ngô,Khoai tây,Lúa gạo,D
+542,Thuật ngữ IoT viết tắt của cụm từ nào?,Internet of Time,Internet of Threads,Internet of Things,Internal Office Technology,C
+543,Ngôn ngữ lập trình nào được sử dụng phổ biến nhất để phát triển các ứng dụng Android gốc?,Python,Swift,C++,Java (hoặc Kotlin),D
+544,CPU trong máy tính là viết tắt của cụm từ nào?,Central Power Unit,Custom Processing Utility,Computer Program Unit,Central Processing Unit,D
+545,"Chip xử lý đầu tiên trên thế giới, Intel 4004, được phát hành vào năm nào?",1965,1971,1981,1990,B
+546,Công nghệ 5G sử dụng tần số vô tuyến nào để truyền dữ liệu nhanh hơn 4G?,Low-band,Mid-band,High-band (mmWave),Tất cả các loại trên,D
+547,Công cụ tìm kiếm nào được ra mắt sớm nhất?,Google,Yahoo!,Bing,Archie,D
+548,Ngôn ngữ nào được sử dụng phổ biến để truy vấn và thao tác cơ sở dữ liệu?,HTML,CSS,Java,SQL,D
+549,Moore's Law (Định luật Moore) dự đoán điều gì?,Tốc độ mạng tăng gấp đôi mỗi năm,Số lượng transistor trên chip tăng gấp đôi sau mỗi 2 năm,Giá máy tính giảm,Độ phân giải màn hình tăng,B
+550,"Trong lĩnh vực in 3D, loại vật liệu nào được sử dụng phổ biến nhất?",Kim loại lỏng,Gốm sứ,Thủy tinh,"Polyme nhựa (PLA, ABS)",D
+551,DNS (Domain Name System) có vai trò gì?,Mã hóa dữ liệu,Cung cấp địa chỉ IP,Dịch tên miền sang địa chỉ IP,Kiểm tra lỗi mạng,C
+552,Đồng hồ thông minh (Smartwatch) là một ví dụ của thiết bị thuộc lĩnh vực nào?,Big Data,Cloud Computing,Wearable Technology,Robotics,C
+553,Thuật ngữ nào chỉ một phiên bản thử nghiệm sớm của phần mềm?,Stable Release,RC (Release Candidate),Beta,Alpha,C
+554,VPN (Virtual Private Network) được sử dụng để làm gì?,Tải xuống nhanh hơn,Cập nhật hệ điều hành,Tạo kết nối mạng riêng an toàn qua internet công cộng,Phát hiện virus,C
+555,Cổng kết nối nào thường được sử dụng để truyền tín hiệu video và âm thanh chất lượng cao?,VGA,USB-C,DisplayPort,HDMI,D
+556,Turing Test là một phương pháp dùng để đánh giá khả năng gì?,Độ bền của máy tính,Tốc độ xử lý của chip,Trí thông minh của máy móc,Tốc độ kết nối mạng,C
+557,Ngôn ngữ đánh dấu nào được sử dụng để tạo cấu trúc cho các trang web?,CSS,JavaScript,Python,HTML,D
+558,Điện toán đám mây (Cloud Computing) cung cấp dịch vụ IaaS (Infrastructure as a Service) dưới dạng gì?,Phần mềm ứng dụng,Nền tảng phát triển,"Cơ sở hạ tầng (máy chủ, lưu trữ)",Bảo mật mạng,C
+559,Công ty nào đã phát triển và quản lý hệ thống cơ sở dữ liệu Oracle?,Microsoft,IBM,Google,Oracle,D
+560,Công nghệ nào được dùng để lấy mật khẩu bằng cách thử tất cả các chuỗi ký tự có thể?,SQL Injection,Denial-of-Service,Brute-Force Attack,Keylogging,C
+561,Phần mềm mã nguồn mở (Open Source) có đặc điểm nổi bật là gì?,Miễn phí hoàn toàn,Tốc độ cao,Cho phép người dùng xem và chỉnh sửa mã nguồn,Chỉ có thể dùng trên Linux,C
+562,Ngôn ngữ lập trình C++ là phiên bản mở rộng của ngôn ngữ nào?,Java,Python,C#,Ngôn ngữ C,D
+563,"Trong thuật ngữ AI, Neural Network (Mạng thần kinh) mô phỏng cấu trúc nào?",Não bộ của côn trùng,Não bộ con người,Hệ thống thủy lực,Cấu trúc vật lý,B
+564,Ngôn ngữ lập trình nào được mệnh danh là ngôn ngữ phổ biến nhất cho Khoa học Dữ liệu (Data Science) và Machine Learning?,Java,C#,Ruby,Python,D
+565,JavaScript chủ yếu được sử dụng để làm gì?,Phát triển hệ điều hành,Xử lý cơ sở dữ liệu,Phát triển giao diện người dùng Web,Lập trình nhúng,C
+566,Khái niệm OOP (Lập trình hướng đối tượng) là viết tắt của cụm từ nào?,Optimal Object Program,Open Operating Protocol,Object-Oriented Programming,Overloaded Online Processor,C
+567,Ngôn ngữ nào được phát triển bởi Microsoft như một đối thủ cạnh tranh với Java?,C,C++,C#,Go,C
+568,Ruby được biết đến với framework phát triển web nổi tiếng nào?,Django,Spring,Laravel,Ruby on Rails,D
+569,SQL là ngôn ngữ tiêu chuẩn được dùng để làm gì?,Lập trình front-end,Lập trình game,Quản lý cơ sở dữ liệu quan hệ,Lập trình di động,C
+570,HTML là một ngôn ngữ lập trình hay ngôn ngữ đánh dấu (Markup Language)?,Ngôn ngữ lập trình,Ngôn ngữ đánh dấu,Ngôn ngữ truy vấn,Ngôn ngữ nhúng,B
+571,Ngôn ngữ lập trình nào được sử dụng phổ biến để phát triển các ứng dụng iOS gốc?,Java,Python,Swift,Kotlin,C
+572,Khái niệm Biến (Variable) trong lập trình dùng để làm gì?,Thực thi một lệnh,Lưu trữ một giá trị,Lặp lại một đoạn mã,Kiểm tra điều kiện,B
+573,"Garbage Collection là một tính năng nổi bật của ngôn ngữ nào, giúp quản lý bộ nhớ tự động?",C,C++,Assembly,Java,D
+574,"Framework nào thường được dùng để xây dựng giao diện người dùng web động (React, Vue, Angular)?",Back-end Framework,Data Framework,Front-end Framework,Database Framework,C
+575,Ngôn ngữ lập trình nào được tạo ra để phục vụ cho các hệ thống nhúng và thời gian thực (real-time systems)?,PHP,C#,C,R,C
+576,IDE (Integrated Development Environment) là gì?,Bộ nhớ máy tính,Môi trường phát triển tích hợp,Giao thức truyền tải dữ liệu,Ngôn ngữ lập trình,B
+577,"Thuật ngữ ""Hello World"" trong lập trình mang ý nghĩa gì?",Tên biến,Chức năng chính,Chương trình đầu tiên để kiểm tra môi trường,Lỗi lập trình,C
+578,PHP là ngôn ngữ lập trình chủ yếu được sử dụng ở đâu?,Ứng dụng di động,Lập trình nhúng,Lập trình Web Back-end,Lập trình game,C
+579,API (Application Programming Interface) có vai trò gì?,Đồ họa máy tính,Quản lý bộ nhớ,Giao diện kết nối giữa các phần mềm,Thuật toán sắp xếp,C
+580,Ngôn ngữ lập trình nào được phát triển bởi Google để giải quyết vấn đề hiệu suất và an toàn của C++?,Java,Rust,Go (Golang),Python,C
+581,Git là hệ thống nào được sử dụng rộng rãi trong phát triển phần mềm?,Hệ thống quản lý cơ sở dữ liệu,Hệ thống kiểm tra lỗi,Hệ thống kiểm soát phiên bản (Version Control),Hệ thống quản lý dự án,C
+582,Ngôn ngữ nào được sử dụng để định kiểu (Style) cho các trang web HTML?,JavaScript,Python,SQL,CSS,D
+583,Thẻ <p> trong HTML dùng để định nghĩa thành phần gì?,Hình ảnh,Liên kết,Đoạn văn bản (Paragraph),Tiêu đề,C
+584,Ngôn ngữ lập trình nào nổi tiếng với sự ra đời của nền tảng .NET?,Java,C,C#,Ruby,C
+585,Recursion (Đệ quy) là gì?,Một kiểu dữ liệu,Một loại vòng lặp,Hàm tự gọi lại chính nó,Một lỗi lập trình,C
+586,Browser (Trình duyệt) có vai trò gì trong lập trình web?,Lưu trữ cơ sở dữ liệu,"Hiển thị nội dung từ mã HTML, CSS, JavaScript",Chạy mã Python,Mã hóa dữ liệu,B
+587,Thuật ngữ nào mô tả quá trình biến đổi mã nguồn thành chương trình thực thi mà không cần biên dịch trước?,Biên dịch (Compiling),Xây dựng (Building),Thông dịch (Interpreting),Đóng gói (Packaging),C
+588,"Cấu trúc dữ liệu nào hoạt động theo nguyên tắc FIFO (Vào trước, Ra trước)?",Stack (Ngăn xếp),Linked List (Danh sách liên kết),Queue (Hàng đợi),Tree (Cây),C
+589,Tên miền (Domain Name) được phân giải thành gì khi người dùng truy cập web?,Địa chỉ MAC,Cổng kết nối,Địa chỉ IP,Tên máy chủ,C
+590,"Trong C/C++, loại bộ nhớ nào được cấp phát thủ công bởi lập trình viên và phải được giải phóng thủ công?",Stack,Global,Heap,Static,C
+591,Ngôn ngữ lập trình nào thường được sử dụng trong các hệ thống yêu cầu hiệu suất cao và kiểm soát phần cứng?,Python,JavaScript,Ruby,C++,D
+592,Lập trình viên Front-end chủ yếu tập trung vào phần nào của ứng dụng?,Logic nghiệp vụ máy chủ,Giao diện người dùng và trải nghiệm,Cơ sở dữ liệu,Bảo mật mạng,B
+593,Boolean là một kiểu dữ liệu dùng để lưu trữ giá trị gì?,Số nguyên,Chuỗi văn bản,Số thập phân,Đúng (True) hoặc Sai (False),D
+594,Cấu trúc điều kiện nào được sử dụng khi cần kiểm tra nhiều trường hợp giá trị của cùng một biến?,If-else,While loop,For loop,Switch-case,D
+595,Framework React được phát triển và duy trì chủ yếu bởi công ty nào?,Google,Microsoft,Meta (Facebook),Amazon,C
+596,Callback Function trong JavaScript là gì?,Hàm được gọi đầu tiên,Hàm xử lý lỗi,Hàm được truyền làm đối số và gọi sau,Hàm chính của chương trình,C
+597,TypeScript là một phiên bản mở rộng (superset) của ngôn ngữ nào?,Python,C++,JavaScript,Java,C
+598,Mã máy (Machine Code) là mã được viết bằng ngôn ngữ nào?,Cao cấp,Thông dịch,Nhị phân (Binary),Hợp ngữ (Assembly),C
+599,Hợp chất nào tạo nên thành phần chính của nước biển?,Natri florua,Kali clorua,Magie sunfat,Natri clorua (NaCl),D
+600,Phản ứng trung hòa là phản ứng giữa loại chất nào?,Kim loại và phi kim,Oxit axit và oxit bazơ,Axit và Bazơ,Muối và nước,C
+601,Đơn vị cơ bản để đo lượng chất trong Hóa học là gì?,Gram,Lít,Kilogram,Mol,D
+602,Ozon (O3) là một dạng thù hình của nguyên tố nào?,Carbon,Nitơ,Oxy,Hydro,C
+603,Quỳ tím chuyển màu gì khi gặp dung dịch có tính Bazơ (kiềm)?,Đỏ,Không màu,Xanh lá,Xanh dương,D
+604,Kim loại nào được sử dụng phổ biến nhất để chế tạo vỏ máy bay do nhẹ và bền?,Sắt,Đồng,Titan,Nhôm,D
+605,Nước đá khô là tên gọi của chất nào?,Nước đông lạnh,Khí Nitơ lỏng,Carbon dioxide rắn,Metan rắn,C
+606,Công thức hóa học của axit sunfuric là gì?,HCl,HNO3,H3PO4,H2SO4,D
+607,Độ pH bằng 7 biểu thị dung dịch có tính chất gì?,Axit,Bazơ,Muối,Trung tính,D
+608,"Chất nào được gọi là ""Axit mạnh nhất"" trong phòng thí nghiệm?",Axit clohidric,Axit nitric,Axit pecloric,Axit sunfuric,C
+609,Phản ứng tỏa nhiệt là phản ứng có đặc điểm gì?,Hấp thụ nhiệt,Giải phóng năng lượng dưới dạng nhiệt,Không thay đổi nhiệt độ,Tăng áp suất,B
+610,Nguyên tố nào có kí hiệu hóa học là Fe?,Đồng,Bạc,Vàng,Sắt,D
+611,Polyme là gì?,Một loại kim loại,Một hợp chất hữu cơ đơn giản,Hợp chất có khối lượng phân tử lớn,Một chất khí,C
+612,Phản ứng quang hợp ở thực vật chuyển hóa năng lượng ánh sáng thành năng lượng dưới dạng hợp chất nào?,Protein,Xenlulozơ,Glucose,Lipid,C
+613,Thuốc thử nào được dùng để nhận biết tinh bột?,Axit HCl,Nước vôi trong,Dung dịch Iốt,Thuốc tím,C
+614,Điện tích của hạt Proton là gì?,Âm,Không,Dương,Trung tính,C
+615,Khí nào chiếm tỷ lệ lớn nhất trong không khí?,Oxy,Carbon dioxide,Hơi nước,Nitơ,D
+616,Hóa trị của nguyên tố Oxy trong hầu hết các hợp chất là bao nhiêu?,I,III,IV,II,D
+617,Phản ứng xà phòng hóa là phản ứng thủy phân chất nào?,Tinh bột,Protein,Axit béo,Chất béo (Triglyceride),D
+618,Bảng tuần hoàn các nguyên tố được sắp xếp dựa trên đại lượng nào?,Khối lượng nguyên tử,Số khối,Số hiệu nguyên tử (Z),Độ âm điện,C
+619,Kim loại kiềm (nhóm IA) có bao nhiêu electron ở lớp ngoài cùng?,2,3,7,1,D
+620,Hiện tượng thăng hoa là sự chuyển từ trạng thái nào sang trạng thái nào?,Rắn sang lỏng,Lỏng sang khí,Rắn sang khí,Khí sang lỏng,C
+621,Khí thải nào là nguyên nhân chính gây ra hiệu ứng nhà kính?,Metan,CFCs,SO2,Carbon dioxide (CO2),D
+622,Ethanol là loại rượu có công thức hóa học nào?,CH3OH,C4H9OH,C2H5OH,C3H7OH,C
+623,"Trong hợp chất H2O, liên kết hóa học giữa H và O là loại liên kết gì?",Liên kết ion,Liên kết kim loại,Liên kết cộng hóa trị phân cực,Liên kết cộng hóa trị không phân cực,C
+624,Thuốc muối (Baking Soda) có công thức hóa học là gì?,CaCO3,NaOH,Na2CO3,NaHCO3,D
+625,Hiện tượng ăn mòn kim loại là quá trình nào?,Oxy hóa,Thủy phân,Oxy hóa - Khử,Trung hòa,C
+626,Chất nào là thành phần chính của cao su thiên nhiên?,Vinyl clorua,Butadien,Isopren,Styren,C
+627,Thủy tinh chủ yếu được làm từ chất nào?,Canxi cacbonat,Đồng oxit,Silic dioxit (SiO2),Nhôm oxit,C
+628,Phản ứng nhiệt phân là phản ứng cần điều kiện gì?,Ánh sáng,Áp suất cao,Nhiệt độ,Xúc tác,C
+629,Khí Clo (Cl2) có màu gì ở điều kiện thường?,Không màu,Đen,Đỏ nâu,Vàng lục,D
+630,Kim loại nào có tính khử mạnh nhất trong các kim loại kiềm?,Natri,Kali,Liti,Franxi,D
+631,Axit axetic (giấm ăn) có công thức hóa học là gì?,HCOOH,C2H4(OH)2,CH3COOH,C3H7COOH,C
+632,Đơn vị tính toán khối lượng nguyên tử và phân tử là gì?,Gram,Mol,Đơn vị khối lượng nguyên tử (amu),Kilogram,C
+633,Nước cứng là nước chứa nhiều ion kim loại nào?,Natri và Kali,Sắt và Đồng,Canxi và Magie,Nhôm và Chì,C
+634,Hiện tượng đồng phân trong Hóa học hữu cơ là gì?,"Cùng công thức phân tử, khác công thức đơn giản nhất","Cùng công thức cấu tạo, khác khối lượng","Cùng công thức phân tử, khác công thức cấu tạo","Khác công thức phân tử, cùng công thức cấu tạo",C
+635,Thành phần chính của xi măng là gì?,Natri clorua,Canxi nitrat,Canxi silicat,Kali oxit,C
+636,Liên kết Ion hình thành do sự trao đổi electron giữa loại nguyên tố nào?,Phi kim và phi kim,Phi kim và khí hiếm,Kim loại và kim loại,Kim loại và phi kim,D
+637,Chất xúc tác có vai trò gì trong phản ứng hóa học?,Thay đổi sản phẩm,Cung cấp nhiệt,Làm tăng tốc độ phản ứng,Ngăn chặn phản ứng,C
+638,"Trong ngành công nghiệp, Amoniac (NH3) được sản xuất bằng quy trình nào?",Quy trình Ostwald,Quy trình Haber-Bosch,Quy trình Solvay,Quy trình Bergius,B
+639,Khối lượng riêng của nước đạt giá trị lớn nhất ở nhiệt độ bao nhiêu?,0°C,100°C,10°C,4°C,D
+640,Hạt nhân nguyên tử được cấu tạo từ các hạt nào?,Electron và Proton,Electron và Nơtron,Proton và Nơtron,Chỉ có Proton,C
+641,Phản ứng este hóa là phản ứng giữa loại chất nào?,Axit và bazơ,Ancol và ete,Axit hữu cơ và Ancol,Amin và axit,C
+642,Axit Clohidric (HCl) là thành phần chính của chất lỏng nào trong cơ thể con người?,Mồ hôi,Nước bọt,Dịch vị dạ dày,Nước tiểu,C
+643,Phân bón NPK cung cấp cho cây trồng những nguyên tố chính nào?,"Natri, Kali, Canxi","Nitơ, Phốt pho, Lưu huỳnh","Nitơ, Phốt pho, Kali","Natri, Phốt pho, Canxi",C
+644,Phản ứng thế là phản ứng đặc trưng của loại hydrocarbon nào?,Anken,Ankin,Ankadien,Ankan,D
+645,Khí metan (CH4) là thành phần chính của loại khí đốt nào?,Khí hóa lỏng (LPG),Khí than,Khí dầu mỏ,Khí thiên nhiên,D
+646,Dung dịch là hỗn hợp đồng nhất của những thành phần nào?,Chất rắn và chất lỏng,Chất tan và dung môi,Chất tan và chất kết tủa,Chất lỏng và chất khí,B
+647,Giải bóng đá Champions League là giải đấu danh giá nhất cấp câu lạc bộ thuộc khu vực nào?,Châu Mỹ,Châu Á,Châu Âu,Toàn thế giới,C
+648,Olympic Mùa đông được tổ chức mấy năm một lần?,2 năm,3 năm,4 năm,5 năm,C
+649,"Trong môn Cờ Vua, quân cờ nào có thể đi theo hình chữ L?",Tượng (Bishop),Xe (Rook),Hậu (Queen),Mã (Knight),D
+650,Tên gọi khác của môn thể thao Bóng bầu dục Mỹ là gì?,Rugby,Soccer,American Football,Gaelic Football,C
+651,Giải đấu NBA là giải bóng rổ chuyên nghiệp của quốc gia nào?,Canada,Tây Ban Nha,Hoa Kỳ,Hy Lạp,C
+652,"Tìm số tiếp theo trong dãy: 2, 5, 10, 17, 26, ?",35,36,37,38,C
+653,"Nếu ""Dịch vụ"" đổi thành ""VICUDH"", thì ""Thực phẩm"" sẽ đổi thành gì?",PMUFCHUT,PMUFCHUT,FUTUCHPM,PMFUCHUT,D
+654,"Số nào trong dãy sau là khác biệt: 16, 25, 36, 49, 62, 81?",25,49,62,81,C
+655,"Một người có 10 đôi tất. Trong bóng tối, cần lấy ít nhất bao nhiêu chiếc tất để đảm bảo có được một đôi cùng màu?",3,11,20,11,B
+656,"Nếu 4 con mèo bắt 4 con chuột trong 4 phút, thì cần bao nhiêu con mèo để bắt 100 con chuột trong 100 phút?",100,50,25,4,D
+657,"Nhiều đối với ""Ít"" giống như ""Ánh sáng"" đối với ""?""",Nóng,Mặt trời,Tối,Ban ngày,C
+658,Tổng các số từ 1 đến 100 là bao nhiêu?,5000,5051,5050,4950,C
+659,"Ba người cùng qua một chiếc cầu chỉ chịu được tải trọng tối đa 150 kg. Trọng lượng của họ lần lượt là 50 kg, 60 kg, và 100 kg. Họ cần ít nhất bao nhiêu lần qua cầu để tất cả sang sông?",4 lần,6 lần,5 lần,7 lần,C
+660,"Trong một cuộc đua, nếu bạn vượt qua người thứ hai, bạn đang ở vị trí thứ mấy?",Thứ nhất,Thứ hai,Thứ ba,Thứ tư,B
+661,"Nếu một hình lập phương được sơn 6 mặt và cắt thành 27 hình lập phương nhỏ bằng nhau, có bao nhiêu hình lập phương nhỏ không có mặt nào được sơn?",1,4,8,1,A
+662,"Nếu hôm qua là Ngày mai của Ngày hôm nay, thì hôm nay là ngày gì?",Chủ nhật,Thứ hai,Thứ tư,Thứ sáu,C
+663,Một người cha có 4 con gái. Mỗi con gái có 4 anh em. Hỏi gia đình đó có tổng cộng bao nhiêu người con?,8,16,20,5,D
+664,"Nếu bạn có 5000 đồng, cần phải mua tối thiểu bao nhiêu quả trứng (giá 1000 đồng/quả) để số tiền còn lại là số nguyên tố?",1 quả,2 quả,3 quả,4 quả,C
+665,Trăm đối với Một giống như Ngàn đối với ?,Một,Mười,Một trăm,Một trăm,C
+666,"Một tờ giấy được gấp đôi 4 lần. Hỏi sau đó, bạn đục một lỗ, sẽ có bao nhiêu lỗ trên tờ giấy khi mở ra?",4,8,12,16,D
+667,"Khái niệm ""Paradox"" có nghĩa là gì?",Định lý hiển nhiên,Sự thật đã được chứng minh,Nghịch lý,Lỗi logic,C
+668,"Nếu A = 1, B = 2, C = 3, thì ""Logic"" có tổng là bao nhiêu?",45,42,39,44,D
+669,"Trong dãy số 2, 4, 8, 16, 32, số nào là khác biệt?",4,16,32,Không có,D
+670,"Nếu ""Hoa"" là ""Động vật"", và ""Chó"" là ""Thực vật"", thì ""Mèo"" là gì?",Động vật,Thực vật,Thực vật,Hoa,C
+671,"Số nào là số lẻ duy nhất trong dãy: 12, 18, 24, 30, 36, 41?",30,36,41,12,C
+672,Nửa của Hai cộng Hai là bao nhiêu?,2,3,3,4,C
+673,"Một chiếc xe buýt dừng lại ở 6 trạm. Có 10 người lên trạm đầu tiên. Sau đó, ở mỗi trạm, 3 người lên và 2 người xuống. Hỏi có bao nhiêu người trên xe buýt khi rời trạm cuối cùng?",16,12,18,15,D
+674,"Tìm số tiếp theo trong dãy: 1, 8, 27, 64, 125, ?",180,200,216,216,C
+675,"Nếu ""EGG"" = 77, và ""TEA"" = 33, thì ""COFFEE"" = ? (Quy tắc: tổng vị trí chữ cái x số lượng chữ cái)",180,200,210,210,D
+676,Trong một căn phòng có 4 anh em. Mỗi anh em có một chị gái. Hỏi căn phòng đó có tổng cộng bao nhiêu người?,8,5,9,5,D
+677,Nếu bạn có 50 que diêm. Bạn phải sắp xếp chúng thành 2 hình vuông hoàn toàn giống nhau. Bạn cần bao nhiêu que diêm để làm mỗi hình vuông?,25,10,20,12.5 (Không thể),D
+678,"Trái tim đối với ""Ngực"" giống như ""Gan"" đối với ""?""",Đầu,Chân,Mông,Bụng,D
+679,"Một hình vuông có chu vi bằng 20 cm. Nếu bạn dùng diện tích của hình vuông đó để tạo thành một hình chữ nhật có chiều dài gấp đôi chiều rộng, thì chu vi hình chữ nhật là bao nhiêu?",20 cm,24 cm,25 cm,30 cm,D
+680,"Tìm chữ cái tiếp theo trong dãy: A, C, F, J, O, ?",S,T,V,U,D
+681,"Trong dãy số 3, 5, 8, 12, 17, ?, số nào cần thay thế dấu hỏi?",21,22,23,23,C
+682,"Nếu ngày 10 của một tháng là Chủ nhật, thì ngày 22 cùng tháng là thứ mấy?",Thứ Hai,Thứ Năm,Thứ Sáu,Thứ Bảy,C
+683,Chiếc đồng hồ điện tử nào không có số 1?,Đồng hồ hiển thị giờ lẻ,Đồng hồ có kim,Đồng hồ số La Mã,Đồng hồ đeo tay,C
+684,"Số nào khác biệt: 121, 144, 169, 196, 215, 225, ?",144,169,196,215,D
+685,"Thuật ngữ nào chỉ việc lặp lại một đoạn nhạc ngắn theo một khuôn mẫu nhất định, thường dùng trong nhạc điện tử và Hip-hop?",Cadenza,Bridge,Chorus,Loop,D
+686,Giải thưởng Grammy nào được coi là danh giá nhất trong mỗi kỳ trao giải?,Best New Artist,Song of the Year,Album of the Year,Record of the Year,C
+687,Bản giao hưởng nào của Beethoven được sáng tác khi ông đã bị điếc hoàn toàn và bao gồm cả phần hợp xướng?,Giao hưởng số 5,Giao hưởng số 3,Giao hưởng số 6,Giao hưởng số 9,D
+688,Dòng nhạc nào có đặc trưng là sự ngẫu hứng (Improvisation) và Blue Note?,Blues,Rock and Roll,Country,Jazz,D
+689,A Cappella là hình thức âm nhạc nào?,Hát đơn,Hát không có nhạc cụ đệm,Hát cùng dàn nhạc,Hát đôi,B
+690,"Bảy nốt cơ bản trong âm nhạc (Đô, Rê, Mi, Fa, Sol, La, Si) được gọi chung là gì?",Chromatic Scale,Pentatonic Scale,Major Scale,Diatonic Scale,D
+691,Nhạc cụ cổ truyền Việt Nam nào thuộc bộ gõ và được làm bằng tre?,Đàn bầu,Đàn Tỳ Bà,Đàn Nhị,T'rưng,D
+692,Thành phố Thủ Đức (TP. Hồ Chí Minh) được thành lập trên cơ sở sáp nhập 3 quận nào?,"Quận 1, Quận 2, Quận 3","Quận 9, Quận 10, Quận Thủ Đức","Quận 2, Quận 9, Quận Thủ Đức","Quận 4, Quận 7, Quận 9",C
+693,"Tỉnh nào là nơi có đèo Hải Vân chạy qua, sau khi thành phố Đà Nẵng được tách ra?",Quảng Nam,Thừa Thiên Huế,Quảng Trị,Quảng Ngãi,B
+694,Huyện đảo nào được đề xuất trở thành thành phố đảo đầu tiên của tỉnh Kiên Giang?,Nam Du,Thổ Chu,Bà Lụa,Phú Quốc,D
+695,"Vườn quốc gia Phong Nha - Kẻ Bàng nằm trên địa bàn tỉnh nào, được UNESCO công nhận là Di sản Thiên nhiên Thế giới?",Quảng Nam,Thừa Thiên Huế,Quảng Bình,Hà Tĩnh,C
+696,Thành phố nào được coi là cửa ngõ du lịch và kinh tế của vùng Đồng bằng sông Cửu Long?,Long Xuyên,Rạch Giá,Cà Mau,Cần Thơ,D
+697,Tỉnh nào ở vùng Đông Bắc có cửa khẩu quốc tế lớn thông sang Trung Quốc và một phần tiếp giáp với Vịnh Hạ Long?,Lạng Sơn,Cao Bằng,Thái Nguyên,Quảng Ninh,D
+698,"Sau khi điều chỉnh, tỉnh nào ở vùng Tây Nguyên có diện tích lớn nhất?",Đắk Nông,Kon Tum,Gia Lai,Đắk Lắk,C
+699,"Địa điểm nào được coi là ""nóc nhà"" của khu vực Đông Nam Bộ?",Núi Bà Rá,Núi Bà Đen,Núi Chứa Chan,Núi Dinh,B
+700,"Tỉnh nào của Việt Nam được chia thành hai vùng khí hậu rõ rệt: phía Bắc có khí hậu cận nhiệt đới, phía Nam có khí hậu nhiệt đới gió mùa?",Quảng Nam,Quảng Bình,Thừa Thiên Huế,Hà Tĩnh,C
+701,Khu kinh tế Vũng Áng (một trong những khu kinh tế trọng điểm) nằm tại tỉnh nào?,Quảng Bình,Quảng Trị,Hà Tĩnh,Thanh Hóa,C
+702,Đảo lớn thứ hai của Việt Nam (sau đảo Phú Quốc) là đảo nào?,Côn Đảo,Cát Bà,Hòn Tre,Lý Sơn,B
+703,Đường Trường Sơn (Đường Hồ Chí Minh) hiện nay chạy qua bao nhiêu tỉnh/thành phố?,15,18,20,22,C
+704,Thành phố Đà Nẵng hiện có tổng cộng bao nhiêu quận và huyện?,"5 quận, 1 huyện","6 quận, 2 huyện","7 quận, 1 huyện","8 quận, 0 huyện",B
+705,Tỉnh duy nhất ở Việt Nam không có rừng là tỉnh nào?,Bạc Liêu,Sóc Trăng,Hải Dương,Hưng Yên,D
+706,"Tỉnh nào có ranh giới tiếp giáp với biển Đông, Lào, và Campuchia?",Đắk Nông,Đồng Tháp,Kon Tum,An Giang,C
+707,Vịnh biển nào của Việt Nam được UNESCO công nhận là Di sản Thiên nhiên Thế giới?,Vịnh Nha Trang,Vịnh Vân Phong,Vịnh Bái Tử Long,Vịnh Hạ Long,D
+708,"Thành phố nào của Việt Nam được mệnh danh là ""Thành phố Hoa Phượng Đỏ""?",Hải Dương,Nam Định,Hải Phòng,Hạ Long,C
+709,Phạm vi lãnh hải của Việt Nam được xác định là bao nhiêu hải lý tính từ đường cơ sở?,6 hải lý,24 hải lý,12 hải lý,200 hải lý,C
+710,GPT trong ChatGPT là viết tắt của cụm từ nào?,General Processing Technology,Great Programming Tool,Generative Pre-trained Transformer,Global Prediction Training,C
+711,"Khái niệm ""Turing Test"" dùng để đánh giá điều gì của một hệ thống AI?",Tốc độ xử lý,Khả năng lập trình,Khả năng hiển thị hành vi giống con người,Khả năng lưu trữ dữ liệu,C
+712,Trí tuệ Nhân tạo Tổng quát (AGI) là gì?,AI chỉ thực hiện một nhiệm vụ,AI dùng cho game,AI có khả năng thực hiện bất kỳ nhiệm vụ nhận thức nào của con người,AI chỉ dành cho Robotics,C
+713,Tham số (Parameters) của mô hình GPT-3.5 là bao nhiêu tỷ?,100 tỷ,175 tỷ,540 tỷ,1 nghìn tỷ,B
+714,AI tạo sinh (Generative AI) là loại AI chuyên về lĩnh vực gì?,Phân tích dữ liệu,Dự đoán thị trường,"Tạo nội dung mới (văn bản, hình ảnh, âm thanh)",Kiểm soát chất lượng,C
+715,Deep Learning là một tập hợp con của lĩnh vực nào?,Robotics,Big Data,Machine Learning,Cybersecurity,C
+716,"Khi sử dụng ChatGPT, người dùng tương tác bằng cách nhập vào ""prompt"". Prompt có nghĩa là gì?",Lỗi,Kết quả,Yêu cầu hoặc câu lệnh đầu vào,Cấu hình,C
+717,Mô hình AI nào được Google phát triển và là đối thủ cạnh tranh chính của GPT?,LaMDA,PaLM,Gemini,BERT,C
+718,Token trong ChatGPT là gì?,Một từ,Một câu,"Một đơn vị nhỏ hơn từ (có thể là một từ, một phần từ, hoặc ký tự)",Một đoạn văn,C
+719,FireGroup là một trong những đối tác chiến lược hàng đầu của nền tảng Thương mại điện tử nào?,BigCommerce,WooCommerce,Shopify,Magento,C
+720,Dropshipping là mô hình kinh doanh mà người bán làm gì?,Tự sản xuất và đóng gói hàng hóa,Mua hàng tồn kho số lượng lớn và bán lại,Bán hàng mà không cần giữ hàng tồn kho,Chỉ bán hàng hóa kỹ thuật số,C
+721,"Khi tìm kiếm sản phẩm, thuật ngữ ""Saturation"" (Bão hòa) ám chỉ điều gì?",Sản phẩm đã lỗi thời,Giá sản phẩm quá cao,Sản phẩm được quá nhiều Dropshipper khác bán,Sản phẩm có trọng lượng quá lớn,C
+722,AliExpress thường là nguồn cung cấp hàng hóa cho Dropshipping từ quốc gia nào?,Mỹ,Trung Quốc,Ấn Độ,Đức,B
+723,"Mô hình Print on Demand (POD), một biến thể của Dropshipping, có đặc điểm gì?",Sản phẩm được in ấn/tạo ra sau khi có đơn hàng,"Chỉ bán quần áo, không bán phụ kiện",Bắt buộc phải nhập khẩu từ Mỹ,Phải có số lượng tồn kho lớn,A
+724,Call-To-Action (CTA) trên trang sản phẩm có vai trò gì?,Giới thiệu về công ty,"Kêu gọi khách hàng thực hiện hành động (như ""Thêm vào giỏ hàng"")",Hiển thị thông tin vận chuyển,Chứng minh nguồn gốc sản phẩm,B
+725,Upselling là chiến lược bán hàng nào?,Bán sản phẩm liên quan (Add-ons),"Đề nghị khách hàng mua phiên bản nâng cấp, đắt tiền hơn của sản phẩm",Giảm giá để thu hút khách hàng,Bán sản phẩm giá rẻ hơn,B
+726,Voice Commerce là xu hướng bán hàng qua thiết bị nào?,Thiết bị di động,Thiết bị nhận lệnh bằng giọng nói (như loa thông minh Amazon Echo),Máy tính cá nhân,Máy bán hàng tự động,B
+727,"Ở Ấn Độ, con vật nào được coi là linh thiêng và không được ăn thịt?",Lợn,Gà,Bò,Dê,C
+728,"Cử chỉ ""Okay"" (ngón cái và ngón trỏ chạm nhau tạo thành vòng tròn) ở Brazil có ý nghĩa gì?",Chúc mừng,Khen ngợi,Tương đương với cử chỉ thô lỗ,Đồng ý,C
+729,Tượng Nhân sư (Sphinx) nổi tiếng nằm ở quốc gia nào?,Hy Lạp,Ai Cập,Thổ Nhĩ Kỳ,Iraq,B.
+730,8. Lễ hội Diwali (Lễ hội Ánh sáng) được tổ chức chủ yếu ở quốc gia nào?,Thái Lan,Nhật Bản,Ấn Độ,Mexico,C.
+731,9. Quốc gia nào có nền văn hóa lâu đời với các nhân vật như Mulan và Khổng Tử?,Hàn Quốc,Trung Quốc,Việt Nam,Mông Cổ,B.
+732,Món ăn truyền thống Kimchi là biểu tượng ẩm thực của quốc gia nào?,Trung Quốc,Nhật Bản,Hàn Quốc,Việt Nam,C.
+733,17. Đồ uống nào sau đây là linh hồn của văn hóa người Thổ Nhĩ Kỳ và thường được phục vụ trong những cốc nhỏ?,Bia,Rượu vang,Cà phê Thổ Nhĩ Kỳ,Nước ngọt,C.
+734,Địa điểm tổ chức Lễ trao giải Grammy thường niên là thành phố nào của Mỹ?,New York,Miami,Los Angeles,Chicago,C
+735,Cơ quan nào chịu trách nhiệm tổ chức và bầu chọn Giải thưởng Grammy?,Billboard,RIAA,Recording Academy (Viện Hàn lâm Thu âm),MTV,C
+736,Ai là người bỏ phiếu cuối cùng để quyết định người chiến thắng các hạng mục Grammy?,Công chúng bình chọn,Hội đồng chuyên gia của ban tổ chức,Các thành viên có quyền bỏ phiếu của Recording Academy,Các nhà phê bình âm nhạc,C
+737,Ai là nghệ sĩ giữ kỷ lục nhiều giải Grammy nhất trong lịch sử tính đến hiện tại?,Michael Jackson,Beyoncé,Georg Solti,Taylor Swift,C
+738,ực lượng vũ trang của Mặt trận Dân tộc Giải phóng miền Nam Việt Nam được thành lập năm 1961 có tên là gì?,Quân đội Nhân dân Việt Nam,Giải phóng quân,Việt Minh,Không có tên gọi chính thức,B
+739,Chiến lược chiến tranh nào của Mỹ được thực hiện trong giai đoạn 1961–1965?,Chiến tranh Cục bộ,Chiến tranh Đặc biệt,Việt Nam hóa chiến tranh,Chiến tranh Tổng lực,B
+740,Phong trào Đồng khởi nổ ra mạnh mẽ nhất ở đâu vào năm 1960?,Sài Gòn,Miền Tây Nam Bộ,Bến Tre,Khu V,C
+741,Tuyến đường chi viện chiến lược cho miền Nam Việt Nam trong suốt cuộc chiến có tên là gì?,Đường 1A,Đường Trường Sơn (Đường Hồ Chí Minh),Đường xuyên Á,Đường 9,B
+742,Chiến lược chiến tranh nào của Mỹ được thực hiện trong giai đoạn 1969–1973?,Chiến tranh Đặc biệt,Chiến tranh Cục bộ,Việt Nam hóa chiến tranh,Vành đai lửa,C
+743,"Tổng thống Mỹ nào đã đưa ra học thuyết ""Việt Nam hóa chiến tranh""?",Lyndon B. Johnson,Richard Nixon,John F. Kennedy,Jimmy Carter,B
+744,Cuộc đàm phán lịch sử nào đã diễn ra tại Pháp từ năm 1968 đến 1973?,Hội nghị Postdam,Hội nghị Paris,Hội nghị San Francisco,Hội nghị Washington,B
+745,"Trận Điện Biên Phủ trên không diễn ra vào tháng 12 năm 1972, có vai trò gì?","Đánh bại hoàn toàn không quân Mỹ, buộc Mỹ ký Hiệp định Paris",Chấm dứt chiến tranh ở miền Nam Việt Nam,Thống nhất đất nước,Mở đầu cuộc chiến,A
+746,Choose the correct form: She ... to the gym every day.,go,goes,going,went,B
+747,"Which word is a synonym for ""diligent""?",Lazy,Hard-working,Careless,Slow,B
+748,"If I ... rich, I would travel the world.",was,am,were,is,C
+749,"The word ""ubiquitous"" means:",Rare,Found everywhere,Expensive,Old-fashioned,B
+750,Complete the sentence: He hasn't seen his uncle ... 2020.,for,since,in,at,B
+751,"What does the idiom ""break a leg"" mean?",Hurt yourself,Good luck,Run fast,Be quiet,B
+752,"What does the phrasal verb ""put off"" mean?",Start,Postpone,Clean,Finish,B
+753,"The word ""ephemeral"" is closest in meaning to:",Permanent,Lasting a short time,Strong,Bright,B
+754,"If something is ""a piece of cake"", it means it is:",Delicious,Difficult,Easy,Important,C
+755,"What is a synonym for ""adverse""?",Favorable,Negative,Positive,Neutral,B
+756,The capital city of the United Kingdom is:,Paris,London,Dublin,Edinburgh,B
+757,What famous play was written by William Shakespeare?,The Odyssey,Romeo and Juliet,War and Peace,Moby Dick,B
+758,The American holiday of Thanksgiving is celebrated in which month?,September,October,November,December,C
+759,What is the national sport of Canada?,Basketball,Hockey,Soccer,Baseball,B
+760,Which word has a different vowel sound?,Cat,Hat,Late,Fat,C
+761,"Which syllable is stressed in the word ""important""?",im,por,tant,None,B
+762,Which word has a silent letter?,Home,Knife,Tree,Book,B
+763,The proposal suggests that a new policy ... implemented immediately.,is,be,will be,was,B
+764,"She is often late, which is ... I don't like about her.",that,what,which,where,B
+765,They denied ... any knowledge of the secret meeting.,to have,having,have,had,B
+766,"The word ""clandestine"" means:",Public and open,Secret or hidden,Frequent,Very large,B
+767,"A person who is ""misanthropic"" is characterized by:",Loving humankind,Hating humankind,Being overly trusting,Being optimistic,B
+768,"What is a synonym for ""accolade""?",Criticism,Award or honor,Failure,Confusion,B
+769,"The term ""paradigm shift"" refers to:",A small adjustment,A fundamental change in approach,A delay in schedule,A simple repetition,B
+770,The person ... wallet was stolen called the police.,who,whose,whom,which,B
+771,This is the house ... I grew up.,in which,which,that,where,A
+772,I remember the day ... we first met.,which,where,when,what,C
+773,"She finally got the job, ... is good news for her family.",that,which,whom,where,B
+774,The reason ... he left early was a mystery.,which,why,what,who,B
+775,Nền tảng điện toán đám mây (Cloud Computing) hàng đầu của Amazon là gì?,Google Cloud,Azure,Amazon Web Services (AWS),Alibaba Cloud,C
+776,Hệ điều hành nào sau đây do Apple phát triển cho máy tính cá nhân (Mac)?,Android,Windows,macOS,Chrome OS,C
+777,"Lĩnh vực nào là trọng tâm chiến lược dài hạn của Meta (Facebook), bao gồm VR và AR?",Robotics,Metaverse,Cryptocurrency,Bio-tech,B
+778,Apple Silicon là tên gọi cho dòng sản phẩm nào của Apple?,Các linh kiện điện tử giá rẻ,Chip xử lý do Apple tự thiết kế,Dịch vụ đám mây,Phần mềm lập trình,B
+779,Facebook (Meta) đã mua lại ứng dụng chia sẻ ảnh phổ biến nào vào năm 2012?,Twitter,TikTok,Instagram,Pinterest,C
+780,Thương vụ mua lại công ty sản xuất thiết bị trò chơi nào của Microsoft vào năm 2023 gây chú ý lớn?,Nintendo,PlayStation,Activision Blizzard,Epic Games,C
+781,Mục đích chính của nền tảng Shopify là gì?,Cung cấp dịch vụ quảng cáo,Giúp cá nhân/doanh nghiệp xây dựng và quản lý cửa hàng trực tuyến,Cung cấp dịch vụ vận chuyển,Phát triển trò chơi điện tử,B
+782,Shopify App Store là nơi người bán tìm kiếm và cài đặt gì?,Các sản phẩm để bán,Các nhà cung cấp dropshipping,Các ứng dụng và tiện ích mở rộng cho cửa hàng,Các mẫu website,C
+783,Shopify Partners bao gồm những đối tượng nào?,Khách hàng mua hàng,"Các lập trình viên, nhà thiết kế, và agency xây dựng giải pháp cho Shopify",Các đối thủ cạnh tranh,Các nhà cung cấp vật liệu,B
+784,Shopify Themes là gì?,Các sản phẩm bán chạy nhất,Các mẫu giao diện được thiết kế sẵn cho cửa hàng,Các ứng dụng quản lý kho,Các khóa học online,B
+785,Số nào KHÔNG phải là số nguyên tố?,11,17,21,29,C
+786,Cái gì có miệng nhưng không bao giờ nói được?,Chiếc giày,Con dao,Cái chai,Chiếc bàn,C
+787,"Nếu một chiếc bánh được cắt thành 8 miếng, cần bao nhiêu lần cắt?",3,4,5,8,A
+788,Số nào KHÔNG phải là bội số của 6?,42,54,78,94,D
+789,"Phim nào là phiên bản làm lại của tác phẩm kinh điển năm 1937, kể về Bạch Tuyết và bảy chú lùn",The Little Mermaid,Snow White,Beauty and the Beast,Cinderella,B
+790,Phần tiếp theo của series Avatar của James Cameron dự kiến sẽ ra mắt vào năm nào?,2024,2025,2026,2027,B
+791,"Ngọn núi cao nhất thế giới, Everest, nằm giữa hai quốc gia nào?",Trung Quốc và Ấn Độ,Nepal và Trung Quốc,Ấn Độ và Nepal,Pakistan và Trung Quốc,B
+792,Mona Lisa là bức tranh nổi tiếng của họa sĩ nào?,Vincent van Gogh,Leonardo da Vinci,Pablo Picasso,Claude Monet,B
+793,Một công ty có giá trị vượt $10$ tỷ USD thường được gọi là gì?,Mini-corn,Decacorn,Mega-corn,Titan,B
+794,SpaceX của Elon Musk là một Unicorn hoạt động trong lĩnh vực nào?,Viễn thông mặt đất,Hàng không vũ trụ,Xe điện,Dược phẩm,B
+795,EdTech là lĩnh vực của các Unicorn tập trung vào:,Công nghệ giáo dục,Công nghệ giải trí,Công nghệ y tế,Công nghệ môi trường,A
+796,"Series A, B, C... là tên gọi của quá trình nào trong hành trình của một Startup Unicorn?",Giai đoạn bán hàng,Giai đoạn gọi vốn đầu tư,Giai đoạn tuyển dụng,Giai đoạn phát triển sản phẩm,B
+797,Burn Rate  là thước đo quan trọng nào của các Unicorn đang tăng trưởng nhanh?,Tốc độ tăng trưởng doanh thu,Tốc độ tiêu thụ vốn đầu tư so với thu nhập,Tốc độ sản xuất hàng hóa,Tỷ lệ tuyển dụng nhân viên,B
+798,Thung lũng nào ở Mỹ được coi là trung tâm của các Unicorn công nghệ toàn cầu?,Silicon Valley,Tech Valley,Death Valley,Central Valley,A
+799,"Công ty mẹ của TikTok, ByteDance, được coi là một loại hình Unicorn nào?",Doublecorn,Hectocorn,Unicorne,Decacorn,B
+800,Công ty nào là người tiên phong và là công ty SaaS lớn nhất trong lĩnh vực CRM (Quản lý Quan hệ Khách hàng)?,Microsoft,Adobe,Salesforce,Oracle,C
