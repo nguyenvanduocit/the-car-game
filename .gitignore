@@ -16,6 +16,9 @@ build/
 .env.local
 .env.*.local
 
+# Large video files
+packages/ui/public/videos/
+
 # IDE files
 .vscode/
 .idea/
