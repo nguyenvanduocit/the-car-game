@@ -4,7 +4,7 @@ A first-person multiplayer puzzle game where players collect tiles, solve puzzle
 
 ## What is This?
 
-Players navigate a 3D room filled with tiles on the floor. Click a tile to pick it up - but first you must solve a puzzle (memory card matching). Once solved, carry the tile to the frame on the opposite wall and place it correctly. Work together to complete the picture!
+Players drive monster trucks in a 3D arena filled with tiles. Click a tile to pick it up - but first you must solve a multiple choice quiz. Once correct, the tile flies to the frame on the wall. Shoot tiles through goals to score points. Fork attack other players to steal their tiles!
 
 **Target scale:** ~200 concurrent players in the same room.
 
