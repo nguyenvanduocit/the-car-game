@@ -22,6 +22,11 @@ packages/ui/public/videos/
 # IDE files
 .vscode/
 .idea/
+.cursor/
+
+# AI config files
+AGENTS.md
+GEMINI.md
 *.swp
 *.swo
 *~
