@@ -11,7 +11,8 @@ dist/
 build/
 *.js.map
 
-# Environment files (keep .env and .env.production in git, ignore local overrides)
+# Environment files
+.env.production
 .env.local
 .env.*.local
 
