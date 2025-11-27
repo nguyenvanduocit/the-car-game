@@ -8,7 +8,6 @@
 4. [Data Flow](#data-flow)
 5. [State Synchronization](#state-synchronization)
 6. [Physics Architecture](#physics-architecture)
-7. [Bottleneck Analysis](#bottleneck-analysis)
 
 ---
 
@@ -51,9 +50,9 @@
 | Principle | Description |
 |-----------|-------------|
 | **Server Authoritative** | Server owns ALL game state. Client renders server state. |
-| **Single Source of Truth** | No client-side prediction. Server validates everything. |
-| **Progressive Spawning** | Max 50 tiles active at once. Pool of 350 waiting tiles. |
-| **60Hz Physics** | Server runs Havok at 60Hz, syncs at 60Hz (patch rate). |
+| **Single Source of Truth** | No client-side prediction for tiles. Server validates everything. |
+| **Two-Spawn System** | 800 available tiles (0-799), each fills half of 400 frame slots. |
+| **30Hz Physics** | Server runs Havok at 30Hz, syncs at 30Hz (patch rate). |
 
 ---
 
@@ -78,11 +77,12 @@ packages/server/
 │   │   ├── PhysicsConstants.ts     # Physics tuning values
 │   │   └── PhysicsWorld.ts         # Havok physics simulation
 │   ├── rooms/
-│   │   └── GameRoom.ts             # Main game room logic (1421 LOC)
+│   │   └── GameRoom.ts             # Main game room logic
 │   ├── schema/
 │   │   ├── GameRoomSchema.ts       # Root state schema
 │   │   ├── PlayerSchema.ts         # Player state
-│   │   ├── TileSchema.ts           # Tile state
+│   │   ├── TileSchema.ts           # Available tile state
+│   │   ├── PlacedTileSchema.ts     # Placed tile in frame
 │   │   ├── LeaderboardSchema.ts    # Leaderboard entries
 │   │   ├── Vector3Schema.ts        # 3D vector
 │   │   ├── QuaternionSchema.ts     # Rotation quaternion
@@ -102,8 +102,8 @@ packages/server/
 │  │  GameRoomSchema  │    │   PhysicsWorld   │    │    Database     │ │
 │  │                  │    │                  │    │                 │ │
 │  │ • players (Map)  │    │ • playerBodies   │    │ • saveState()   │ │
-│  │ • tiles (Array)  │    │ • tileBodies     │    │ • loadState()   │ │
-│  │ • frameSlots     │    │ • boundaries     │    │ • leaderboard   │ │
+│  │ • tiles (Map)    │    │ • tileBodies     │    │ • loadState()   │ │
+│  │ • placedTiles    │    │ • boundaries     │    │ • leaderboard   │ │
 │  │ • leaderboard    │    │ • triggers       │    │                 │ │
 │  │ • goalScores     │    │ • step(dt)       │    └─────────────────┘ │
 │  └──────────────────┘    └──────────────────┘                        │
@@ -117,12 +117,13 @@ packages/server/
 │  │ • tile_shoot       → Apply impulse, backforce                   │ │
 │  │ • puzzle_submit    → Validate answer, place tile                │ │
 │  │ • puzzle_cancel    → Release tile, shoot away                   │ │
-│  │ • video_*          → Music player controls                       │ │
 │  │ • fork_attack      → Combat melee attack                        │ │
+│  │ • respawn          → Manual respawn request                     │ │
+│  │ • ping             → Latency measurement                        │ │
 │  └─────────────────────────────────────────────────────────────────┘ │
 │                                                                        │
 │  ┌─────────────────────────────────────────────────────────────────┐ │
-│  │                    Update Loop (60Hz)                            │ │
+│  │                    Update Loop (30Hz)                            │ │
 │  ├─────────────────────────────────────────────────────────────────┤ │
 │  │ updatePhysics(deltaTime):                                        │ │
 │  │   1. physicsWorld.step(dt)        # Havok simulation            │ │
@@ -130,7 +131,6 @@ packages/server/
 │  │   3. Sync player positions        # Physics → Schema            │ │
 │  │   4. Update held tiles            # Follow player position      │ │
 │  │   5. Sync tile transforms         # Physics → Schema            │ │
-│  │   6. Update fly animations        # Server-side interpolation   │ │
 │  └─────────────────────────────────────────────────────────────────┘ │
 └───────────────────────────────────────────────────────────────────────┘
 ```
@@ -146,40 +146,36 @@ GameRoomSchema (Root)
 │   ├── position: Vector3Schema { x, y, z }
 │   ├── rotation: number (camera Y-axis)
 │   ├── bodyRotation: QuaternionSchema { x, y, z, w }
-│   ├── velocity: Vector3Schema
 │   ├── steering: number (-1 to 1)
 │   ├── health: number
+│   ├── isDead: boolean
 │   ├── tilesPlaced: number
 │   └── state: PlayerState enum
 │
-├── tiles: ArraySchema<TileSchema>
-│   ├── frameSlotIndex: number (0-399, PRIMARY KEY)
-│   ├── state: TileState enum (ON_FLOOR, LOCKED, CHARGING, FLYING, PLACED, NOT_SPAWNED)
+├── tiles: MapSchema<TileSchema>  (Available tiles on floor)
+│   ├── availableId: number (0-799, PRIMARY KEY)
+│   ├── frameSlotIndex: number (0-399, target slot)
+│   ├── phase: uint8 (1 = first half, 2 = second half)
+│   ├── state: TileState enum (ON_FLOOR, LOCKED, CHARGING)
 │   ├── position: Vector3Schema
 │   ├── rotation: QuaternionSchema
-│   ├── velocity: Vector3Schema
-│   ├── angularVelocity: Vector3Schema
-│   ├── isSleeping: boolean
-│   ├── ownedBy: string | null (sessionId)
-│   ├── puzzle: PuzzleConfigSchema
-│   ├── flyStartedAt: number (animation timestamp)
-│   ├── flyTargetPosition: Vector3Schema
-│   └── flyTargetRotation: QuaternionSchema
+│   └── ownedBy: string | null (sessionId)
 │
-├── frameSlots: ArraySchema<string> (400 slots, "" = empty, "index" = filled)
+├── placedTiles: MapSchema<PlacedTileSchema>  (Tiles in frame)
+│   ├── frameSlotIndex: number (0-399, PRIMARY KEY)
+│   ├── fillCount: uint8 (1 = half, 2 = complete)
+│   ├── completedBy: string (player names)
+│   ├── position: Vector3Schema
+│   └── rotation: QuaternionSchema
+│
+├── frameSlots: ArraySchema<string> (400 slots, "" = empty)
 │
 ├── leaderboard: ArraySchema<LeaderboardEntrySchema>
-│   ├── sessionId: string
-│   ├── displayName: string
-│   ├── tilesPlaced: number
-│   └── rank: number
+├── allTimeLeaderboard: ArraySchema<AllTimeLeaderboardEntrySchema>
 │
 ├── blueGoalScore: number
 ├── redGoalScore: number
-├── isComplete: boolean
-├── completedAt: number | null
-├── currentVideoIndex: number
-└── isVideoPlaying: boolean
+└── createdAt: number
 ```
 
 ---
@@ -193,11 +189,11 @@ packages/ui/
 ├── src/
 │   ├── main.ts                     # Entry point, BlockGame class
 │   ├── game/
-│   │   ├── Scene.ts                # BabylonJS scene setup (988 LOC)
+│   │   ├── Scene.ts                # BabylonJS scene setup
 │   │   ├── Camera.ts               # Third-person ArcRotate camera
 │   │   ├── Floor.ts                # Ground rendering
 │   │   ├── Frame.ts                # Picture frame rendering
-│   │   ├── Physics.ts              # Stub (client has no physics)
+│   │   ├── Physics.ts              # Client-side prediction physics
 │   │   ├── Player.ts               # Player mesh (legacy)
 │   │   ├── Vehicle.ts              # Vehicle renderer (monster truck)
 │   │   ├── Tile.ts                 # Tile mesh with texture
@@ -206,24 +202,24 @@ packages/ui/
 │   │   ├── Raycast.ts              # Click detection
 │   │   ├── PlayerInput.ts          # WASD/mouse controls
 │   │   ├── Sound.ts                # Sound effects
-│   │   ├── MusicPlayer.ts          # Video/music player
 │   │   ├── Scoreboard.ts           # Goal score display
-│   │   ├── LeaderboardWall.ts      # 3D leaderboard in world
-│   │   └── DebugVisualization.ts   # Debug axes/grid
+│   │   └── LeaderboardWall.ts      # 3D leaderboard in world
 │   ├── gui/
 │   │   ├── NameInputGUI.ts         # Login screen
 │   │   ├── LeaderboardGUI.ts       # 2D leaderboard overlay
 │   │   ├── GameCompleteGUI.ts      # Victory screen
 │   │   ├── CompassGUI.ts           # Direction compass
-│   │   └── PlayGuideGUI.ts         # Help/tutorial
+│   │   ├── PlayGuideGUI.ts         # Help/tutorial
+│   │   ├── HelpGUI.ts              # Controls help
+│   │   ├── EscMenuGUI.ts           # Escape menu
+│   │   ├── DisconnectGUI.ts        # Disconnect overlay
+│   │   └── DeathCountdownGUI.ts    # Respawn countdown
 │   ├── network/
 │   │   ├── ColyseusClient.ts       # WebSocket connection
-│   │   └── StateSync.ts            # State → Rendering sync (574 LOC)
-│   ├── puzzles/
-│   │   ├── MultipleChoiceGUI.ts    # Quiz puzzle UI
-│   │   └── MemoryCardsGUI.ts       # Memory game UI
-│   └── utils/
-│       └── debugLogger.ts          # Conditional logging
+│   │   └── StateSync.ts            # State → Rendering sync
+│   └── puzzles/
+│       ├── MultipleChoiceGUI.ts    # Quiz puzzle UI
+│       └── MemoryCardsGUI.ts       # Memory game UI
 ```
 
 ### Client Component Diagram
@@ -273,10 +269,6 @@ packages/ui/
 ### Player Movement Flow
 
 ```
-┌──────────────────────────────────────────────────────────────────────┐
-│                       PLAYER MOVEMENT FLOW                            │
-└──────────────────────────────────────────────────────────────────────┘
-
 CLIENT                                          SERVER
 ──────                                          ──────
 
@@ -295,7 +287,7 @@ CLIENT                                          SERVER
                                    └─▶ physicsWorld.applyCarControls()
                                                     │
                                                     ▼
-                                4. updatePhysics() (60Hz)
+                                4. updatePhysics() (30Hz)
                                    ├─▶ updatePlayerControls(dt)
                                    │   ├─▶ Steering momentum (smooth turn)
                                    │   └─▶ Throttle force (forward/back)
@@ -325,10 +317,6 @@ CLIENT                                          SERVER
 ### Tile Interaction Flow
 
 ```
-┌──────────────────────────────────────────────────────────────────────┐
-│                      TILE INTERACTION FLOW                            │
-└──────────────────────────────────────────────────────────────────────┘
-
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
 │  Left Click     │     │  Right Click    │     │ Puzzle Complete │
 │  (Pick up tile) │     │  (Charge/Shoot) │     │  (Auto-place)   │
@@ -337,7 +325,7 @@ CLIENT                                          SERVER
          ▼                       ▼                       ▼
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
 │ tile_click      │     │ start_tile_charge│     │ puzzle_submit   │
-│ tileIndex       │     │ tileIndex        │     │ tileIndex,      │
+│ availableId     │     │ availableId      │     │ availableId,    │
 │                 │     │                  │     │ answerIndex     │
 └────────┬────────┘     └────────┬────────┘     └────────┬────────┘
          │                       │                       │
@@ -352,7 +340,7 @@ CLIENT                                          SERVER
          │               ▼               ▼       ┌───────────────┐
          │      ┌────────────┐  ┌────────────┐  │ Correct?      │
          │      │ Hold (auto)│  │tile_shoot  │  │               │
-         │      │ > 2 sec    │  │(mouse up)  │  │ YES → FLYING  │
+         │      │ > 2 sec    │  │(mouse up)  │  │ YES → PLACED  │
          │      │ auto-shoot │  │            │  │ NO  → shootTile│
          │      └─────┬──────┘  └─────┬──────┘  └───────┬───────┘
          │            │               │                 │
@@ -367,37 +355,24 @@ CLIENT                                          SERVER
          │                                              │
          ▼                                              ▼
 ┌─────────────────────────────┐    ┌─────────────────────────────┐
-│ LOCKED/CHARGING: tile      │    │ FLYING: Server-side anim    │
-│ follows player position    │    │ • Lerp position to slot     │
-│ via updatePhysics() loop   │    │ • Slerp rotation            │
-│                            │    │ • 1.5 sec duration          │
-└─────────────────────────────┘    └──────────────┬──────────────┘
-                                                   │
-                                                   ▼
-                                   ┌─────────────────────────────┐
-                                   │ PLACED: tile in frame       │
-                                   │ • spawnNextTile() from pool │
-                                   │ • updateLeaderboard()       │
-                                   │ • saveCurrentRoomState()    │
-                                   └─────────────────────────────┘
+│ LOCKED/CHARGING: tile       │    │ PLACED: Client fly animation│
+│ follows player position     │    │ • Remove from tiles map     │
+│ via updatePhysics() loop    │    │ • Add to placedTiles map    │
+│                             │    │ • Update leaderboard        │
+└─────────────────────────────┘    └─────────────────────────────┘
 ```
 
 ---
 
 ## State Synchronization
 
-### Colyseus Patch Rate (OPTIMIZED)
+### Colyseus Patch Rate
 
 | Setting | Value | Description |
 |---------|-------|-------------|
-| Server Physics | **30 Hz** | `setSimulationInterval(cb, 33.33ms)` - reduced from 60Hz |
-| Patch Rate | **30 Hz** | `setPatchRate(33.33ms)` - reduced from 60Hz |
-| Client Interpolation | Per frame | `scene.onBeforeRenderObservable` - handles visual smoothness |
-
-**Performance Benefits:**
-- Physics budget doubled: ~33ms per step instead of ~16ms
-- Network bandwidth halved: 30 patches/sec instead of 60
-- CPU usage reduced ~50% on server
+| Server Physics | **30 Hz** | `setSimulationInterval(cb, 33.33ms)` |
+| Patch Rate | **30 Hz** | `setPatchRate(33.33ms)` |
+| Client Interpolation | Per frame | `scene.onBeforeRenderObservable` |
 
 ### State Change Listeners (Client)
 
@@ -414,88 +389,42 @@ $(room.state.players).onAdd((player, sessionId) => {
   $(player).listen('health', (value) => updateHealth());
 });
 
-// Tiles
-$(room.state.tiles).onAdd((tile, index) => {
+// Available Tiles
+$(room.state.tiles).onAdd((tile, availableId) => {
   // Acquire from TilePool
   $(tile).position.onChange(() => updateTilePosition());
   $(tile).rotation.onChange(() => updateTileRotation());
   $(tile).listen('state', (state) => updateTileState());
 });
 
-// Game events
-$(room.state).listen('isComplete', (value) => handleGameComplete());
+// Placed Tiles
+$(room.state.placedTiles).onAdd((placedTile, frameSlotIndex) => {
+  // Create tile in frame
+  $(placedTile).listen('fillCount', (count) => updateFillState());
+});
+
+// Goal scores
 $(room.state).listen('blueGoalScore', (score) => updateScoreboard());
+$(room.state).listen('redGoalScore', (score) => updateScoreboard());
 ```
 
-### Interpolation Strategy (Frame-Rate Independent)
+### Interpolation Strategy
 
-The client uses **exponential smoothing** with `deltaTime` for frame-rate independent interpolation. This ensures consistent smoothness at 30fps, 60fps, or 144fps.
-
-#### Smoothing Formula
+The client uses **exponential smoothing** with `deltaTime` for frame-rate independent interpolation.
 
 ```typescript
 // Frame-rate independent exponential smoothing
-// smoothingSpeed = how fast to approach target (units: per second)
-// Higher values = more responsive, lower = smoother
 const factor = 1 - Math.exp(-smoothingSpeed * deltaTime);
 currentPosition += (targetPosition - currentPosition) * factor;
 ```
 
-**Why this works:**
-- At 60fps (deltaTime = 0.0167s), factor ≈ 0.26 per frame
-- At 30fps (deltaTime = 0.0333s), factor ≈ 0.45 per frame
-- Same smoothness feel regardless of frame rate
-
-#### Smoothing Constants
-
-| Entity | Smoothing Speed | Feel | Location |
-|--------|-----------------|------|----------|
-| Local player position | 18/sec | Very responsive | `Vehicle.ts` |
-| Remote player position | 12/sec | Smooth | `Vehicle.ts` |
-| Rotation (all) | 15/sec | Medium | `Vehicle.ts` |
-| Steering (wheels) | 20/sec | Responsive | `Vehicle.ts` |
-| Tiles | 15/sec | Medium | `Tile.ts` |
-
-#### Velocity Extrapolation (Remote Players)
-
-Remote players use **velocity extrapolation** to predict movement between server updates:
-
-```typescript
-// Calculate velocity from position deltas
-velocity = (newPosition - lastPosition) / deltaTime;
-
-// Extrapolate between server updates (max 50ms prediction)
-if (!isLocal && timeSinceLastUpdate < 0.1) {
-  const extrapolationTime = Math.min(timeSinceLastUpdate, 0.05);
-  targetX += velocity.x * extrapolationTime;
-  targetY += velocity.y * extrapolationTime;
-  targetZ += velocity.z * extrapolationTime;
-}
-```
-
-**Benefits:**
-- Fills gaps between 30Hz server updates
-- Remote players appear to move smoothly
-- Capped at 50ms to prevent overshoot
-
-#### Velocity Decay
-
-When server stops sending updates (position threshold optimization), velocity decays smoothly:
-
-```typescript
-const VELOCITY_DECAY_START = 0.08; // Start decay after 80ms
-const VELOCITY_DECAY_RATE = 6.0;   // Decay speed
-
-if (timeSinceLastUpdate > VELOCITY_DECAY_START) {
-  const decayFactor = Math.exp(-VELOCITY_DECAY_RATE * (timeSinceLastUpdate - VELOCITY_DECAY_START));
-  velocity.scaleInPlace(decayFactor);
-}
-```
-
-**Why decay is needed:**
-- Server uses position threshold (0.05 units) to reduce bandwidth
-- Without decay, extrapolation would cause drift when player stops
-- Gradual decay provides smooth stop animation
+| Entity | Smoothing Speed | Feel |
+|--------|-----------------|------|
+| Local player position | 18/sec | Very responsive |
+| Remote player position | 12/sec | Smooth |
+| Rotation (all) | 15/sec | Medium |
+| Steering (wheels) | 20/sec | Responsive |
+| Tiles | 15/sec | Medium |
 
 ---
 
@@ -510,13 +439,13 @@ if (timeSinceLastUpdate > VELOCITY_DECAY_START) {
 │                                                                        │
 │  Engine: NullEngine (headless BabylonJS)                               │
 │  Plugin: HavokPlugin (WASM physics)                                    │
-│  Rate:   60 Hz (16.67ms per step)                                      │
+│  Rate:   30 Hz (33.33ms per step)                                      │
 │                                                                        │
 │  ┌────────────────────────────────────────────────────────────────┐   │
 │  │                    Static Bodies                                │   │
 │  ├────────────────────────────────────────────────────────────────┤   │
 │  │ • groundBody     - 100x200 units, y=0                          │   │
-│  │ • boundaryBodies - 4 walls (N/S/E/W)                           │   │
+│  │ • boundaryBodies - 4 walls (N/S/E/W) + ceiling                 │   │
 │  │ • rampBodies     - 2 ramps (launch pads)                       │   │
 │  │ • archBodies     - 2 goals (blue/red posts+crossbar)           │   │
 │  │ • goalTriggers   - 2 trigger volumes (isTrigger=true)          │   │
@@ -532,55 +461,29 @@ if (timeSinceLastUpdate > VELOCITY_DECAY_START) {
 │  │                    Only active tiles have bodies (max 50)      │   │
 │  └────────────────────────────────────────────────────────────────┘   │
 │                                                                        │
-│  ┌────────────────────────────────────────────────────────────────┐   │
-│  │                    Collision Callbacks                          │   │
-│  ├────────────────────────────────────────────────────────────────┤   │
-│  │ • onTriggerCollisionObservable → Goal scoring                  │   │
-│  │ • onCollisionObservable        → Tile-player damage            │   │
-│  │ • checkGoalTriggers()          → Manual AABB check (backup)    │   │
-│  └────────────────────────────────────────────────────────────────┘   │
-│                                                                        │
 └───────────────────────────────────────────────────────────────────────┘
 ```
 
-### Client Physics (Stub Only)
-
-```
-┌───────────────────────────────────────────────────────────────────────┐
-│                    CLIENT PHYSICS (Physics.ts)                         │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│  Purpose: Compatibility stub only - NO actual physics                  │
-│                                                                        │
-│  • No Havok initialization                                             │
-│  • No physics bodies                                                   │
-│  • No physics simulation                                               │
-│  • Raycasting uses BabylonJS geometry methods (no physics needed)      │
-│                                                                        │
-│  Why client doesn't need physics:                                      │
-│  1. Server is authoritative - client just renders                      │
-│  2. Raycasting (clicks) uses scene.createPickingRay()                 │
-│  3. No duplicate simulation = no sync issues                           │
-│                                                                        │
-└───────────────────────────────────────────────────────────────────────┘
-```
-
-### Physics Constants (Tuning)
+### Physics Constants
 
 ```typescript
+// Server tick rates
+PHYSICS_SIMULATION_RATE: 30    // Hz
+STATE_PATCH_RATE: 30           // Hz
+
 // Player vehicle physics
 PLAYER_MASS: 20.0
-PLAYER_MOVEMENT_FORCE: 600.0
-PLAYER_MAX_SPEED: 15.0
+PLAYER_MOVEMENT_FORCE: 1000.0
+PLAYER_MAX_SPEED: 25.0
 PLAYER_LINEAR_DAMPING: 0.5
-PLAYER_ANGULAR_DAMPING: 0.3
+PLAYER_ANGULAR_DAMPING: 2.0
 PLAYER_STEERING_SPEED: 2.0      // Radians/sec
 PLAYER_MAX_STEERING_ANGLE: 1.5  // Max turn rate
 
 // Tile physics
 TILE_MASS: 12.0
 TILE_FRICTION: 0.3
-TILE_RESTITUTION: 0.15          // Slight bounce
+TILE_RESTITUTION: 0.15
 
 // Shooting mechanics
 IMPULSE_BASE: 10                // Min impulse (strength=1)
@@ -588,192 +491,20 @@ IMPULSE_MAX: 3000               // Max impulse (strength=100)
 BACKFORCE_BASE: 9               // Min recoil
 BACKFORCE_MAX: 1000             // Max recoil
 
-// Environment materials
-GROUND_FRICTION: 0.9            // High grip
-WALL_RESTITUTION: 0.5           // Bouncy walls
-RAMP_RESTITUTION: 0.8           // Launch boost
+// Combat
+MIN_SHOT_VELOCITY_FOR_DAMAGE: 20.0  // units/s threshold
 ```
 
 ---
 
-## Bottleneck Analysis
+## Key File Locations
 
-### Optimizations Implemented
-
-#### 1. Physics Update Loop - OPTIMIZED ✅
-
-**Location:** `GameRoom.ts:908-1200` - `updatePhysics()`
-
-**Solution Implemented:**
-- Reduced physics rate from **60Hz to 30Hz**
-- Physics now has ~33ms budget per step instead of ~16ms
-- Client-side interpolation maintains visual smoothness at 60fps
-
-```typescript
-// Now called 30 times per second (was 60)
-this.setSimulationInterval(
-  (deltaTime) => this.updatePhysics(deltaTime),
-  1000 / PhysicsConstants.PHYSICS_SIMULATION_RATE // 33.33ms = 30Hz
-);
-```
-
-**Result:** ~50% reduction in server CPU usage for physics
-
----
-
-#### 2. State Serialization - OPTIMIZED ✅
-
-**Location:** Colyseus schema sync, now at **30Hz** (was 60Hz)
-
-**Solutions Implemented:**
-
-1. **Reduced patch rate to 30Hz** - halves network bandwidth
-2. **Threshold-based velocity sync** - only syncs when changed significantly
-
-```typescript
-// Only sync velocity if changed by more than threshold
-const velThreshold = PhysicsConstants.VELOCITY_SYNC_THRESHOLD; // 0.3 units/sec
-const angVelThreshold = PhysicsConstants.ANGULAR_VELOCITY_SYNC_THRESHOLD; // 0.2 rad/sec
-
-if (linearChanged) {
-  tile.velocity.set(linearVelocity.x, linearVelocity.y, linearVelocity.z);
-}
-if (angularChanged) {
-  tile.angularVelocity.set(angularVelocity.x, angularVelocity.y, angularVelocity.z);
-}
-```
-
-**Result:**
-- Network updates reduced from 21,000 to ~10,500 floats/sec (50% reduction)
-- Near-stationary tiles don't spam velocity updates
-
----
-
-#### 3. Tile Pool Progressive Spawning - OPTIMIZED ✅
-
-**Location:** `GameRoom.ts:197-254` - `spawnNextTile()` / `processSpawnQueue()`
-
-**Solution Implemented:**
-
-Gradual spawn queue system prevents frame spikes when multiple tiles are placed rapidly:
-
-```typescript
-// Queue for gradual spawning (max 2 per frame)
-private spawnQueue: number[] = [];
-private readonly MAX_SPAWNS_PER_FRAME = 2;
-
-// Queue tiles instead of immediate spawn
-private spawnNextTile(): void {
-  const tileIndex = this.unspawnedTileIndices.shift()!;
-  this.spawnQueue.push(tileIndex);
-}
-
-// Process queue gradually each physics frame
-private processSpawnQueue(): void {
-  let spawned = 0;
-  while (this.spawnQueue.length > 0 && spawned < this.MAX_SPAWNS_PER_FRAME) {
-    const tileIndex = this.spawnQueue.shift()!;
-    // ... create physics body
-    spawned++;
-  }
-}
-```
-
-**Result:**
-- Physics body creation spread across frames (max 2 per 33ms frame)
-- No more frame spikes from rapid tile placement
-- Smooth gameplay even when 10+ tiles placed quickly
-
----
-
-#### 4. Client Interpolation - OPTIMIZED ✅
-
-**Location:** `Vehicle.ts`, `Tile.ts`, `StateSync.ts`
-
-**Solutions Implemented:**
-
-1. **Frame-rate independent smoothing** - Uses exponential smoothing with `deltaTime`
-2. **Velocity extrapolation for remote players** - Predicts movement between server updates
-3. **Gradual velocity decay** - Smooth stop when server stops sending updates
-
-```typescript
-// Frame-rate independent exponential smoothing
-const smoothingSpeed = isLocal ? 18 : 12; // per second
-const factor = 1 - Math.exp(-smoothingSpeed * deltaTime);
-currentPosition += (targetPosition - currentPosition) * factor;
-
-// Velocity extrapolation for remote players
-if (!isLocal && timeSinceLastUpdate < 0.1) {
-  const extrapolationTime = Math.min(timeSinceLastUpdate, 0.05);
-  targetX += velocity.x * extrapolationTime;
-}
-```
-
-**Result:**
-- Consistent smoothness at 30/60/144 fps
-- Remote players move smoothly between 30Hz server updates
-- No drift when players stop moving
-- Shadow culling: Every 10 frames, distance-based
-
----
-
-#### 5. Database Persistence (LOW IMPACT)
-
-**Location:** `GameRoom.ts:361-407` - `saveCurrentRoomState()`
-
-**Problem:**
-- Called on every tile placement
-- Iterates all 400 tiles to find placed ones
-- SQLite write in main thread
-
-**Current mitigation:**
-- Only saves PLACED/FLYING tiles
-- Simple key-value structure
-
-**Recommendations:**
-- Debounce saves (e.g., max once per second)
-- Consider async write queue
-- Only save changed state (diff)
-
----
-
-### Performance Metrics Summary (POST-OPTIMIZATION)
-
-| Component | Frequency | Budget | Typical | Status |
-|-----------|-----------|--------|---------|--------|
-| Physics step | **30 Hz** | **33.33ms** | 5-12ms | ✅ Optimized |
-| State sync | **30 Hz** | N/A | 1-2ms | ✅ Optimized |
-| Client render | 60 fps | 16.67ms | 8-14ms | OK |
-| Interpolation | 60 fps | 2ms | <1ms | ✅ Optimized |
-| DB save | Per tile | N/A | 5-10ms | OK |
-
-**Improvements:**
-- Physics budget increased from 16.67ms to 33.33ms (+100%)
-- Server CPU usage reduced ~50%
-- Network bandwidth reduced ~50%
-- Frame-rate independent interpolation (consistent at any fps)
-- Velocity extrapolation for remote players (smooth between updates)
-
-### Scaling Limits (Estimates)
-
-| Factor | Current | Comfortable | Stress |
-|--------|---------|-------------|--------|
-| Players | 50 max | 20-30 | 40+ |
-| Active tiles | 50 | 50 | 75+ |
-| Total tiles | 400 | 400 | 600+ |
-| Physics bodies | ~60 | 80 | 120+ |
-| Network bandwidth | Low | Medium | High (50+ players) |
-
----
-
-## Appendix: Key File Locations
-
-| Component | File | Lines |
-|-----------|------|-------|
-| Game room logic | `packages/server/src/rooms/GameRoom.ts` | 1421 |
-| Physics simulation | `packages/server/src/physics/PhysicsWorld.ts` | 1617 |
-| State schema | `packages/server/src/schema/GameRoomSchema.ts` | 256 |
-| Client scene | `packages/ui/src/game/Scene.ts` | 988 |
-| State sync | `packages/ui/src/network/StateSync.ts` | 574 |
-| World config | `packages/shared/src/config/world.ts` | 353 |
-| Physics constants | `packages/server/src/physics/PhysicsConstants.ts` | 106 |
+| Component | File |
+|-----------|------|
+| Game room logic | `packages/server/src/rooms/GameRoom.ts` |
+| Physics simulation | `packages/server/src/physics/PhysicsWorld.ts` |
+| State schema | `packages/server/src/schema/GameRoomSchema.ts` |
+| Client scene | `packages/ui/src/game/Scene.ts` |
+| State sync | `packages/ui/src/network/StateSync.ts` |
+| World config | `packages/shared/src/config/world.ts` |
+| Physics constants | `packages/server/src/physics/PhysicsConstants.ts` |
