@@ -19,6 +19,11 @@ build/
 # Large video files
 packages/ui/public/videos/
 
+# Large image files
+packages/ui/public/gameplay.png
+packages/ui/public/help.png
+packages/ui/public/original.png
+
 # IDE files
 .vscode/
 .idea/
