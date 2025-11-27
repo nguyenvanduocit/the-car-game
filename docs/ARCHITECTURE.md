@@ -13,36 +13,27 @@
 
 ## High-Level Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                           BLOCKGAME ARCHITECTURE                        │
-│                        (Server-Authoritative Model)                     │
-└─────────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph Client["CLIENT (@blockgame/ui)"]
+        BJS[BabylonJS<br/>Rendering]
+        SS[StateSync<br/>Interpolation]
+        PI[PlayerInput<br/>Controls]
+    end
 
-┌─────────────────────┐              ┌─────────────────────┐
-│      CLIENT(s)      │              │       SERVER        │
-│   @blockgame/ui     │◀────────────▶│   @blockgame/server │
-│                     │   WebSocket  │                     │
-│  ┌───────────────┐  │   (Colyseus) │  ┌───────────────┐  │
-│  │   BabylonJS   │  │              │  │   Colyseus    │  │
-│  │  (Rendering)  │  │              │  │   GameRoom    │  │
-│  └───────────────┘  │              │  └───────────────┘  │
-│  ┌───────────────┐  │              │  ┌───────────────┐  │
-│  │   StateSync   │  │              │  │ PhysicsWorld  │  │
-│  │(Interpolation)│  │              │  │   (Havok)     │  │
-│  └───────────────┘  │              │  └───────────────┘  │
-│  ┌───────────────┐  │              │  ┌───────────────┐  │
-│  │  PlayerInput  │  │              │  │  SQLite DB    │  │
-│  │  (Controls)   │  │              │  │ (Persistence) │  │
-│  └───────────────┘  │              │  └───────────────┘  │
-└─────────────────────┘              └─────────────────────┘
-           │                                    │
-           └────────────┬───────────────────────┘
-                        │
-              ┌─────────▼─────────┐
-              │  @blockgame/shared│
-              │   (Types/Config)  │
-              └───────────────────┘
+    subgraph Server["SERVER (@blockgame/server)"]
+        GR[Colyseus<br/>GameRoom]
+        PW[PhysicsWorld<br/>Havok]
+        DB[SQLite DB<br/>Persistence]
+    end
+
+    subgraph Shared["@blockgame/shared"]
+        Types[Types/Config]
+    end
+
+    Client <-->|WebSocket<br/>Colyseus| Server
+    Client --> Shared
+    Server --> Shared
 ```
 
 ### Key Principles
@@ -93,89 +84,101 @@ packages/server/
 
 ### GameRoom Component Diagram
 
-```
-┌───────────────────────────────────────────────────────────────────────┐
-│                           GameRoom.ts                                  │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│  ┌──────────────────┐    ┌──────────────────┐    ┌─────────────────┐ │
-│  │  GameRoomSchema  │    │   PhysicsWorld   │    │    Database     │ │
-│  │                  │    │                  │    │                 │ │
-│  │ • players (Map)  │    │ • playerBodies   │    │ • saveState()   │ │
-│  │ • tiles (Map)    │    │ • tileBodies     │    │ • loadState()   │ │
-│  │ • placedTiles    │    │ • boundaries     │    │ • leaderboard   │ │
-│  │ • leaderboard    │    │ • triggers       │    │                 │ │
-│  │ • goalScores     │    │ • step(dt)       │    └─────────────────┘ │
-│  └──────────────────┘    └──────────────────┘                        │
-│                                                                        │
-│  ┌─────────────────────────────────────────────────────────────────┐ │
-│  │                    Message Handlers                              │ │
-│  ├─────────────────────────────────────────────────────────────────┤ │
-│  │ • player_move      → Apply car controls (throttle + steering)   │ │
-│  │ • tile_click       → Lock tile, send puzzle                     │ │
-│  │ • start_tile_charge→ Start charging for shoot                   │ │
-│  │ • tile_shoot       → Apply impulse, backforce                   │ │
-│  │ • puzzle_submit    → Validate answer, place tile                │ │
-│  │ • puzzle_cancel    → Release tile, shoot away                   │ │
-│  │ • fork_attack      → Combat melee attack                        │ │
-│  │ • respawn          → Manual respawn request                     │ │
-│  │ • ping             → Latency measurement                        │ │
-│  └─────────────────────────────────────────────────────────────────┘ │
-│                                                                        │
-│  ┌─────────────────────────────────────────────────────────────────┐ │
-│  │                    Update Loop (30Hz)                            │ │
-│  ├─────────────────────────────────────────────────────────────────┤ │
-│  │ updatePhysics(deltaTime):                                        │ │
-│  │   1. physicsWorld.step(dt)        # Havok simulation            │ │
-│  │   2. checkGoalTriggers()          # Goal scoring                │ │
-│  │   3. Sync player positions        # Physics → Schema            │ │
-│  │   4. Update held tiles            # Follow player position      │ │
-│  │   5. Sync tile transforms         # Physics → Schema            │ │
-│  └─────────────────────────────────────────────────────────────────┘ │
-└───────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph GameRoom["GameRoom.ts"]
+        subgraph State["GameRoomSchema"]
+            players["players (Map)"]
+            tiles["tiles (Map)"]
+            placedTiles["placedTiles"]
+            leaderboard["leaderboard"]
+            goalScores["goalScores"]
+        end
+
+        subgraph Physics["PhysicsWorld"]
+            playerBodies["playerBodies"]
+            tileBodies["tileBodies"]
+            boundaries["boundaries"]
+            triggers["triggers"]
+            step["step(dt)"]
+        end
+
+        subgraph DB["Database"]
+            saveState["saveState()"]
+            loadState["loadState()"]
+            lb["leaderboard"]
+        end
+
+        subgraph Handlers["Message Handlers"]
+            player_move["player_move → Car controls"]
+            tile_click["tile_click → Lock tile, puzzle"]
+            tile_charge["start_tile_charge → Charging"]
+            tile_shoot["tile_shoot → Impulse, backforce"]
+            puzzle_submit["puzzle_submit → Validate, place"]
+            puzzle_cancel["puzzle_cancel → Release tile"]
+            fork_attack["fork_attack → Melee attack"]
+            respawn["respawn → Manual respawn"]
+        end
+
+        subgraph Loop["Update Loop (30Hz)"]
+            step_physics["1. physicsWorld.step(dt)"]
+            check_goals["2. checkGoalTriggers()"]
+            sync_players["3. Sync player positions"]
+            update_held["4. Update held tiles"]
+            sync_tiles["5. Sync tile transforms"]
+        end
+    end
 ```
 
 ### State Schema Hierarchy
 
-```
-GameRoomSchema (Root)
-│
-├── players: MapSchema<PlayerSchema>
-│   ├── sessionId: string
-│   ├── displayName: string
-│   ├── position: Vector3Schema { x, y, z }
-│   ├── rotation: number (camera Y-axis)
-│   ├── bodyRotation: QuaternionSchema { x, y, z, w }
-│   ├── steering: number (-1 to 1)
-│   ├── health: number
-│   ├── isDead: boolean
-│   ├── tilesPlaced: number
-│   └── state: PlayerState enum
-│
-├── tiles: MapSchema<TileSchema>  (Available tiles on floor)
-│   ├── availableId: number (0-799, PRIMARY KEY)
-│   ├── frameSlotIndex: number (0-399, target slot)
-│   ├── phase: uint8 (1 = first half, 2 = second half)
-│   ├── state: TileState enum (ON_FLOOR, LOCKED, CHARGING)
-│   ├── position: Vector3Schema
-│   ├── rotation: QuaternionSchema
-│   └── ownedBy: string | null (sessionId)
-│
-├── placedTiles: MapSchema<PlacedTileSchema>  (Tiles in frame)
-│   ├── frameSlotIndex: number (0-399, PRIMARY KEY)
-│   ├── fillCount: uint8 (1 = half, 2 = complete)
-│   ├── completedBy: string (player names)
-│   ├── position: Vector3Schema
-│   └── rotation: QuaternionSchema
-│
-├── frameSlots: ArraySchema<string> (400 slots, "" = empty)
-│
-├── leaderboard: ArraySchema<LeaderboardEntrySchema>
-├── allTimeLeaderboard: ArraySchema<AllTimeLeaderboardEntrySchema>
-│
-├── blueGoalScore: number
-├── redGoalScore: number
-└── createdAt: number
+```mermaid
+classDiagram
+    class GameRoomSchema {
+        +MapSchema~PlayerSchema~ players
+        +MapSchema~TileSchema~ tiles
+        +MapSchema~PlacedTileSchema~ placedTiles
+        +ArraySchema~string~ frameSlots
+        +ArraySchema~LeaderboardEntry~ leaderboard
+        +number blueGoalScore
+        +number redGoalScore
+        +number createdAt
+    }
+
+    class PlayerSchema {
+        +string sessionId
+        +string displayName
+        +Vector3Schema position
+        +number rotation
+        +QuaternionSchema bodyRotation
+        +number steering
+        +number health
+        +boolean isDead
+        +number tilesPlaced
+        +PlayerState state
+    }
+
+    class TileSchema {
+        +number availableId
+        +number frameSlotIndex
+        +uint8 phase
+        +TileState state
+        +Vector3Schema position
+        +QuaternionSchema rotation
+        +string ownedBy
+    }
+
+    class PlacedTileSchema {
+        +number frameSlotIndex
+        +uint8 fillCount
+        +string completedBy
+        +Vector3Schema position
+        +QuaternionSchema rotation
+    }
+
+    GameRoomSchema --> PlayerSchema
+    GameRoomSchema --> TileSchema
+    GameRoomSchema --> PlacedTileSchema
 ```
 
 ---
@@ -194,11 +197,9 @@ packages/ui/
 │   │   ├── Floor.ts                # Ground rendering
 │   │   ├── Frame.ts                # Picture frame rendering
 │   │   ├── Physics.ts              # Client-side prediction physics
-│   │   ├── Player.ts               # Player mesh (legacy)
 │   │   ├── Vehicle.ts              # Vehicle renderer (monster truck)
 │   │   ├── Tile.ts                 # Tile mesh with texture
 │   │   ├── TilePool.ts             # Object pooling for tiles
-│   │   ├── TileMasterMesh.ts       # Instanced tile rendering
 │   │   ├── Raycast.ts              # Click detection
 │   │   ├── PlayerInput.ts          # WASD/mouse controls
 │   │   ├── Sound.ts                # Sound effects
@@ -209,7 +210,6 @@ packages/ui/
 │   │   ├── LeaderboardGUI.ts       # 2D leaderboard overlay
 │   │   ├── GameCompleteGUI.ts      # Victory screen
 │   │   ├── CompassGUI.ts           # Direction compass
-│   │   ├── PlayGuideGUI.ts         # Help/tutorial
 │   │   ├── HelpGUI.ts              # Controls help
 │   │   ├── EscMenuGUI.ts           # Escape menu
 │   │   ├── DisconnectGUI.ts        # Disconnect overlay
@@ -224,42 +224,28 @@ packages/ui/
 
 ### Client Component Diagram
 
-```
-┌───────────────────────────────────────────────────────────────────────┐
-│                              main.ts                                   │
-│                           (BlockGame class)                            │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                │
-│  │  GameScene   │  │ColyseusClient│  │   StateSync  │                │
-│  │              │  │              │  │              │                │
-│  │ • engine     │  │ • client     │  │ • room       │                │
-│  │ • scene      │  │ • room       │  │ • players    │                │
-│  │ • camera     │  │ • connected  │  │ • tiles      │                │
-│  │ • floor      │  │              │  │ • localPlayer│                │
-│  │ • physics    │  │ • joinRoom() │  │              │                │
-│  │ • sound      │  │ • send*()    │  │ • interp()   │                │
-│  └──────────────┘  └──────────────┘  └──────────────┘                │
-│                                                                        │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                │
-│  │ PlayerInput  │  │   Raycast    │  │    Frame     │                │
-│  │              │  │              │  │              │                │
-│  │ • WASD       │  │ • pickTile() │  │ • slots[]    │                │
-│  │ • mouse      │  │ • pickSlot() │  │ • border     │                │
-│  │ • throttle   │  │ • pointerLock│  │ • glow       │                │
-│  │ • steering   │  │              │  │              │                │
-│  └──────────────┘  └──────────────┘  └──────────────┘                │
-│                                                                        │
-│  ┌────────────────────────────────────────────────────────────────┐  │
-│  │                     Render Loop (60fps)                         │  │
-│  ├────────────────────────────────────────────────────────────────┤  │
-│  │ onBeforeRender:                                                 │  │
-│  │   1. interpolatePlayers()      # Smooth position/rotation      │  │
-│  │   2. interpolateTiles()        # Smooth tile transforms        │  │
-│  │   3. reconcileLocalPlayer()    # Camera follows mesh           │  │
-│  │   4. updateShadowCasters()     # Distance-based shadow culling │  │
-│  └────────────────────────────────────────────────────────────────┘  │
-└───────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph Main["main.ts (BlockGame)"]
+        subgraph Core["Core Components"]
+            GameScene["GameScene<br/>engine, scene, camera"]
+            ColyseusClient["ColyseusClient<br/>joinRoom(), send*()"]
+            StateSync["StateSync<br/>room, players, tiles"]
+        end
+
+        subgraph Input["Input & Interaction"]
+            PlayerInput["PlayerInput<br/>WASD, mouse"]
+            Raycast["Raycast<br/>pickTile(), pointerLock"]
+            Frame["Frame<br/>slots[], border, glow"]
+        end
+
+        subgraph RenderLoop["Render Loop (60fps)"]
+            interp_players["1. interpolatePlayers()"]
+            interp_tiles["2. interpolateTiles()"]
+            reconcile["3. reconcileLocalPlayer()"]
+            shadows["4. updateShadowCasters()"]
+        end
+    end
 ```
 
 ---
@@ -268,98 +254,67 @@ packages/ui/
 
 ### Player Movement Flow
 
-```
-CLIENT                                          SERVER
-──────                                          ──────
+```mermaid
+sequenceDiagram
+    participant PI as PlayerInput
+    participant CC as ColyseusClient
+    participant GR as GameRoom
+    participant PW as PhysicsWorld
+    participant SS as StateSync
+    participant VR as VehicleRenderer
 
-1. PlayerInput captures WASD
-   └─▶ throttle: -1 to 1 (W/S)
-   └─▶ steering: -1 to 1 (A/D)
-                    │
-                    ▼
-2. ColyseusClient.sendMovement()
-   └─▶ { direction: {x: throttle, z: steering}, rotation }
-                    │
-         ──────────┼────────────▶
-                    │
-                    ▼
-                                3. GameRoom.onMessage('player_move')
-                                   └─▶ physicsWorld.applyCarControls()
-                                                    │
-                                                    ▼
-                                4. updatePhysics() (30Hz)
-                                   ├─▶ updatePlayerControls(dt)
-                                   │   ├─▶ Steering momentum (smooth turn)
-                                   │   └─▶ Throttle force (forward/back)
-                                   └─▶ Havok physics.step()
-                                                    │
-                                                    ▼
-                                5. Sync physics → PlayerSchema
-                                   ├─▶ position = body.position
-                                   └─▶ bodyRotation = body.quaternion
-                                                    │
-         ◀──────────┼────────────
-                    │
-                    ▼
-6. StateSync receives onChange
-   └─▶ player.updateTargetPosition()
-                    │
-                    ▼
-7. Render loop interpolation
-   └─▶ localPlayer.interpolate(1.0)  # Instant (no lag)
-   └─▶ remotePlayer.interpolate(0.4) # Smooth lerp
-                    │
-                    ▼
-8. Camera follows mesh
-   └─▶ gameCamera.setPosition(meshPos)
+    PI->>PI: Capture WASD (throttle, steering)
+    PI->>CC: sendMovement({direction, rotation})
+    CC->>GR: player_move message
+    GR->>PW: applyCarControls(throttle, steering)
+
+    loop 30Hz Physics Loop
+        PW->>PW: updatePlayerControls(dt)
+        PW->>PW: Havok physics.step()
+        GR->>GR: Sync physics → PlayerSchema
+    end
+
+    GR-->>SS: State broadcast (30Hz)
+    SS->>VR: updateTargetPosition()
+
+    loop 60fps Render
+        VR->>VR: interpolate(deltaTime)
+    end
 ```
 
 ### Tile Interaction Flow
 
-```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  Left Click     │     │  Right Click    │     │ Puzzle Complete │
-│  (Pick up tile) │     │  (Charge/Shoot) │     │  (Auto-place)   │
-└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│ tile_click      │     │ start_tile_charge│     │ puzzle_submit   │
-│ availableId     │     │ availableId      │     │ availableId,    │
-│                 │     │                  │     │ answerIndex     │
-└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│ TileState.LOCKED│     │TileState.CHARGING│    │  Server         │
-│ • ownedBy = sid │     │ • ownedBy = sid  │     │  validates      │
-│ • show puzzle   │     │ • chargingStart  │     │  QuestionBank   │
-└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
-         │                       │                       │
-         │               ┌───────┴───────┐               ▼
-         │               ▼               ▼       ┌───────────────┐
-         │      ┌────────────┐  ┌────────────┐  │ Correct?      │
-         │      │ Hold (auto)│  │tile_shoot  │  │               │
-         │      │ > 2 sec    │  │(mouse up)  │  │ YES → PLACED  │
-         │      │ auto-shoot │  │            │  │ NO  → shootTile│
-         │      └─────┬──────┘  └─────┬──────┘  └───────┬───────┘
-         │            │               │                 │
-         │            └───────┬───────┘                 │
-         │                    ▼                         │
-         │           ┌────────────────┐                 │
-         │           │  shootTile()   │                 │
-         │           │ • returnToFloor│                 │
-         │           │ • applyImpulse │                 │
-         │           │ • backforce    │                 │
-         │           └────────────────┘                 │
-         │                                              │
-         ▼                                              ▼
-┌─────────────────────────────┐    ┌─────────────────────────────┐
-│ LOCKED/CHARGING: tile       │    │ PLACED: Client fly animation│
-│ follows player position     │    │ • Remove from tiles map     │
-│ via updatePhysics() loop    │    │ • Add to placedTiles map    │
-│                             │    │ • Update leaderboard        │
-└─────────────────────────────┘    └─────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph UserActions["User Actions"]
+        LC[Left Click<br/>Pick up tile]
+        RC[Right Click<br/>Charge/Shoot]
+        PS[Puzzle Submit]
+    end
+
+    subgraph Messages["Client Messages"]
+        tile_click[tile_click<br/>availableId]
+        start_charge[start_tile_charge<br/>availableId]
+        tile_shoot[tile_shoot<br/>availableId, direction]
+        puzzle_submit[puzzle_submit<br/>availableId, answerIndex]
+    end
+
+    subgraph States["Tile States"]
+        LOCKED[LOCKED<br/>ownedBy = sessionId<br/>show puzzle]
+        CHARGING[CHARGING<br/>ownedBy = sessionId<br/>chargingStart]
+        PLACED[PLACED<br/>fly animation<br/>update leaderboard]
+    end
+
+    LC --> tile_click --> LOCKED
+    RC --> start_charge --> CHARGING
+
+    CHARGING -->|Hold > 2s| tile_shoot
+    CHARGING -->|Mouse up| tile_shoot
+    tile_shoot --> shootTile[shootTile<br/>returnToFloor<br/>applyImpulse<br/>backforce]
+
+    PS --> puzzle_submit --> validate{Server validates}
+    validate -->|Correct| PLACED
+    validate -->|Wrong| shootTile
 ```
 
 ---
@@ -382,7 +337,6 @@ const $ = getStateCallbacks(room);
 
 // Players
 $(room.state.players).onAdd((player, sessionId) => {
-  // Create VehicleRenderer
   $(player).position.onChange(() => updateTargetPosition());
   $(player).bodyRotation.onChange(() => updateTargetRotation());
   $(player).listen('steering', (value) => updateTargetSteering());
@@ -391,7 +345,6 @@ $(room.state.players).onAdd((player, sessionId) => {
 
 // Available Tiles
 $(room.state.tiles).onAdd((tile, availableId) => {
-  // Acquire from TilePool
   $(tile).position.onChange(() => updateTilePosition());
   $(tile).rotation.onChange(() => updateTileRotation());
   $(tile).listen('state', (state) => updateTileState());
@@ -399,23 +352,20 @@ $(room.state.tiles).onAdd((tile, availableId) => {
 
 // Placed Tiles
 $(room.state.placedTiles).onAdd((placedTile, frameSlotIndex) => {
-  // Create tile in frame
   $(placedTile).listen('fillCount', (count) => updateFillState());
 });
-
-// Goal scores
-$(room.state).listen('blueGoalScore', (score) => updateScoreboard());
-$(room.state).listen('redGoalScore', (score) => updateScoreboard());
 ```
 
 ### Interpolation Strategy
 
-The client uses **exponential smoothing** with `deltaTime` for frame-rate independent interpolation.
+```mermaid
+graph LR
+    Server[Server State<br/>30Hz] -->|Target Position| Interpolation
+    Interpolation -->|Smooth Movement| Render[Render<br/>60fps]
 
-```typescript
-// Frame-rate independent exponential smoothing
-const factor = 1 - Math.exp(-smoothingSpeed * deltaTime);
-currentPosition += (targetPosition - currentPosition) * factor;
+    subgraph Interpolation["Exponential Smoothing"]
+        formula["factor = 1 - exp(-speed * deltaTime)<br/>current += (target - current) * factor"]
+    end
 ```
 
 | Entity | Smoothing Speed | Feel |
@@ -432,36 +382,26 @@ currentPosition += (targetPosition - currentPosition) * factor;
 
 ### Server Physics (Authoritative)
 
-```
-┌───────────────────────────────────────────────────────────────────────┐
-│                    SERVER PHYSICS (PhysicsWorld.ts)                    │
-├───────────────────────────────────────────────────────────────────────┤
-│                                                                        │
-│  Engine: NullEngine (headless BabylonJS)                               │
-│  Plugin: HavokPlugin (WASM physics)                                    │
-│  Rate:   30 Hz (33.33ms per step)                                      │
-│                                                                        │
-│  ┌────────────────────────────────────────────────────────────────┐   │
-│  │                    Static Bodies                                │   │
-│  ├────────────────────────────────────────────────────────────────┤   │
-│  │ • groundBody     - 100x200 units, y=0                          │   │
-│  │ • boundaryBodies - 4 walls (N/S/E/W) + ceiling                 │   │
-│  │ • rampBodies     - 2 ramps (launch pads)                       │   │
-│  │ • archBodies     - 2 goals (blue/red posts+crossbar)           │   │
-│  │ • goalTriggers   - 2 trigger volumes (isTrigger=true)          │   │
-│  └────────────────────────────────────────────────────────────────┘   │
-│                                                                        │
-│  ┌────────────────────────────────────────────────────────────────┐   │
-│  │                    Dynamic Bodies                               │   │
-│  ├────────────────────────────────────────────────────────────────┤   │
-│  │ • playerBodies   - Box shape (1.5x2x2.5), mass=20              │   │
-│  │                    Rear-biased center of mass for steering     │   │
-│  │                                                                 │   │
-│  │ • tileBodies     - Box shape (1.2x0.4x1.2), mass=12            │   │
-│  │                    Only active tiles have bodies (max 50)      │   │
-│  └────────────────────────────────────────────────────────────────┘   │
-│                                                                        │
-└───────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph PhysicsWorld["PhysicsWorld.ts"]
+        Engine["NullEngine (headless)"]
+        Plugin["HavokPlugin (WASM)"]
+        Rate["30 Hz (33.33ms/step)"]
+
+        subgraph Static["Static Bodies"]
+            ground["groundBody<br/>100x200 units, y=0"]
+            walls["boundaryBodies<br/>4 walls + ceiling"]
+            ramps["rampBodies<br/>2 launch pads"]
+            arches["archBodies<br/>blue/red goals"]
+            triggers["goalTriggers<br/>isTrigger=true"]
+        end
+
+        subgraph Dynamic["Dynamic Bodies"]
+            players["playerBodies<br/>Box 1.5x2x2.5, mass=20<br/>Rear-biased CoM"]
+            tiles["tileBodies<br/>Box 1.2x0.4x1.2, mass=12<br/>Max 50 active"]
+        end
+    end
 ```
 
 ### Physics Constants

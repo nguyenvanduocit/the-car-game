@@ -16,7 +16,25 @@
 ## Architecture Overview
 
 ### Server-Authoritative Design
-BlockGame uses **server-authoritative architecture** - the server is the single source of truth for all game state.
+
+```mermaid
+graph LR
+    subgraph Client
+        Input[User Input]
+        Render[Rendering]
+    end
+
+    subgraph Server
+        State[Game State]
+        Physics[Physics]
+        Validation[Validation]
+    end
+
+    Input -->|Messages| Server
+    Server -->|State Sync| Render
+    Physics --> State
+    Validation --> State
+```
 
 **Server Responsibilities:**
 - Owns and controls ALL game state (players, tiles, frame, leaderboard)
@@ -32,12 +50,6 @@ BlockGame uses **server-authoritative architecture** - the server is the single 
 - Interpolates positions for smooth visuals at 60fps
 - Runs fly animations locally (client-side)
 
-**Communication Flow:**
-```
-Client → Server: Input messages (player_move, tile_click, puzzle_submit, tile_shoot)
-Server → Client: State updates (via Colyseus state synchronization at 30Hz)
-```
-
 ---
 
 ## Server Game Room Logic
@@ -46,84 +58,83 @@ Server → Client: State updates (via Colyseus state synchronization at 30Hz)
 
 The GameRoom is the heart of the multiplayer game, managing all game state and physics.
 
-#### Key Configuration:
+#### Configuration
 - `maxClients = 300` - supports up to 300 concurrent players
 - `autoDispose = false` - room stays alive when empty for state persistence
 
-#### Key Responsibilities:
+#### Two-Spawn Tile System
 
-**1. Room Lifecycle Management**
-- State persistence via SQLite (save/restore game progress)
-- Duplicate tab prevention via player tokens
+```mermaid
+graph TB
+    subgraph AvailableTiles["800 Available Tiles"]
+        Phase1["Phase 1 (0-399)<br/>First half of each slot"]
+        Phase2["Phase 2 (400-799)<br/>Second half of each slot"]
+    end
 
-**2. Physics Simulation (30Hz)**
-- Uses `PhysicsWorld` class with Havok physics engine
-- Ground plane at y=0 (100x200 units)
-- Boundary walls + ceiling to contain players
-- Ramps for jumping
-- Goal arches with trigger planes for soccer gameplay
-- Vehicle physics (box-shaped, 1.5x2x2.5 units)
+    subgraph FrameSlots["400 Frame Slots"]
+        Slot0["Slot 0"]
+        Slot1["Slot 1"]
+        SlotN["Slot N..."]
+        Slot399["Slot 399"]
+    end
 
-**3. Two-Spawn Tile System**
-- 800 available tiles (availableId: 0-799)
-- Each tile targets one of 400 frame slots (frameSlotIndex: 0-399)
-- Phase 1 tiles (0-399) fill first half of slot
-- Phase 2 tiles (400-799) complete the slot
-- Progressive spawning: Max 50 active tiles on floor
-- Spawn queue (2 tiles/frame max) to prevent frame spikes
-- States: `ON_FLOOR`, `LOCKED`, `CHARGING`
+    Phase1 -->|fillCount: 1| FrameSlots
+    Phase2 -->|fillCount: 2| FrameSlots
 
-**4. Player Management**
-- Vehicle-based players (monster truck style)
-- Car controls: throttle (W/S) and steering (A/D)
-- Health system with respawning
-- Fork-based tile holding
+    subgraph PlacedTile["PlacedTileSchema"]
+        half["fillCount=1<br/>Half filled"]
+        complete["fillCount=2<br/>Complete"]
+    end
+```
 
-**5. Combat System**
-- Fork attacks (melee): 5 damage per click
-- Tile collisions: Damage scales with velocity (min 20 units/s to trigger)
-- Tile damage: 20 per hit
-- Cooldown: 1 second per tile-player pair
-- Respawn: Manual via respawn button
+#### Message Handlers
 
-#### Important Methods:
+```mermaid
+graph LR
+    subgraph Messages["Client Messages"]
+        pm[player_move]
+        tc[tile_click]
+        stc[start_tile_charge]
+        ts[tile_shoot]
+        ps[puzzle_submit]
+        pc[puzzle_cancel]
+        fa[fork_attack]
+        rs[respawn]
+    end
 
-**`onCreate(options)`**
-- Initializes QuestionBank for puzzle validation
-- Sets state sync rate to 30Hz
-- Creates tiles with progressive spawning
-- Restores saved state if available
-- Sets up message handlers and collision callbacks
-- Starts physics update loop at 30Hz
+    subgraph Actions["Server Actions"]
+        car[Apply car controls]
+        lock[Lock tile + puzzle]
+        charge[Start charging]
+        impulse[Apply impulse]
+        validate[Validate + place]
+        release[Release tile]
+        damage[Apply damage]
+        spawn[Respawn player]
+    end
 
-**`updatePhysics(deltaTime)`** - Physics loop (30Hz)
-- Processes spawn queue (gradual tile spawning)
-- Steps Havok physics simulation
-- Checks goal trigger collisions
-- Syncs player positions/rotations back to Colyseus state
-- Updates tiles attached to players (LOCKED/CHARGING)
-- Syncs tile transforms from physics
-- Performance monitoring
+    pm --> car
+    tc --> lock
+    stc --> charge
+    ts --> impulse
+    ps --> validate
+    pc --> release
+    fa --> damage
+    rs --> spawn
+```
 
-**`shootTile(availableId, sessionId, direction, strength, source)`**
-- Returns tile to floor state
-- Validates player and tile existence
-- Resolves shoot direction (server-authoritative)
-- Spawns tile ahead of player (avoids immediate collision)
-- Re-enables physics for tile
-- Applies impulse (10-3000 based on charge time, quadratic scaling)
-- Applies backforce to player (9-1000)
+#### Physics Update Loop (30Hz)
 
-**Message Handlers:**
-- `player_move` - Car controls (throttle + steering)
-- `tile_click` - Lock tile and send puzzle
-- `start_tile_charge` - Start charging tile (right mouse down)
-- `tile_shoot` - Shoot charged tile (right mouse up)
-- `puzzle_submit` - Validate answer using QuestionBank, place on success
-- `puzzle_cancel` - Release tile (shoot away at 50% strength)
-- `fork_attack` - Melee attack on another player
-- `respawn` - Manual respawn request
-- `ping` - Latency measurement
+```mermaid
+flowchart TD
+    A[updatePhysics] --> B[Process spawn queue]
+    B --> C[physicsWorld.step]
+    C --> D[Check goal triggers]
+    D --> E[Sync player positions]
+    E --> F[Update held tiles]
+    F --> G[Sync tile transforms]
+    G --> H[Performance monitoring]
+```
 
 ---
 
@@ -133,238 +144,229 @@ The GameRoom is the heart of the multiplayer game, managing all game state and p
 
 Server-side physics using BabylonJS NullEngine + Havok WASM.
 
-#### Key Components:
+```mermaid
+graph TB
+    subgraph Engine["Physics Engine"]
+        NE[NullEngine<br/>Headless BabylonJS]
+        HP[HavokPlugin<br/>WASM Physics]
+    end
 
-**1. Ground Plane**
-- 100x200 units at y=0
-- Static box body
-- Material: friction=0.9, restitution=0.1
+    subgraph Static["Static Bodies"]
+        ground[Ground<br/>100x200 units]
+        walls[Walls<br/>4 boundaries + ceiling]
+        ramps[Ramps<br/>Launch pads]
+        goals[Goals<br/>Blue + Red arches]
+        triggers[Triggers<br/>Goal detection]
+    end
 
-**2. Boundary Walls + Ceiling**
-- 4 walls at world edges + ceiling
-- 100 unit high walls
-- Static boxes with restitution=0.5
+    subgraph Dynamic["Dynamic Bodies"]
+        players[Players<br/>Box 1.5x2x2.5<br/>Mass: 20]
+        tiles[Tiles<br/>Box 1.2x0.4x1.2<br/>Mass: 12]
+    end
 
-**3. Ramps**
-- Angled static boxes for jumping
-- Low friction (0.1), high restitution (0.8)
+    NE --> HP
+    HP --> Static
+    HP --> Dynamic
+```
 
-**4. Goal Arches**
-- Posts (cylinders) + crossbar
-- High restitution (0.9) for bouncing
-- Blue goal at z=-100, Red goal at z=+100
+### Physics Constants
 
-**5. Goal Triggers**
-- Invisible trigger planes (isTrigger=true)
-- Manual AABB collision check every frame
-
-**6. Player Bodies**
-- Box shape: 1.5x2x2.5 (vehicle chassis)
-- Mass: 20, dynamic motion type
-- Car physics: throttle force + steering angular velocity
-- Center of mass offset to rear for realistic steering
-- High damping for quick stopping (angular=2.0)
-
-**7. Tile Bodies**
-- Box shape: 1.2x0.4x1.2
-- Mass: 12, dynamic motion type
-- Material: friction=0.3, restitution=0.15
-- Only active tiles have physics bodies (max 50)
-
-### PhysicsConstants (`packages/server/src/physics/PhysicsConstants.ts`)
-
-**Performance Settings:**
-- `PHYSICS_SIMULATION_RATE = 30` Hz
-- `STATE_PATCH_RATE = 30` Hz
-- `VELOCITY_SYNC_THRESHOLD = 0.3 units/s`
-
-**Player Physics:**
-- `PLAYER_MASS = 20`
-- `PLAYER_MOVEMENT_FORCE = 1000`
-- `PLAYER_MAX_SPEED = 25 units/s`
-- `PLAYER_STEERING_SPEED = 2.0 rad/s`
-- `PLAYER_ANGULAR_DAMPING = 2.0`
-
-**Tile Physics:**
-- `TILE_MASS = 12`
-- `TILE_FRICTION = 0.3`
-- `TILE_RESTITUTION = 0.15`
-
-**Shooting Mechanics:**
-- `IMPULSE_BASE = 10`, `IMPULSE_MAX = 3000`
-- `BACKFORCE_BASE = 9`, `BACKFORCE_MAX = 1000`
-- `MIN_SHOT_VELOCITY_FOR_DAMAGE = 20 units/s`
+| Category | Constant | Value |
+|----------|----------|-------|
+| **Tick Rate** | PHYSICS_SIMULATION_RATE | 30 Hz |
+| **Tick Rate** | STATE_PATCH_RATE | 30 Hz |
+| **Player** | PLAYER_MASS | 20.0 |
+| **Player** | PLAYER_MOVEMENT_FORCE | 1000.0 |
+| **Player** | PLAYER_MAX_SPEED | 25.0 units/s |
+| **Player** | PLAYER_ANGULAR_DAMPING | 2.0 |
+| **Tile** | TILE_MASS | 12.0 |
+| **Tile** | TILE_FRICTION | 0.3 |
+| **Shooting** | IMPULSE_MAX | 3000 |
+| **Combat** | MIN_SHOT_VELOCITY_FOR_DAMAGE | 20.0 units/s |
 
 ---
 
 ## Client Game Entities
 
-### GameScene Class (`packages/ui/src/game/Scene.ts`)
+### VehicleRenderer Class
 
-Main BabylonJS scene setup and rendering.
+```mermaid
+graph TB
+    subgraph Vehicle["Monster Truck"]
+        Chassis[Chassis<br/>1.5x2x2.5]
+        Body[Car Body<br/>Cabin, hood, fenders]
+        Wheels[4 Wheels<br/>Animated steering]
+        Forks[Fork Prongs<br/>Tile holder]
+        HealthBar[Health Bar<br/>Billboard]
+        NameLabel[Name Label<br/>Billboard]
+    end
 
-#### Key Features:
-- BabylonJS Engine with audio
-- Optimized lighting (hemispheric + directional)
-- Gradient skybox
-- Glow layer (intensity=0.5)
-- Post-processing (FXAA, tone mapping)
-- Shadow Generator (512x512 map)
-- Performance monitoring (F3 toggle, F4 export CSV)
-- Debug visualizations (F8 axes, F12 Inspector)
+    subgraph Methods["Key Methods"]
+        updateTarget[updateTargetPosition/Rotation]
+        interpolate[interpolate deltaTime]
+        updateHealth[updateHealth current, max]
+        getAttach[getTileAttachmentPosition]
+    end
+```
 
-### VehicleRenderer Class (`packages/ui/src/game/Vehicle.ts`)
+### TileRenderer States
 
-Visual representation of player vehicles (monster trucks).
+```mermaid
+stateDiagram-v2
+    [*] --> ON_FLOOR: Spawned
+    ON_FLOOR --> LOCKED: Left click
+    ON_FLOOR --> CHARGING: Right click
+    LOCKED --> ON_FLOOR: Puzzle cancel
+    LOCKED --> PLACED: Puzzle correct
+    CHARGING --> ON_FLOOR: Shoot
+    PLACED --> [*]: In frame
+```
 
-#### Components:
-- **Chassis**: Main body box (1.5x2x2.5)
-- **Car Body Parts**: Cabin, hood, trunk, fenders, bumpers, lights, windshield
-- **Wheels**: 4 cylinders with steering animation
-- **Axles**: 2 cylinders connecting wheels
-- **Forks**: 2 orange prongs for holding tiles
-- **Ray Connector**: Cyan cylinder between fork tips (aim indicator)
-- **Health Bar**: Billboard plane with gradient
-- **Name Label**: Billboard text above vehicle
+### PlayerInput Controls
 
-#### Key Methods:
-- `updateTargetPosition/Rotation/Steering()` - Updates from server
-- `interpolate(deltaTime)` - Smooth position/rotation with frame-rate independent smoothing
-- `updateHealth(current, max)` - Updates health bar display
-- `getTileAttachmentPosition()` - Position between forks for held tiles
-
-### TileRenderer Class (`packages/ui/src/game/Tile.ts`)
-
-Visual representation of tiles.
-
-#### Features:
-- Instanced mesh from TileMasterMesh (performance)
-- State-based emissive glow:
-  - ON_FLOOR: No glow
-  - LOCKED: Yellow glow
-  - CHARGING: Blue glow
-- Client-side fly animation (cubic ease-out, 1.5s)
-
-### PlayerInput Class (`packages/ui/src/game/PlayerInput.ts`)
-
-#### Controls:
-- **WASD**: Throttle (W/S) and steering (A/D)
-- **Left Click**: Pick up tile (raycast from forks)
-- **Right Click Hold**: Charge tile
-- **Right Click Release**: Shoot tile
-- **E Key**: Fork attack (melee)
-- **Mouse**: Camera rotation
-
-### Raycast Class (`packages/ui/src/game/Raycast.ts`)
-
-- Fork-based raycasting (from fork tips, not camera)
-- Detects tiles with state=ON_FLOOR
-- Highlights selected tile with glow
+| Input | Action |
+|-------|--------|
+| W/S | Throttle (forward/back) |
+| A/D | Steering (left/right) |
+| Left Click | Pick up tile |
+| Right Click Hold | Charge tile |
+| Right Click Release | Shoot tile |
+| E Key | Fork attack (melee) |
+| Mouse | Camera rotation |
 
 ---
 
 ## Network & State Synchronization
 
-### ColyseusClient Class (`packages/ui/src/network/ColyseusClient.ts`)
+### ColyseusClient Methods
 
-#### Key Methods:
-- `joinRoom(displayName)` - Connect and join game room
-- `sendMovement(direction, rotation)` - Throttle + steering
-- `sendTileClick(availableId)` - Pick up tile
-- `sendPuzzleResult(availableId, answerIndex)` - Submit puzzle answer
-- `sendStartTileCharge(availableId)` / `sendTileShoot(availableId, direction)` - Shooting
-- `sendForkAttack(targetSessionId)` - Melee attack
+```mermaid
+graph LR
+    subgraph Send["Client → Server"]
+        sendMovement[sendMovement<br/>direction, rotation]
+        sendTileClick[sendTileClick<br/>availableId]
+        sendPuzzle[sendPuzzleResult<br/>availableId, answerIndex]
+        sendCharge[sendStartTileCharge<br/>availableId]
+        sendShoot[sendTileShoot<br/>availableId, direction]
+        sendFork[sendForkAttack<br/>targetSessionId]
+    end
+```
 
-### StateSync Class (`packages/ui/src/network/StateSync.ts`)
+### StateSync Callbacks (Colyseus v0.16+)
 
-#### Responsibilities:
-- Creates VehicleRenderer for each player
-- Creates TileRenderer for each available tile
-- Creates placed tile visuals from placedTiles map
-- Updates target positions from server
-- Interpolates positions (40% remote, 100% local)
-- Updates health bars, leaderboard, goal scores
-- Shadow culling (distance-based, every 10 frames)
+```mermaid
+graph TB
+    subgraph Callbacks["State Callbacks"]
+        players["$(room.state.players).onAdd"]
+        tiles["$(room.state.tiles).onAdd"]
+        placed["$(room.state.placedTiles).onAdd"]
+    end
 
-#### Colyseus v0.16+ API:
-```typescript
-const $ = getStateCallbacks(room);
+    subgraph Listeners["Property Listeners"]
+        pos["position.onChange"]
+        rot["bodyRotation.onChange"]
+        steer["listen 'steering'"]
+        health["listen 'health'"]
+        state["listen 'state'"]
+        fill["listen 'fillCount'"]
+    end
 
-$(room.state.players).onAdd((player, sessionId) => { ... });
-$(room.state.tiles).onAdd((tile, availableId) => { ... });
-$(room.state.placedTiles).onAdd((placed, frameSlotIndex) => { ... });
-$(player).listen('health', (value) => { ... });
+    players --> pos
+    players --> rot
+    players --> steer
+    players --> health
+    tiles --> state
+    placed --> fill
 ```
 
 ---
 
 ## Shared Types & Configuration
 
-### World Configuration (`packages/shared/src/config/world.ts`)
+### Tile States
 
-**Floor:**
-- Width: 100, Length: 200, Y: 0
+```mermaid
+stateDiagram-v2
+    ON_FLOOR: ON_FLOOR<br/>Physics simulated
+    LOCKED: LOCKED<br/>Puzzle shown
+    CHARGING: CHARGING<br/>Between forks
 
-**Tiles:**
-- Default count: 400 frame slots (800 available tiles)
-- Mesh size: 1.2x0.4x1.2
-- Spawn height: 30 (drop from sky)
-
-**Player:**
-- Max health: 100
-- Tile damage: 20
-- Fork damage: 5
-- Spawn height: 30
-
-### Tile States (`packages/shared/src/types/Tile.ts`)
-
-```typescript
-enum TileState {
-  ON_FLOOR = 'on_floor',       // Physics-simulated, on floor
-  LOCKED = 'locked',           // Held by player, puzzle shown
-  CHARGING = 'charging',       // Held between forks, charging for shoot
-}
+    ON_FLOOR --> LOCKED: tile_click
+    ON_FLOOR --> CHARGING: start_tile_charge
+    LOCKED --> ON_FLOOR: puzzle_cancel
+    CHARGING --> ON_FLOOR: tile_shoot
 ```
 
-### Player States (`packages/shared/src/types/Player.ts`)
+### Player States
 
-```typescript
-enum PlayerState {
-  IDLE = 'idle',
-  SOLVING_PUZZLE = 'solving_puzzle',
-}
+```mermaid
+stateDiagram-v2
+    IDLE: IDLE<br/>Normal gameplay
+    SOLVING_PUZZLE: SOLVING_PUZZLE<br/>Puzzle GUI shown
+
+    IDLE --> SOLVING_PUZZLE: Lock tile
+    SOLVING_PUZZLE --> IDLE: Complete/Cancel
 ```
+
+### World Configuration
+
+| Config | Value |
+|--------|-------|
+| Floor Size | 100 x 200 units |
+| Frame Slots | 400 |
+| Available Tiles | 800 (2 per slot) |
+| Max Active Tiles | 50 on floor |
+| Player Max Health | 100 |
+| Tile Damage | 20 |
+| Fork Damage | 5 |
 
 ---
 
 ## Puzzles System
 
-### Multiple Choice Puzzle (`packages/ui/src/puzzles/MultipleChoiceGUI.ts`)
+### Multiple Choice Flow
 
-**Flow:**
-1. Server sends `show_puzzle` message with puzzle config
-2. Client shows GUI with question and 4 options
-3. User clicks option and submits
-4. Client sends `puzzle_submit` with answerIndex
-5. Server validates using QuestionBank
-6. If correct: Creates PlacedTileSchema, removes from tiles, client plays fly animation
-7. If wrong: Shoots tile away at 50% strength
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    participant QB as QuestionBank
+
+    C->>S: tile_click(availableId)
+    S->>S: Lock tile to player
+    S->>C: show_puzzle(config)
+    C->>C: Display MultipleChoiceGUI
+
+    C->>S: puzzle_submit(availableId, answerIndex)
+    S->>QB: Validate answer
+
+    alt Correct
+        S->>S: Remove from tiles
+        S->>S: Create PlacedTileSchema
+        S->>C: tile_placed event
+        C->>C: Fly animation (1.5s)
+    else Wrong
+        S->>S: shootTile(50% strength)
+        C->>C: Close puzzle GUI
+    end
+```
 
 ---
 
 ## GUI Components
 
-| Component | File | Purpose |
-|-----------|------|---------|
-| NameInputGUI | `gui/NameInputGUI.ts` | Login screen |
-| LeaderboardGUI | `gui/LeaderboardGUI.ts` | Top players overlay |
-| GameCompleteGUI | `gui/GameCompleteGUI.ts` | Victory screen |
-| CompassGUI | `gui/CompassGUI.ts` | Orientation display |
-| PlayGuideGUI | `gui/PlayGuideGUI.ts` | Help/tutorial |
-| HelpGUI | `gui/HelpGUI.ts` | Controls help |
-| EscMenuGUI | `gui/EscMenuGUI.ts` | Escape menu |
-| DisconnectGUI | `gui/DisconnectGUI.ts` | Disconnect overlay |
-| DeathCountdownGUI | `gui/DeathCountdownGUI.ts` | Respawn countdown |
+| Component | Purpose |
+|-----------|---------|
+| NameInputGUI | Login screen |
+| LeaderboardGUI | Top players overlay |
+| GameCompleteGUI | Victory screen |
+| CompassGUI | Direction display |
+| HelpGUI | Controls help |
+| EscMenuGUI | Escape menu |
+| DisconnectGUI | Disconnect overlay |
+| DeathCountdownGUI | Respawn countdown |
+| MultipleChoiceGUI | Quiz puzzle |
+| MemoryCardsGUI | Memory game |
 
 ---
 
@@ -372,91 +374,96 @@ enum PlayerState {
 
 ### Player Movement Flow
 
-```
-1. User presses WASD
-2. PlayerInput captures input → throttle + steering
-3. PlayerInput sends 'player_move' message to server
-4. Server receives message → applyCarControls(throttle, steering)
-5. Server updates physics (force + angular velocity)
-6. Server syncs player position/rotation to Colyseus state (30Hz)
-7. Colyseus broadcasts state change to all clients
-8. Client StateSync receives update → updateTargetPosition/Rotation
-9. Client interpolates VehicleRenderer (40% for remote, 100% for local)
-10. Client renders updated player position at 60fps
+```mermaid
+sequenceDiagram
+    participant PI as PlayerInput
+    participant CC as ColyseusClient
+    participant GR as GameRoom
+    participant PW as PhysicsWorld
+    participant SS as StateSync
+    participant VR as VehicleRenderer
+
+    PI->>PI: WASD → throttle, steering
+    PI->>CC: sendMovement()
+    CC->>GR: player_move
+    GR->>PW: applyCarControls()
+
+    loop 30Hz
+        PW->>PW: physics.step()
+        GR->>GR: Sync → Schema
+    end
+
+    GR-->>SS: State broadcast
+    SS->>VR: updateTarget()
+
+    loop 60fps
+        VR->>VR: interpolate()
+    end
 ```
 
-### Tile Shooting Flow (Right-Click)
+### Tile Shooting Flow
 
-```
-1. User aims at tile and holds right mouse button
-2. Raycast detects tile under forks
-3. Client sends 'start_tile_charge' message to server
-4. Server locks tile to player (state = CHARGING)
-5. Server positions tile between forks
-6. User releases right mouse button
-7. Client calculates shoot direction (camera forward)
-8. Client sends 'tile_shoot' message with direction
-9. Server calculates charge time (up to 2 seconds)
-10. Server maps charge time to strength (1-100, quadratic)
-11. Server spawns tile ahead of player
-12. Server re-enables physics for tile
-13. Server applies impulse (10-3000 based on strength)
-14. Server applies backforce to player
-15. Client interpolates tile movement (40%)
-```
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant C as Client
+    participant S as Server
+    participant P as Physics
 
-### Puzzle Completion Flow
+    U->>C: Right mouse down
+    C->>S: start_tile_charge
+    S->>S: state = CHARGING
 
-```
-1. User clicks tile on floor
-2. Client sends 'tile_click' message to server
-3. Server validates proximity and tile state
-4. Server locks tile to player (state = LOCKED)
-5. Server sends 'show_puzzle' message with puzzle config
-6. Client shows MultipleChoiceGUI with question
-7. User selects answer and clicks Submit
-8. Client sends 'puzzle_submit' message with answerIndex
-9. Server validates answer using QuestionBank
-10. If correct:
-    a. Server removes tile from tiles map
-    b. Server creates/updates PlacedTileSchema in placedTiles
-    c. Server sends 'tile_placed' message to client
-    d. Client plays fly animation locally (1.5s cubic ease-out)
-    e. Server updates player.tilesPlaced
-    f. Server updates leaderboard
-11. If wrong:
-    a. Server shoots tile away at 50% strength
-    b. Client closes puzzle GUI
+    Note over S: Charging (max 2s)
+
+    U->>C: Right mouse up
+    C->>S: tile_shoot(direction)
+    S->>S: Calculate strength (quadratic)
+    S->>P: Apply impulse (10-3000)
+    S->>P: Apply backforce to player
+    S->>S: state = ON_FLOOR
+
+    S-->>C: State update
+    C->>C: Interpolate tile
 ```
 
 ### Goal Scoring Flow
 
-```
-1. Player shoots tile through goal arch
-2. Server physics detects tile entered trigger zone
-3. PhysicsWorld fires goal trigger callback
-4. GameRoom.handleGoalScored() increments blue/red score
-5. GameRoom debounces (prevents duplicate scoring)
-6. GameRoom broadcasts 'goal_scored' event
-7. Client StateSync receives score update
-8. Client Scoreboard updates 3D text displays
+```mermaid
+sequenceDiagram
+    participant P as Player
+    participant PW as PhysicsWorld
+    participant GR as GameRoom
+    participant C as Client
+
+    P->>PW: Shoot tile through goal
+    PW->>PW: Tile enters trigger zone
+    PW->>GR: Goal trigger callback
+    GR->>GR: Increment blue/red score
+    GR->>GR: Debounce (prevent duplicate)
+    GR-->>C: goal_scored event
+    C->>C: Update Scoreboard
 ```
 
 ### Combat Flow
 
-```
-1. User presses E key near another player
-2. Client sends 'fork_attack' message with targetSessionId
-3. Server validates distance (<10 units)
-4. Server applies damage (5 per click)
-5. Server updates player.health
-6. Client receives health update
-7. Client VehicleRenderer updates health bar
-8. If health <= 0:
-    a. Server sets player.isDead = true
-    b. Client shows death countdown GUI
-    c. User clicks respawn
-    d. Server respawns player at random position
+```mermaid
+sequenceDiagram
+    participant A as Attacker
+    participant S as Server
+    participant V as Victim
+
+    A->>S: fork_attack(targetId)
+    S->>S: Validate distance (<10 units)
+    S->>S: Apply damage (5 per click)
+    S-->>V: health update
+
+    alt Health <= 0
+        S->>S: isDead = true
+        S-->>V: Show death countdown
+        V->>S: respawn
+        S->>S: Random position
+    end
 ```
 
 ---
