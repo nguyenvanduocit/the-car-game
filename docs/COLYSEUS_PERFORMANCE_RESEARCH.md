@@ -1,6 +1,6 @@
 # Colyseus State Patching Performance Research
 
-Deep research on Colyseus state synchronization, bandwidth optimization, and best practices for multiplayer game networking.
+Research on Colyseus state synchronization, bandwidth optimization, and best practices for multiplayer game networking.
 
 **Context**: BlockGame - BabylonJS + Colyseus multiplayer puzzle game with server-authoritative physics running at 30Hz.
 
@@ -135,13 +135,14 @@ PhysicsConstants = {
 - No built-in interpolation (must implement client-side)
 - Lower bandwidth but requires manual smoothing
 
-**BlockGame**: Currently uses state patching with client-side interpolation via lerping:
+**BlockGame**: Currently uses state patching with client-side interpolation via frame-rate independent exponential smoothing:
 
 ```typescript
 // packages/ui/src/game/Vehicle.ts (simplified)
-// Client interpolates from current position to server position
-const t = 0.3; // Faster lerp for local player
-this.mesh.position.x = lerp(current.x, serverPos.x, t);
+// Client moves from current position toward server position each frame
+const smoothingSpeed = this.isLocal ? 18 : 12; // LOCAL_SMOOTHING_SPEED / REMOTE_SMOOTHING_SPEED
+const positionFactor = 1 - Math.exp(-smoothingSpeed * deltaTime);
+this.currentPosition.x += (targetX - this.currentPosition.x) * positionFactor;
 ```
 
 ### StateView (Filter Decorator Replacement)
@@ -398,7 +399,7 @@ $decoder(buffer, offset) {
 }
 ```
 
-**BlockGame**: Not recommended - adds complexity for minimal gain. Standard float32 positions are sufficient.
+**BlockGame**: Not recommended - adds complexity for minimal gain. Standard position encoding (`@type('number')` fields in `Vector3Schema`) is sufficient.
 
 ---
 

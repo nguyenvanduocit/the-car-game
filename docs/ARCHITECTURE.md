@@ -31,7 +31,12 @@ graph TB
         Types[Types/Config]
     end
 
+    subgraph Bots["@blockgame/bots"]
+        BC[BotClient<br/>colyseus.js]
+    end
+
     Client <-->|WebSocket<br/>Colyseus| Server
+    Bots <-->|WebSocket<br/>Colyseus| Server
     Client --> Shared
     Server --> Shared
 ```
@@ -92,21 +97,22 @@ graph TB
             tiles["tiles (Map)"]
             placedTiles["placedTiles"]
             leaderboard["leaderboard"]
-            goalScores["goalScores"]
+            allTimeLeaderboard["allTimeLeaderboard"]
+            goalScores["blueGoalScore / redGoalScore"]
         end
 
         subgraph Physics["PhysicsWorld"]
             playerBodies["playerBodies"]
             tileBodies["tileBodies"]
-            boundaries["boundaries"]
-            triggers["triggers"]
+            boundaries["boundaryBodies"]
+            triggers["goalTriggerBodies"]
             step["step(dt)"]
         end
 
         subgraph DB["Database"]
-            saveState["saveState()"]
-            loadState["loadState()"]
-            lb["leaderboard"]
+            saveState["saveRoomState()"]
+            loadState["loadRoomState()"]
+            lb["getTopPlayers() / updatePlayerScore()"]
         end
 
         subgraph Handlers["Message Handlers"]
@@ -115,17 +121,20 @@ graph TB
             tile_charge["start_tile_charge → Charging"]
             tile_shoot["tile_shoot → Impulse, backforce"]
             puzzle_submit["puzzle_submit → Validate, place"]
-            puzzle_cancel["puzzle_cancel → Release tile"]
+            puzzle_cancel["puzzle_cancel → Shoot tile away"]
+            frame_place["frame_place → Place tile (legacy)"]
             fork_attack["fork_attack → Melee attack"]
             respawn["respawn → Manual respawn"]
+            ping["ping → pong (latency)"]
         end
 
         subgraph Loop["Update Loop (30Hz)"]
-            step_physics["1. physicsWorld.step(dt)"]
-            check_goals["2. checkGoalTriggers()"]
-            sync_players["3. Sync player positions"]
-            update_held["4. Update held tiles"]
-            sync_tiles["5. Sync tile transforms"]
+            spawn_queue["1. processSpawnQueue()"]
+            step_physics["2. physicsWorld.step(dt)"]
+            check_goals["3. checkGoalTriggers()"]
+            sync_players["4. Sync player positions"]
+            update_held["5. Update held tiles"]
+            sync_tiles["6. Sync tile transforms"]
         end
     end
 ```
@@ -139,7 +148,8 @@ classDiagram
         +MapSchema~TileSchema~ tiles
         +MapSchema~PlacedTileSchema~ placedTiles
         +ArraySchema~string~ frameSlots
-        +ArraySchema~LeaderboardEntry~ leaderboard
+        +ArraySchema~LeaderboardEntrySchema~ leaderboard
+        +ArraySchema~AllTimeLeaderboardEntrySchema~ allTimeLeaderboard
         +number blueGoalScore
         +number redGoalScore
         +number createdAt
@@ -196,12 +206,13 @@ packages/ui/
 │   │   ├── Camera.ts               # Third-person ArcRotate camera
 │   │   ├── Floor.ts                # Ground rendering
 │   │   ├── Frame.ts                # Picture frame rendering
-│   │   ├── Physics.ts              # Client-side prediction physics
+│   │   ├── Physics.ts              # Physics stub (client runs no simulation)
 │   │   ├── Vehicle.ts              # Vehicle renderer (monster truck)
 │   │   ├── Tile.ts                 # Tile mesh with texture
+│   │   ├── TileMasterMesh.ts       # Shared master mesh for tile instancing
 │   │   ├── TilePool.ts             # Object pooling for tiles
-│   │   ├── Raycast.ts              # Click detection
-│   │   ├── PlayerInput.ts          # WASD/mouse controls
+│   │   ├── Raycast.ts              # Click detection, pointer lock
+│   │   ├── PlayerInput.ts          # Arrow-key car controls
 │   │   ├── Sound.ts                # Sound effects
 │   │   ├── Scoreboard.ts           # Goal score display
 │   │   └── LeaderboardWall.ts      # 3D leaderboard in world
@@ -234,12 +245,12 @@ graph TB
         end
 
         subgraph Input["Input & Interaction"]
-            PlayerInput["PlayerInput<br/>WASD, mouse"]
-            Raycast["Raycast<br/>pickTile(), pointerLock"]
+            PlayerInput["PlayerInput<br/>arrow keys → throttle, steering"]
+            Raycast["Raycast<br/>checkTileInPickupZone(), pointerLock"]
             Frame["Frame<br/>slots[], border, glow"]
         end
 
-        subgraph RenderLoop["Render Loop (60fps)"]
+        subgraph RenderLoop["Render Loop (every frame)"]
             interp_players["1. interpolatePlayers()"]
             interp_tiles["2. interpolateTiles()"]
             reconcile["3. reconcileLocalPlayer()"]
@@ -263,8 +274,8 @@ sequenceDiagram
     participant SS as StateSync
     participant VR as VehicleRenderer
 
-    PI->>PI: Capture WASD (throttle, steering)
-    PI->>CC: sendMovement({direction, rotation})
+    PI->>PI: Capture arrow keys (throttle, steering)
+    PI->>CC: sendMovement(direction, rotation)<br/>x = throttle, z = steering
     CC->>GR: player_move message
     GR->>PW: applyCarControls(throttle, steering)
 
@@ -277,8 +288,8 @@ sequenceDiagram
     GR-->>SS: State broadcast (30Hz)
     SS->>VR: updateTargetPosition()
 
-    loop 60fps Render
-        VR->>VR: interpolate(deltaTime)
+    loop Every render frame
+        VR->>VR: interpolate() (exponential smoothing)
     end
 ```
 
@@ -293,22 +304,22 @@ flowchart TB
     end
 
     subgraph Messages["Client Messages"]
-        tile_click[tile_click<br/>availableId]
-        start_charge[start_tile_charge<br/>availableId]
-        tile_shoot[tile_shoot<br/>availableId, direction]
-        puzzle_submit[puzzle_submit<br/>availableId, answerIndex]
+        tile_click[tile_click<br/>tileIndex = availableId]
+        start_charge[start_tile_charge<br/>tileIndex = availableId]
+        tile_shoot[tile_shoot<br/>tileIndex, direction]
+        puzzle_submit[puzzle_submit<br/>tileIndex, answerIndex]
     end
 
     subgraph States["Tile States"]
         LOCKED[LOCKED<br/>ownedBy = sessionId<br/>show puzzle]
-        CHARGING[CHARGING<br/>ownedBy = sessionId<br/>chargingStart]
-        PLACED[PLACED<br/>fly animation<br/>update leaderboard]
+        CHARGING[CHARGING<br/>ownedBy = sessionId<br/>chargingStartTime]
+        PLACED[PLACED<br/>tile_placed → fly animation<br/>update leaderboard]
     end
 
     LC --> tile_click --> LOCKED
     RC --> start_charge --> CHARGING
 
-    CHARGING -->|Hold > 2s| tile_shoot
+    CHARGING -->|Held ≥ 2s, server auto-release| shootTile
     CHARGING -->|Mouse up| tile_shoot
     tile_shoot --> shootTile[shootTile<br/>returnToFloor<br/>applyImpulse<br/>backforce]
 
@@ -348,12 +359,17 @@ $(room.state.tiles).onAdd((tile, availableId) => {
   $(tile).position.onChange(() => updateTilePosition());
   $(tile).rotation.onChange(() => updateTileRotation());
   $(tile).listen('state', (state) => updateTileState());
+  $(tile).listen('ownedBy', (owner) => updateTileState());
 });
 
 // Placed Tiles
 $(room.state.placedTiles).onAdd((placedTile, frameSlotIndex) => {
   $(placedTile).listen('fillCount', (count) => updateFillState());
 });
+
+// Goal scores
+$(room.state).listen('blueGoalScore', (score) => scoreboard.updateScores());
+$(room.state).listen('redGoalScore', (score) => scoreboard.updateScores());
 ```
 
 ### Interpolation Strategy
@@ -361,7 +377,7 @@ $(room.state.placedTiles).onAdd((placedTile, frameSlotIndex) => {
 ```mermaid
 graph LR
     Server[Server State<br/>30Hz] -->|Target Position| Interpolation
-    Interpolation -->|Smooth Movement| Render[Render<br/>60fps]
+    Interpolation -->|Smooth Movement| Render[Render<br/>every frame]
 
     subgraph Interpolation["Exponential Smoothing"]
         formula["factor = 1 - exp(-speed * deltaTime)<br/>current += (target - current) * factor"]
@@ -374,7 +390,7 @@ graph LR
 | Remote player position | 12/sec | Smooth |
 | Rotation (all) | 15/sec | Medium |
 | Steering (wheels) | 20/sec | Responsive |
-| Tiles | 15/sec | Medium |
+| Tiles (`LOCKED`, `CHARGING`) | 15/sec | Medium. `ON_FLOOR` tiles snap to server position |
 
 ---
 
@@ -394,11 +410,11 @@ graph TB
             walls["boundaryBodies<br/>4 walls + ceiling"]
             ramps["rampBodies<br/>2 launch pads"]
             arches["archBodies<br/>blue/red goals"]
-            triggers["goalTriggers<br/>isTrigger=true"]
+            triggers["goalTriggerBodies<br/>isTrigger=true"]
         end
 
         subgraph Dynamic["Dynamic Bodies"]
-            players["playerBodies<br/>Box 1.5x2x2.5, mass=20<br/>Rear-biased CoM"]
+            players["playerBodies<br/>Box 1.35x2x3.92, mass=20<br/>Low, slightly rear CoM"]
             tiles["tileBodies<br/>Box 1.2x0.4x1.2, mass=12<br/>Max 50 active"]
         end
     end
@@ -407,7 +423,7 @@ graph TB
 ### Physics Constants
 
 ```typescript
-// Server tick rates
+// Server tick rates (GameRoom reads these from @blockgame/shared)
 PHYSICS_SIMULATION_RATE: 30    // Hz
 STATE_PATCH_RATE: 30           // Hz
 

@@ -1,5 +1,22 @@
 <!--
 Sync Impact Report:
+Version: 1.0.1 → 1.0.2
+Rationale: Align factual claims with the current codebase (no principle changes)
+
+Modified Sections:
+  - III. Visual Clarity Over Realism: first-person view → third-person view (packages/ui/src/game/Camera.ts)
+  - Technical Constraints / Technology Stack: backend path is packages/server/; added Havok physics line; camera is third-person
+  - Technical Constraints / Performance Targets: player count and network setup match packages/server/src/rooms/GameRoom.ts and packages/ui/.env
+  - Technical Constraints / Scope Boundaries: third-person navigation
+Templates Status: No template changes needed
+
+Follow-up TODOs (need an owner decision, not a wording fix):
+  - Principle V and Prohibited list forbid Express and the ws library; packages/server/src/index.ts uses express + @colyseus/ws-transport
+  - Code Quality requires TypeScript strict mode; packages/ui/tsconfig.json sets "strict": false
+  - Out of Scope lists save/load game sessions; GameRoom restores persisted room state from SQLite on create
+  - In Scope says 5-20 unique puzzles; code has 4 puzzle types (packages/shared/src/types/Puzzle.ts) and 800 questions (packages/shared/src/data/questions.json)
+
+Previous Sync Impact Report:
 Version: 1.0.0 → 1.0.1
 Rationale: Clarify UI technology - BabylonJS GUI (not HTML/CSS overlays)
 
@@ -58,7 +75,7 @@ Minecraft-style block aesthetic MUST be maintained consistently:
 - **Block-based geometry**: All 3D models use simple cubes/rectangular prisms with hard edges
 - **Flat textures**: No gradients, realistic lighting, or complex materials
 - **High contrast**: Tiles, puzzles, and UI elements must be instantly distinguishable
-- **Spatial simplicity**: Room layout should be immediately understandable from first-person view
+- **Spatial simplicity**: Room layout should be immediately understandable from third-person view
 
 **Rationale**: Players have limited time to learn controls. Visual simplicity reduces cognitive load and keeps focus on puzzle-solving.
 
@@ -74,7 +91,7 @@ The tile-collection mechanic MUST create meaningful gameplay:
 
 ### V. Bun-Native Development
 
-Leverage Bun's capabilities to minimize dependencies and complexity:
+Prefer Bun built-ins to minimize dependencies and complexity:
 - **Use Bun APIs directly**: `Bun.serve()` for WebSockets, `bun:sqlite` for persistence, `Bun.file` for assets
 - **Avoid npm alternatives**: No Express, no better-sqlite3, no ws library, no dotenv
 - **Hot reload for iteration**: Use `bun --hot` during development for rapid testing
@@ -86,14 +103,15 @@ Leverage Bun's capabilities to minimize dependencies and complexity:
 
 ### Technology Stack (FIXED)
 
-**Backend** (packages/server or blockgame/):
+**Backend** (packages/server/):
 - Runtime: Bun (NOT Node.js)
 - Multiplayer: Colyseus framework
+- Physics: Havok (`@babylonjs/havok`) at 30Hz, server-side only (the client runs a render-only stub)
 - Database: bun:sqlite for leaderboard/state persistence
 - Testing: bun test
 
 **Frontend** (@blockgame/ui/):
-- 3D Engine: BabylonJS (first-person camera, mesh interactions)
+- 3D Engine: BabylonJS (third-person camera, mesh interactions)
 - Build Tool: Vite (rolldown-vite for fast HMR)
 - Colyseus Client: WebSocket connection to backend
 - UI: BabylonJS GUI for all game UI (@babylonjs/gui - no HTML/TSX components for buttons, dialogs, overlays)
@@ -106,16 +124,16 @@ Leverage Bun's capabilities to minimize dependencies and complexity:
 
 ### Performance Targets
 
-Given the event context (likely 10-30 concurrent players):
+Given the event context (target ~200 concurrent players in one room; server cap `maxClients = 300`):
 - **Server response**: <100ms for tile interactions
 - **Client FPS**: Stable 30+ FPS on mid-range laptops (BabylonJS optimization required)
-- **WebSocket latency**: <50ms for state updates (local network event setup assumed)
+- **WebSocket latency**: <50ms for state updates (clients connect to the public endpoint `wss://ws-game.firegroup.vn`)
 - **Puzzle load time**: <1s to display puzzle UI overlay
 
 ### Scope Boundaries
 
 **In Scope**:
-- First-person 3D navigation in a single room
+- Third-person 3D navigation in a single room
 - Click tile → show puzzle → solve → hold tile
 - Carry tile to central frame → snap to grid
 - Real-time leaderboard (tiles placed per player)
@@ -195,4 +213,4 @@ Given the event context (likely 10-30 concurrent players):
 - Why violation necessary for event success
 - What simpler alternative was rejected and why
 
-**Version**: 1.0.1 | **Ratified**: 2025-11-18 | **Last Amended**: 2025-11-18
+**Version**: 1.0.2 | **Ratified**: 2025-11-18 | **Last Amended**: 2026-09-23

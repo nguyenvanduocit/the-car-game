@@ -1,4 +1,4 @@
-# BlockGame - Complete Game Logic Documentation
+# BlockGame - Game Logic
 
 ## Table of Contents
 1. [Architecture Overview](#architecture-overview)
@@ -10,6 +10,7 @@
 7. [Puzzles System](#puzzles-system)
 8. [GUI Components](#gui-components)
 9. [Data Flow & Communication Patterns](#data-flow--communication-patterns)
+10. [Join & Persistence](#join--persistence)
 
 ---
 
@@ -38,14 +39,13 @@ graph LR
 
 **Server Responsibilities:**
 - Owns and controls ALL game state (players, tiles, frame, leaderboard)
-- Validates ALL client actions (tile clicks, puzzle results, frame placement)
+- Validates tile clicks, charge/shoot requests, puzzle answers (via QuestionBank) and fork attack range
 - Runs physics simulation at 30Hz using BabylonJS Havok on NullEngine
 - Broadcasts state changes to all clients via Colyseus (30Hz patch rate)
-- Prevents cheating by validating all inputs
 
 **Client Responsibilities:**
 - Renders game state received from server
-- Captures user input (WASD movement, mouse clicks, puzzle interactions)
+- Captures user input (arrow-key driving, mouse clicks, puzzle interactions)
 - Sends input to server as messages
 - Interpolates positions for smooth visuals at 60fps
 - Runs fly animations locally (client-side)
@@ -56,7 +56,7 @@ graph LR
 
 ### GameRoom Class (`packages/server/src/rooms/GameRoom.ts`)
 
-The GameRoom is the heart of the multiplayer game, managing all game state and physics.
+GameRoom owns all game state, handles client messages and runs the physics loop.
 
 #### Configuration
 - `maxClients = 300` - supports up to 300 concurrent players
@@ -87,6 +87,10 @@ graph TB
     end
 ```
 
+- At most 50 tiles are on the floor at once (`MAX_ACTIVE_TILES`). The rest wait server-side as `NOT_SPAWNED` and are not synced to clients.
+- Solving a phase 1 tile half-fills its slot and queues the phase 2 tile for the same slot. Solving the phase 2 tile completes the slot and queues the next tile from the pool. The spawn queue creates at most 2 tiles per physics frame.
+- The puzzle is generated when a player picks the tile up. Question id = `frameSlotIndex + (phase - 1) * 400`, so phase 1 uses questions 0-399 and phase 2 uses 400-799.
+
 #### Message Handlers
 
 ```mermaid
@@ -100,17 +104,19 @@ graph LR
         pc[puzzle_cancel]
         fa[fork_attack]
         rs[respawn]
+        pg[ping]
     end
 
     subgraph Actions["Server Actions"]
         car[Apply car controls]
-        lock[Lock tile + puzzle]
+        lock[Lock tile + send puzzle]
         charge[Start charging]
-        impulse[Apply impulse]
-        validate[Validate + place]
-        release[Release tile]
-        damage[Apply damage]
+        impulse[Shoot tile, strength 1-100]
+        validate[Validate answer + place]
+        release[Shoot tile away, strength 50]
+        damage[Apply damage if within 10 units]
         spawn[Respawn player]
+        pong[Reply pong]
     end
 
     pm --> car
@@ -121,6 +127,7 @@ graph LR
     pc --> release
     fa --> damage
     rs --> spawn
+    pg --> pong
 ```
 
 #### Physics Update Loop (30Hz)
@@ -130,10 +137,10 @@ flowchart TD
     A[updatePhysics] --> B[Process spawn queue]
     B --> C[physicsWorld.step]
     C --> D[Check goal triggers]
-    D --> E[Sync player positions]
-    E --> F[Update held tiles]
-    F --> G[Sync tile transforms]
-    G --> H[Performance monitoring]
+    D --> E[Sync player positions + clamp to bounds]
+    E --> F[Update held tiles + auto-shoot after 2s charge]
+    F --> G[Sync tile transforms + clamp to bounds]
+    G --> H[Timing samples + damage cooldown cleanup]
 ```
 
 ---
@@ -160,7 +167,7 @@ graph TB
     end
 
     subgraph Dynamic["Dynamic Bodies"]
-        players[Players<br/>Box 1.5x2x2.5<br/>Mass: 20]
+        players[Players<br/>Box 1.35x2x3.92<br/>Mass: 20]
         tiles[Tiles<br/>Box 1.2x0.4x1.2<br/>Mass: 12]
     end
 
@@ -193,17 +200,16 @@ graph TB
 ```mermaid
 graph TB
     subgraph Vehicle["Monster Truck"]
-        Chassis[Chassis<br/>1.5x2x2.5]
-        Body[Car Body<br/>Cabin, hood, fenders]
+        Chassis[Chassis<br/>Invisible root for car parts]
+        Body[Car Body<br/>Base, cabin, fenders, bumpers]
         Wheels[4 Wheels<br/>Animated steering]
         Forks[Fork Prongs<br/>Tile holder]
-        HealthBar[Health Bar<br/>Billboard]
-        NameLabel[Name Label<br/>Billboard]
+        RoofSign[Roof Sign<br/>Name + health bar, front and back planes]
     end
 
     subgraph Methods["Key Methods"]
-        updateTarget[updateTargetPosition/Rotation]
-        interpolate[interpolate deltaTime]
+        updateTarget["updateTargetPosition / Rotation / Steering"]
+        interp[interpolate factor]
         updateHealth[updateHealth current, max]
         getAttach[getTileAttachmentPosition]
     end
@@ -216,23 +222,25 @@ stateDiagram-v2
     [*] --> ON_FLOOR: Spawned
     ON_FLOOR --> LOCKED: Left click
     ON_FLOOR --> CHARGING: Right click
-    LOCKED --> ON_FLOOR: Puzzle cancel
-    LOCKED --> PLACED: Puzzle correct
+    LOCKED --> ON_FLOOR: Wrong answer or cancel (shot away)
+    LOCKED --> [*]: Correct answer (removed, flies to frame)
     CHARGING --> ON_FLOOR: Shoot
-    PLACED --> [*]: In frame
 ```
 
-### PlayerInput Controls
+### Controls
+
+Driving is handled by `PlayerInput`, mouse actions by `Raycast`.
 
 | Input | Action |
 |-------|--------|
-| W/S | Throttle (forward/back) |
-| A/D | Steering (left/right) |
-| Left Click | Pick up tile |
+| Arrow Up/Down | Throttle (forward/back) |
+| Arrow Left/Right | Steering (left/right) |
+| Left Click | Pick up tile in the pickup zone |
+| Left Click (fork tip touching another player) | Fork attack (melee) |
 | Right Click Hold | Charge tile |
-| Right Click Release | Shoot tile |
-| E Key | Fork attack (melee) |
+| Right Click Release | Shoot tile (auto-shoots at full strength after 2s) |
 | Mouse | Camera rotation |
+| Esc | Menu (resume, respawn, help) |
 
 ---
 
@@ -244,13 +252,17 @@ stateDiagram-v2
 graph LR
     subgraph Send["Client → Server"]
         sendMovement[sendMovement<br/>direction, rotation]
-        sendTileClick[sendTileClick<br/>availableId]
-        sendPuzzle[sendPuzzleResult<br/>availableId, answerIndex]
-        sendCharge[sendStartTileCharge<br/>availableId]
-        sendShoot[sendTileShoot<br/>availableId, direction]
+        sendTileClick[sendTileClick<br/>tileIndex]
+        sendPuzzle[sendPuzzleResult<br/>tileIndex, success, answerIndex]
+        sendCancel[sendPuzzleCancel<br/>tileIndex]
+        sendCharge[sendStartTileCharge<br/>tileIndex]
+        sendShoot[sendTileShoot<br/>tileIndex, direction]
         sendFork[sendForkAttack<br/>targetSessionId]
+        sendRespawn[sendRespawn]
     end
 ```
+
+`tileIndex` in tile messages carries the tile's `availableId` (0-799).
 
 ### StateSync Callbacks (Colyseus v0.16+)
 
@@ -260,6 +272,7 @@ graph TB
         players["$(room.state.players).onAdd"]
         tiles["$(room.state.tiles).onAdd"]
         placed["$(room.state.placedTiles).onAdd"]
+        root["$(room.state)"]
     end
 
     subgraph Listeners["Property Listeners"]
@@ -267,17 +280,27 @@ graph TB
         rot["bodyRotation.onChange"]
         steer["listen 'steering'"]
         health["listen 'health'"]
+        dead["listen 'isDead'"]
+        tpos["position / rotation.onChange"]
         state["listen 'state'"]
+        owner["listen 'ownedBy'"]
         fill["listen 'fillCount'"]
+        goals["listen 'blueGoalScore' / 'redGoalScore'"]
     end
 
     players --> pos
     players --> rot
     players --> steer
     players --> health
+    players --> dead
+    tiles --> tpos
     tiles --> state
+    tiles --> owner
     placed --> fill
+    root --> goals
 ```
+
+`players`, `tiles` and `placedTiles` also register `onRemove`. Initial slot fill state arrives in the `slot_states` message sent on join.
 
 ---
 
@@ -287,15 +310,20 @@ graph TB
 
 ```mermaid
 stateDiagram-v2
+    NOT_SPAWNED: NOT_SPAWNED<br/>Server-side pool, not synced
     ON_FLOOR: ON_FLOOR<br/>Physics simulated
     LOCKED: LOCKED<br/>Puzzle shown
     CHARGING: CHARGING<br/>Between forks
 
+    NOT_SPAWNED --> ON_FLOOR: spawn queue
     ON_FLOOR --> LOCKED: tile_click
     ON_FLOOR --> CHARGING: start_tile_charge
-    LOCKED --> ON_FLOOR: puzzle_cancel
-    CHARGING --> ON_FLOOR: tile_shoot
+    LOCKED --> ON_FLOOR: wrong puzzle_submit / puzzle_cancel
+    LOCKED --> [*]: correct puzzle_submit (tile removed)
+    CHARGING --> ON_FLOOR: tile_shoot / 2s auto-shoot
 ```
+
+LOCKED and CHARGING tiles follow the player's fork attach point every physics tick. The `TileState` enum also defines `FLYING` and `PLACED`; placed tiles live in `placedTiles` as `PlacedTileSchema`.
 
 ### Player States
 
@@ -308,6 +336,8 @@ stateDiagram-v2
     SOLVING_PUZZLE --> IDLE: Complete/Cancel
 ```
 
+Players in `SOLVING_PUZZLE` take no damage. Death is tracked separately by the `isDead` flag.
+
 ### World Configuration
 
 | Config | Value |
@@ -317,8 +347,11 @@ stateDiagram-v2
 | Available Tiles | 800 (2 per slot) |
 | Max Active Tiles | 50 on floor |
 | Player Max Health | 100 |
-| Tile Damage | 20 |
-| Fork Damage | 5 |
+| Tile Damage | Up to 20, scaled by impact speed (hits above 20 units/s only) |
+| Tile Damage Cooldown | 1s per tile-player pair |
+| Fork Damage | 5 per hit |
+| Fork Attack Range | 10 units |
+| Respawn Delay | 3s |
 
 ---
 
@@ -332,24 +365,28 @@ sequenceDiagram
     participant S as Server
     participant QB as QuestionBank
 
-    C->>S: tile_click(availableId)
-    S->>S: Lock tile to player
-    S->>C: show_puzzle(config)
+    C->>S: tile_click(tileIndex)
+    S->>QB: Generate puzzle if tile has none
+    S->>S: Lock tile to player, player = SOLVING_PUZZLE
+    S->>C: show_puzzle(tileIndex, puzzle)
     C->>C: Display MultipleChoiceGUI
 
-    C->>S: puzzle_submit(availableId, answerIndex)
-    S->>QB: Validate answer
+    C->>S: puzzle_submit(tileIndex, answerIndex)
+    S->>QB: validateAnswer(questionId, answerIndex)
 
     alt Correct
-        S->>S: Remove from tiles
-        S->>S: Create PlacedTileSchema
-        S->>C: tile_placed event
+        S->>S: placeTileInFrame (remove tile, create or complete PlacedTileSchema)
+        S->>C: puzzle_success (submitter only)
+        S-->>C: tile_placed (broadcast)
         C->>C: Fly animation (1.5s)
+        S->>S: Spawn next tile, save room state, update all-time leaderboard
     else Wrong
-        S->>S: shootTile(50% strength)
-        C->>C: Close puzzle GUI
+        S->>S: shootTile(strength 50 of 100)
+        S->>C: puzzle_failed
     end
 ```
+
+`puzzle_cancel` takes the same path as a wrong answer: the tile is shot away with strength 50 and the player returns to `IDLE`.
 
 ---
 
@@ -358,15 +395,14 @@ sequenceDiagram
 | Component | Purpose |
 |-----------|---------|
 | NameInputGUI | Login screen |
-| LeaderboardGUI | Top players overlay |
-| GameCompleteGUI | Victory screen |
 | CompassGUI | Direction display |
 | HelpGUI | Controls help |
 | EscMenuGUI | Escape menu |
 | DisconnectGUI | Disconnect overlay |
 | DeathCountdownGUI | Respawn countdown |
 | MultipleChoiceGUI | Quiz puzzle |
-| MemoryCardsGUI | Memory game |
+| LeaderboardWall (3D, `game/`) | All-time leaderboard in the world |
+| Scoreboard (3D, `game/`) | Goal scores above each goal |
 
 ---
 
@@ -383,7 +419,7 @@ sequenceDiagram
     participant SS as StateSync
     participant VR as VehicleRenderer
 
-    PI->>PI: WASD → throttle, steering
+    PI->>PI: Arrow keys → throttle, steering
     PI->>CC: sendMovement()
     CC->>GR: player_move
     GR->>PW: applyCarControls()
@@ -414,12 +450,12 @@ sequenceDiagram
     C->>S: start_tile_charge
     S->>S: state = CHARGING
 
-    Note over S: Charging (max 2s)
+    Note over S: Charging (max 2s, then auto-shoot at strength 100)
 
     U->>C: Right mouse up
     C->>S: tile_shoot(direction)
-    S->>S: Calculate strength (quadratic)
-    S->>P: Apply impulse (10-3000)
+    S->>S: Strength 1-100, linear in charge time
+    S->>P: Apply impulse (10-3000, quadratic in strength)
     S->>P: Apply backforce to player
     S->>S: state = ON_FLOOR
 
@@ -439,9 +475,10 @@ sequenceDiagram
     P->>PW: Shoot tile through goal
     PW->>PW: Tile enters trigger zone
     PW->>GR: Goal trigger callback
+    GR->>GR: Skip if this tile already scored in this goal
     GR->>GR: Increment blue/red score
-    GR->>GR: Debounce (prevent duplicate)
     GR-->>C: goal_scored event
+    GR->>GR: Save room state
     C->>C: Update Scoreboard
 ```
 
@@ -453,18 +490,31 @@ sequenceDiagram
     participant S as Server
     participant V as Victim
 
-    A->>S: fork_attack(targetId)
-    S->>S: Validate distance (<10 units)
-    S->>S: Apply damage (5 per click)
+    A->>S: fork_attack(targetSessionId)
+    S->>S: Validate distance (≤10 units)
+    S->>S: Apply damage (5 per hit, none while SOLVING_PUZZLE)
     S-->>V: health update
 
     alt Health <= 0
-        S->>S: isDead = true
+        S->>S: isDead = true, remove physics body
         S-->>V: Show death countdown
-        V->>S: respawn
-        S->>S: Random position
+        Note over S: 3s delay
+        S->>S: Respawn at random position, full health
     end
 ```
+
+Shot tiles damage players through the same `applyDamage` path. The `respawn` message is a manual respawn from the Esc menu.
+
+---
+
+## Join & Persistence
+
+- A join is rejected if another connected player already uses the same display name (case-insensitive).
+- Opening the game in a new tab with the same `playerToken` disconnects the old session (close code 4001).
+- On join the server sends `joined` and `slot_states` (half-filled and complete slots).
+- A returning player gets their saved tile count back.
+- Room state (fill count and completer of each slot, goal scores, player tile counts) is saved after every tile placement and goal, and restored when the room is created. The all-time leaderboard (top 50) is stored in the database.
+- On leave, the player is removed immediately and tiles they held return to the floor.
 
 ---
 
@@ -479,6 +529,10 @@ sequenceDiagram
 | Tile Schema | `packages/server/src/schema/TileSchema.ts` |
 | Placed Tile Schema | `packages/server/src/schema/PlacedTileSchema.ts` |
 | Player Schema | `packages/server/src/schema/PlayerSchema.ts` |
+| Puzzle Generator | `packages/server/src/utils/PuzzleGenerator.ts` |
+| Room State Persistence | `packages/server/src/database/roomState.ts` |
+| Question Bank | `packages/shared/src/loaders/QuestionBank.ts` |
+| Question Data | `packages/shared/src/data/questions.json` |
 | Client Scene | `packages/ui/src/game/Scene.ts` |
 | Vehicle Renderer | `packages/ui/src/game/Vehicle.ts` |
 | Tile Renderer | `packages/ui/src/game/Tile.ts` |
@@ -487,3 +541,4 @@ sequenceDiagram
 | Colyseus Client | `packages/ui/src/network/ColyseusClient.ts` |
 | State Sync | `packages/ui/src/network/StateSync.ts` |
 | World Config | `packages/shared/src/config/world.ts` |
+| Vehicle / Player Metrics | `packages/shared/src/config/vehicleMetrics.ts`, `playerMetrics.ts` |

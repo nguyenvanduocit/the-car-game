@@ -1,10 +1,10 @@
 # BlockGame
 
-A first-person multiplayer puzzle game where players collect tiles, solve puzzles, and collaboratively complete a picture.
+A third-person multiplayer puzzle game where players collect tiles, solve puzzles, and collaboratively complete a picture.
 
 ## What is This?
 
-Players drive monster trucks in a 3D arena filled with tiles. Click a tile to pick it up - but first you must solve a multiple choice quiz. Once correct, the tile flies to the frame on the wall. Shoot tiles through goals to score points. Fork attack other players to steal their tiles!
+Players drive monster trucks in a 3D arena filled with tiles. Click a tile to pick it up, then answer a multiple choice question. Answer correctly and the tile flies to the frame on the wall. Shoot tiles through goals to score points. Fork attack other players to knock them out!
 
 **Target scale:** ~200 concurrent players in the same room.
 
@@ -12,10 +12,30 @@ Players drive monster trucks in a 3D arena filled with tiles. Click a tile to pi
 
 ```bash
 bun install
-bun run dev
+bun run up:dev    # server + UI dev under PM2
 ```
 
-Server: `http://localhost:7001` | Client: `http://localhost:7000`
+Without PM2, run each package in its own terminal:
+
+```bash
+cd packages/server && bun run dev
+cd packages/ui && bun run dev
+```
+
+Server: `ws://localhost:7001` | Client: `http://localhost:7000`
+
+The client reads the server URL from `VITE_SERVER_URL` in `packages/ui/.env`. If it is unset, dev builds connect to `ws://localhost:7001`.
+
+Other scripts (from the repo root):
+
+```bash
+bun run test        # server tests
+bun run typecheck
+bun run build       # server + UI
+bun run bots        # bot clients (packages/bots)
+bun run logs        # PM2 logs
+bun run down        # stop all PM2 apps
+```
 
 ## Project Context
 
@@ -33,7 +53,7 @@ The goal is to validate patterns for server-authoritative multiplayer games at s
 The server is the **single source of truth** for all game state. Clients only render and send inputs - they never make authoritative decisions.
 
 - Server validates all actions (tile clicks, puzzle completion, placement)
-- Server runs physics simulation (Havok at 20Hz)
+- Server runs physics simulation (Havok at 30Hz)
 - Clients interpolate positions for smooth rendering
 - This prevents cheating and ensures consistency
 
@@ -60,7 +80,6 @@ The old `room.state.onChange()` API no longer works.
 ### Performance is Non-Negotiable
 
 With 200 concurrent users:
-- Every microsecond matters
 - Avoid allocations in hot paths (game loop, render loop)
 - Direct property access over getters/setters
 - Profile before and after changes
@@ -69,7 +88,9 @@ With 200 concurrent users:
 
 - [Game Logic](./docs/GAME_LOGIC.md)
 - [Architecture](./docs/ARCHITECTURE.md)
-- [Feature Spec](./specs/001-babylonjs-colyseus-sample/spec.md)
+- [Retrospective](./docs/RETROSPECTIVE.md)
+- [Colyseus Performance Research](./docs/COLYSEUS_PERFORMANCE_RESEARCH.md)
+- [Security Review](./docs/SECURITY_REVIEW.md)
 
 ## License
 

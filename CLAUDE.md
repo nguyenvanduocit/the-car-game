@@ -4,13 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-BlockGame is a first-person multiplayer puzzle game built with BabylonJS and Colyseus. Players navigate a room filled with tiles on the floor. When a player clicks on a tile, it appears in their hand and presents a puzzle. Only after solving the puzzle can they actually hold the tile. Players then carry tiles to a rectangular frame on the opposite side of the room, fitting small tile images together to complete a larger picture. The game includes a leaderboard.
+BlockGame is a third-person multiplayer game built with BabylonJS and Colyseus. Players drive vehicles around an arena with tiles on the floor. Clicking a tile locks it to the player and opens a multiple-choice question: a correct answer places the tile in the frame above the arena center, a wrong answer shoots the tile away. Each frame slot is filled twice (phase 1, then phase 2) to complete a larger picture. Players can also charge and shoot tiles (a tile entering the blue or red goal scores for that goal) and fork-attack nearby players for damage. The game has a session leaderboard and an all-time leaderboard persisted in SQLite.
 
 ## Scale & Capacity
 
 - **Target capacity: ~200 concurrent users**
 - All 200 users may be in the same game room simultaneously
-- Server must handle physics simulation for all players at 20Hz
+- Room hard cap: `maxClients = 300` (`GameRoom.ts`)
+- Server must handle physics simulation for all players at 30Hz
 - Network state sync must efficiently broadcast to all connected clients
 - Consider bandwidth and CPU implications when adding features
 
@@ -42,21 +43,17 @@ This game uses **server authoritative architecture** - the server is the single 
 
 **Communication Flow:**
 ```
-Client → Server: Input messages (player_move, tile_click, puzzle_submit, frame_place)
+Client → Server: Input messages (player_move, tile_click, start_tile_charge, tile_shoot,
+                 puzzle_submit, puzzle_cancel, frame_place, fork_attack, respawn, ping)
 Server → Client: State updates (via Colyseus state synchronization)
 ```
 
 **Example - Tile Click Flow:**
 1. Client: User clicks tile → Send `tile_click` message to server
-2. Server: Validate (is tile on floor? is player close enough?) → Lock tile to player
-3. Server: Broadcast state change to all clients
-4. Client: Render tile in player's hand (based on server state)
-
-**Benefits:**
-- Prevents cheating (all validation on server)
-- Consistent game state across all clients
-- Easy to debug (one source of truth)
-- Scalable (server handles complexity)
+2. Server: Validate (is tile on floor?) → Lock tile to player → Send `show_puzzle` to that client
+3. Server: Broadcast state change to all clients (via state sync)
+4. Client: Show the question; send `puzzle_submit` with the answer index
+5. Server: Validate the answer against `QuestionBank` → place tile in frame (broadcast `tile_placed`) or shoot it away
 
 ### Physics Architecture (Server-Authoritative)
 
@@ -65,10 +62,11 @@ The game uses **server-side physics only** - client does NOT run physics simulat
 **Server Physics (@blockgame/server/src/physics/PhysicsWorld.ts):**
 - ✅ Runs Havok physics engine (NullEngine + HavokPlugin)
 - ✅ Ground plane (100x200 units at y=0) - prevents falling through floor
-- ✅ Boundary walls (4 walls at world edges) - prevents escaping
-- ✅ Player physics bodies (dynamic spheres with collision)
-- ✅ Tile physics (simplified, may be expanded in future)
-- ✅ Simulates at 20Hz (PhysicsConstants.SERVER_PHYSICS_RATE)
+- ✅ Boundary walls (4 walls + ceiling, `WORLD_BOUNDARY_SEGMENTS` in `@blockgame/shared`) - prevents escaping
+- ✅ Ramps, goal arches, and goal triggers (static bodies)
+- ✅ Player physics bodies (dynamic boxes, vehicle chassis)
+- ✅ Tile physics bodies (dynamic boxes)
+- ✅ Simulates at 30Hz (`PhysicsConstants.PHYSICS_SIMULATION_RATE`); state patches at 30Hz (`STATE_PATCH_RATE`)
 - ✅ Broadcasts positions to clients via Colyseus state sync
 
 **Client Physics (@blockgame/ui/src/game/Physics.ts):**
@@ -198,7 +196,7 @@ The game uses **server-side physics only** - client does NOT run physics simulat
 - **The code change is NOT complete until typecheck passes with zero errors**
 
 ### Colyseus State Management (CRITICAL)
-This project uses **Colyseus v0.16.22**, which requires the modern state callback API:
+This project uses **Colyseus 0.16** (`colyseus.js` 0.16.22, `@colyseus/core` 0.16.23), which requires the modern state callback API:
 
 **ALWAYS use `getStateCallbacks()` for listening to state changes:**
 
@@ -212,13 +210,11 @@ $(room.state.leaderboard).onAdd(() => { /* ... */ });
 $(room.state.leaderboard).onRemove(() => { /* ... */ });
 
 // Listen to specific field changes
-$(room.state).listen('isComplete', (value, prevValue) => {
-  if (value === true) { /* ... */ }
-});
+$(room.state).listen('blueGoalScore', (value, prevValue) => { /* ... */ });
 
 // Listen to MapSchema changes (e.g., players)
 $(room.state.players).onAdd((player, sessionId) => {
-  $(player).listen('x', (x, prevX) => { /* ... */ });
+  $(player).listen('health', (health, prevHealth) => { /* ... */ });
 });
 ```
 
@@ -236,82 +232,84 @@ room.state.leaderboard.onAdd(() => { /* ... */ }); // Without getStateCallbacks
 
 ## Project Structure
 
-This is a monorepo managed by Bun workspaces with three main packages:
+This is a monorepo managed by Bun workspaces with four packages:
 
 ```
 blockgame/
 ├── packages/
 │   ├── server/              # Colyseus game server (@blockgame/server)
 │   │   ├── src/
-│   │   │   ├── index.ts     # Server entry point
-│   │   │   ├── database/    # SQLite database and leaderboard
-│   │   │   ├── physics/     # Havok physics integration
+│   │   │   ├── index.ts     # Server entry point (port 7001, SQLite ./game.db, /monitor)
+│   │   │   ├── config/      # Colyseus encoder buffer size
+│   │   │   ├── database/    # SQLite (bun:sqlite): init, leaderboard, room state persistence
+│   │   │   ├── monitoring/  # PM2 metrics
+│   │   │   ├── physics/     # Havok physics integration (PhysicsWorld, PhysicsConstants)
 │   │   │   ├── rooms/       # Colyseus room logic (GameRoom)
 │   │   │   ├── schema/      # Colyseus state schemas
-│   │   │   └── utils/       # Puzzle generation utilities
-│   │   └── tests/           # Server tests (unit, integration)
+│   │   │   └── utils/       # PuzzleGenerator
+│   │   └── tests/           # Server tests (unit, integration, utils)
 │   │
 │   ├── ui/                  # BabylonJS client (@blockgame/ui)
 │   │   ├── src/
 │   │   │   ├── main.ts      # Client entry point
-│   │   │   ├── game/        # BabylonJS game entities (Scene, Player, Tile, Floor, Frame, Camera, Physics, Raycast, Input)
-│   │   │   ├── gui/         # BabylonJS GUI components (NameInput, Leaderboard, GameComplete)
+│   │   │   ├── game/        # BabylonJS game entities (Scene, Player, Vehicle, Tile, TilePool, Floor, Frame, Camera, Physics stub, Raycast, PlayerInput, Sound, Scoreboard, LeaderboardWall)
+│   │   │   ├── gui/         # BabylonJS GUI components (NameInput, Leaderboard, GameComplete, EscMenu, Help, PlayGuide, Compass, DeathCountdown, Disconnect)
 │   │   │   ├── network/     # Colyseus client and state sync
-│   │   │   └── puzzles/     # Puzzle implementations (MemoryCards)
+│   │   │   └── puzzles/     # Puzzle UIs (MultipleChoiceGUI, MemoryCardsGUI)
 │   │   └── public/          # Static assets
 │   │
-│   └── shared/              # Shared types and utilities (@blockgame/shared)
-│       └── src/
-│           └── types/       # Shared TypeScript types
+│   ├── shared/              # Shared code (@blockgame/shared)
+│   │   └── src/
+│   │       ├── config/      # World, player, and vehicle config
+│   │       ├── constants/   # Coordinates, frame constants
+│   │       ├── data/        # Question bank data (questions.json, question.csv)
+│   │       ├── loaders/     # QuestionBank (answer validation)
+│   │       └── types/       # Shared TypeScript types
+│   │
+│   └── bots/                # Bot clients that join the room as simulated players (@blockgame/bots)
 │
-├── specs/                   # Feature specifications
-│   └── 001-babylonjs-colyseus-sample/
-│       ├── spec.md          # Feature specification
-│       ├── plan.md          # Implementation plan
-│       ├── tasks.md         # Task breakdown
-│       ├── data-model.md    # Data modeling
-│       ├── research.md      # Research notes
-│       ├── quickstart.md    # Quick start guide
-│       ├── checklists/      # Quality checklists
-│       └── contracts/       # Schema examples
-│
+├── docs/                    # ARCHITECTURE.md, GAME_LOGIC.md, research, retrospective
+├── scripts/                 # Maintenance scripts (questions, tiles, room reset, assets)
 ├── .specify/                # Specify framework configuration
 │   ├── memory/              # AI memory and context
 │   ├── templates/           # Spec templates
 │   └── scripts/             # Automation scripts
 │
+├── ecosystem.config.js      # PM2 process config (dev/prod server + UI)
 ├── package.json             # Root workspace configuration
 ├── bun.lock                 # Bun lockfile
 ├── CLAUDE.md                # Project-wide AI instructions
-├── README.md                # Project documentation
-├── PHASE4_IMPLEMENTATION.md # Implementation notes
-└── PHASE7_PHASE8_IMPLEMENTATION.md
+└── README.md                # Project documentation
 ```
 
 ### Package Dependencies
 
 - **@blockgame/server**: Colyseus server with Havok physics
-  - `@colyseus/core`, `@colyseus/ws-transport`
-  - `@babylonjs/havok` (server-side physics)
-  - `nanoid` (ID generation)
+  - `@colyseus/core`, `@colyseus/ws-transport`, `@colyseus/schema`
+  - `@colyseus/monitor` + `express` (monitor panel at `/monitor`)
+  - `@babylonjs/core` + `@babylonjs/havok` (server-side physics on NullEngine)
+  - `@pm2/io` (metrics), `nanoid` (ID generation)
 
 - **@blockgame/ui**: BabylonJS client
-  - `@babylonjs/core`, `@babylonjs/gui`
-  - `@babylonjs/havok` (client-side physics)
-  - `colyseus.js` v0.16.22 (client library)
-  - Uses `rolldown-vite` for fast builds
+  - `@babylonjs/core`, `@babylonjs/gui`, `@babylonjs/materials`, `@babylonjs/addons`
+  - `colyseus.js` 0.16.22 (client library)
+  - Uses `rolldown-vite` (aliased as `vite`) for builds
 
-- **@blockgame/shared**: Shared types
-  - No runtime dependencies, types only
+- **@blockgame/shared**: Shared types, world config, constants, and `QuestionBank`
+  - No runtime dependencies
+
+- **@blockgame/bots**: Bot clients (`colyseus.js`, `@blockgame/shared`)
 
 ### Scripts
 
 From root directory:
-- `bun run dev:server` - Start server with hot reload
-- `bun run dev:ui` - Start UI dev server
-- `bun run dev` - Start both server and UI
-- `bun run build` - Build both packages
-- `bun run test` - Run all tests
+- `bun run up:dev` - Start dev server (port 7001) and UI (port 7000) via PM2
+- `bun run up:dev:server` / `bun run up:dev:ui` - Start one of them via PM2
+- `bun run up:prod` - Build, then start prod server and UI via PM2
+- `bun run down` / `restart` / `logs` / `monit` - PM2 process control
+- `bun run build` - Build server and UI
+- `bun run test` - Run server tests (`packages/server/tests/**/*.test.ts`)
+- `bun run bots` - Start bot clients
 - `bun run typecheck` - Typecheck all packages (server + UI)
 - `bun run typecheck:server` - Typecheck server only
 - `bun run typecheck:ui` - Typecheck UI only

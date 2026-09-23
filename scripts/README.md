@@ -1,5 +1,7 @@
 # BlockGame Scripts
 
+Chạy các script từ thư mục gốc repo: `split-image.ts`, `convert-audio.ts` và các script database dùng đường dẫn tương đối theo thư mục hiện tại.
+
 ## split-image.ts
 
 Script để cắt một ảnh lớn thành 400 tiles nhỏ (40×10 grid, tỉ lệ 4:1 ultra-wide) cho game.
@@ -8,70 +10,50 @@ Script để cắt một ảnh lớn thành 400 tiles nhỏ (40×10 grid, tỉ l
 
 ```bash
 # Cú pháp
-bun scripts/split-image.ts <đường-dẫn-ảnh>
+bun scripts/split-image.ts <đường-dẫn-ảnh> [--size=<kích-thước-tile-tối-đa>]
 
 # Ví dụ
 bun scripts/split-image.ts ./my-picture.jpg
+bun scripts/split-image.ts ./my-picture.jpg --size=512
 bun scripts/split-image.ts ~/Downloads/landscape.png
 ```
 
+`--size` là cạnh dài nhất của tile đầu ra, tính bằng px (mặc định 256, cho phép 64–4096).
+
 ### Yêu cầu
 
-- Ảnh đầu vào: JPG, JPEG, hoặc PNG
-- Kích thước khuyến nghị: Bội số của 40×10 (ví dụ: 4000×1000px, 8000×2000px)
+- Ảnh đầu vào: định dạng mà `sharp` đọc được (JPG, PNG, ...)
 - Tỉ lệ 4:1 (ultra-wide) phù hợp cho ảnh panorama, landscape rộng
-- Nếu ảnh không đúng tỉ lệ, sẽ bị cắt mép
+- Script không phóng to: muốn tile đầu ra đạt 256px thì ảnh gốc cần ít nhất 10240×2560px
 
 ### Kết quả
 
-Tiles sẽ được lưu vào: `packages/ui/public/tiles/`
+Tiles sẽ được lưu vào: `packages/ui/public/tiles/` (định dạng WebP, quality 90)
 
 Cách đánh số tile:
 ```
-tile-0.jpg    tile-1.jpg    ...  tile-39.jpg     (hàng 1)
-tile-40.jpg   tile-41.jpg   ...  tile-79.jpg     (hàng 2)
+tile-0.webp    tile-1.webp    ...  tile-39.webp     (hàng 1)
+tile-40.webp   tile-41.webp   ...  tile-79.webp     (hàng 2)
 ...
-tile-360.jpg  tile-361.jpg  ...  tile-399.jpg    (hàng 10)
+tile-360.webp  tile-361.webp  ...  tile-399.webp    (hàng 10)
 ```
 
-- `tile-0.jpg` = góc trên bên trái
-- `tile-39.jpg` = góc trên bên phải
-- `tile-360.jpg` = góc dưới bên trái
-- `tile-399.jpg` = góc dưới bên phải
-
-### Ví dụ đầy đủ
-
-```bash
-# 1. Chuẩn bị ảnh (ví dụ: panorama.jpg với kích thước 8000×2000px)
-# 2. Chạy script
-bun scripts/split-image.ts ./panorama.jpg
-
-# Output:
-# 🖼️  Splitting image: ./panorama.jpg
-# 📐 Grid: 40 columns × 10 rows = 400 tiles
-# 📁 Output directory: /path/to/packages/ui/public/tiles
-# 📏 Input image size: 8000×2000px
-# ✂️  Tile size: 200×200px
-# 💾 Output format: jpg
-#
-# 🔄 Splitting...
-# [██████████████████████████████████████████████████] 100% (400/400)
-#
-# ✅ Complete! Split 400 tiles in 2.34s
-# 📂 Tiles saved to: /path/to/packages/ui/public/tiles
-```
+- `tile-0.webp` = góc trên bên trái
+- `tile-39.webp` = góc trên bên phải
+- `tile-360.webp` = góc dưới bên trái
+- `tile-399.webp` = góc dưới bên phải
 
 ### Lưu ý
 
 - Script sẽ ghi đè các tiles cũ nếu đã tồn tại
-- Đảm bảo ảnh đầu vào có kích thước lớn để tiles không bị mờ
-- Khuyến nghị: Mỗi tile ít nhất 128×128px (tổng ảnh ít nhất 5120×1280px)
-- Tỉ lệ 4:1 phù hợp nhất cho ảnh panorama, landscape rộng, ultra-wide
-- Nếu ảnh không đúng tỉ lệ 4:1, phần thừa sẽ bị cắt bỏ
+- Mỗi tile gốc có kích thước `floor(rộng/40) × floor(cao/10)`; phần pixel dư ở mép phải và mép dưới bị bỏ
+- Ảnh không đúng tỉ lệ 4:1 không bị crop, mà cho ra tile không vuông (tỉ lệ tile được giữ khi resize)
 
 ---
 
 ## place-all-tiles.ts
+
+> ⚠️ Script này lệch với `packages/server/src/database/roomState.ts`: `RoomState` không có field `tiles`, và `saveRoomState()` nhận tham số khác với cách script gọi. Script sẽ lỗi khi chạy.
 
 Script để **place tất cả tiles lên frame** trong database - dùng để test xem tiles có ghép đúng không.
 
@@ -92,12 +74,6 @@ bun scripts/place-all-tiles.ts my-room-id
 - Mark game là complete
 - Save lại database
 
-### Khi nào dùng?
-
-- ✅ Test xem tiles có cắt/ghép đúng không
-- ✅ Xem preview ảnh hoàn chỉnh trên frame
-- ✅ Debug frame positioning/rotation
-
 ### Lưu ý
 
 - Server phải đã chạy ít nhất 1 lần để tạo room state
@@ -107,6 +83,8 @@ bun scripts/place-all-tiles.ts my-room-id
 ---
 
 ## remove-all-tiles.ts
+
+> ⚠️ Cùng vấn đề với `place-all-tiles.ts`: script đọc `roomState.tiles` và gọi `saveRoomState()` sai tham số, nên sẽ lỗi khi chạy.
 
 Script để **gỡ tất cả tiles khỏi frame** (reset về floor) - dùng để reset game.
 
@@ -127,12 +105,6 @@ bun scripts/remove-all-tiles.ts my-room-id
 - Mark game là incomplete
 - Save lại database
 
-### Khi nào dùng?
-
-- ✅ Reset game về trạng thái ban đầu
-- ✅ Test lại từ đầu sau khi place all
-- ✅ Clear frame để test placement logic
-
 ### Lưu ý
 
 - Server phải đã chạy ít nhất 1 lần để tạo room state
@@ -141,24 +113,56 @@ bun scripts/remove-all-tiles.ts my-room-id
 
 ---
 
-## Workflow testing tiles
+## reset-room.ts
+
+Xoá room state đã lưu trong database. Lần khởi động tiếp theo server tạo room mới từ đầu.
 
 ```bash
-# 1. Cắt ảnh thành 400 tiles
-bun scripts/split-image.ts ./my-image.jpg
+# Default room: 'firegroup'
+bun scripts/reset-room.ts
 
-# 2. Start server (để tạo room state)
-bun run dev:server
-
-# 3. (Tắt server) Place all tiles để test
-bun scripts/place-all-tiles.ts
-
-# 4. Start server lại để xem kết quả
-bun run dev:server
-
-# 5. Nếu muốn test lại - remove all tiles
-bun scripts/remove-all-tiles.ts
-
-# 6. Restart server
-bun run dev:server
+# Room cụ thể
+bun scripts/reset-room.ts my-room-id
 ```
+
+- Database: `packages/server/game.db`. Server mở `./game.db` theo thư mục nó chạy, nên file này khớp khi server chạy bằng `cd packages/server && bun run dev`.
+- Restart server sau khi chạy script.
+
+---
+
+## convert-csv-questions.ts
+
+Đọc `packages/shared/src/data/question.csv` và ghi đè `packages/shared/src/data/questions.json` (file câu hỏi mà `QuestionBank` load).
+
+```bash
+bun scripts/convert-csv-questions.ts
+```
+
+- Mỗi dòng CSV (bỏ dòng header): `số thứ tự, câu hỏi, A, B, C, D, đáp án đúng (A/B/C/D)`
+- Dòng thiếu cột hoặc câu hỏi rỗng bị bỏ qua; câu hỏi trùng (không phân biệt hoa thường) chỉ giữ lần đầu
+- `id` được đánh lại từ 0 theo thứ tự trong CSV
+
+---
+
+## generate-questions.ts
+
+Bổ sung câu hỏi placeholder vào `packages/shared/src/data/questions.json` cho mọi `id` từ 0 đến 399 còn thiếu, rồi ghi đè file.
+
+```bash
+bun scripts/generate-questions.ts
+```
+
+- Câu hỏi có sẵn được giữ nguyên; câu mới lấy lần lượt từ 10 mẫu có sẵn trong script
+- Script dừng với lỗi nếu kết quả không đúng 400 câu (ví dụ file đã có `id` ngoài khoảng 0–399)
+
+---
+
+## convert-audio.ts
+
+Chuyển mọi file `.aac` trong `packages/ui/public/sounds/` sang `.wav` (PCM 16-bit, 44.1kHz), ghi đè file `.wav` cùng tên.
+
+```bash
+bun scripts/convert-audio.ts
+```
+
+- Cần `ffmpeg` trong `PATH` (`brew install ffmpeg`)
